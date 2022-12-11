@@ -1,6 +1,6 @@
 ﻿namespace StudingWorkloadCalculator.Models
 {
-    public enum Rights
+    public enum PermissionRights
     {
         Admin,
         Director,

@@ -2,14 +2,14 @@
 {
     public class User
     {
-        public User(int id, Rights rights)
+        public User(int id, PermissionRights rights)
         {
             Id = id;
             Rights = rights;
         }
 
-        public int Id { get; set; }
+        public int Id { get; }
 
-        public Rights Rights { get; set; }
+        public PermissionRights Rights { get; }
     }
 }

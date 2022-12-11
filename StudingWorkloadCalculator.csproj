@@ -8,13 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\эмблема.png" />
+    <None Remove="Windows\Resources\эмблема.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\эмблема.png">
+    <Resource Include="Windows\Resources\эмблема.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ExcelWriter\" />
+    <Folder Include="AccessDataBase\" />
   </ItemGroup>
 
 </Project>
