@@ -3,13 +3,14 @@
     public class Specialization : PropertyChangedNotifier
     {
         private string code;
+        private bool intramural;
         private string name;
         private int studyPeriod;
         private string qualification;
 
         public Specialization() { }
 
-        public Specialization(string code, string name, int studyPeriod, string qualification)
+        public Specialization(string code, bool intramural, string name, int studyPeriod, string qualification)
         {
             Code = code;
             Name = name;
@@ -25,6 +26,19 @@
                 if (code != value)
                 {
                     code = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool Intramural
+        {
+            get { return intramural; }
+            set
+            {
+                if (intramural != value)
+                {
+                    intramural = value;
                     OnPropertyChanged();
                 }
             }

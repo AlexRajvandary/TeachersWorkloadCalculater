@@ -11,8 +11,19 @@ namespace StudingWorkloadCalculator.Models
         private bool isBudget;
         private Specialization specialization;
         private DateTime start;
-        private Person teacher;
+        private Teacher teacher;
 
+        public Group(int amountOfStudents, DateTime end, int grade, int id, bool isBudget, Specialization specialization, DateTime start, Teacher teacher)
+        {
+            AmountOfStudents = amountOfStudents;
+            End = end;
+            Grade = grade;
+            Id = id;
+            IsBudged = isBudget;
+            Specialization = specialization;
+            Start = start;
+            Teacher = teacher;
+        }
 
         public int AmountOfStudents
         {
@@ -105,7 +116,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-        public Person Teacher
+        public Teacher Teacher
         {
             get { return teacher; }
             set

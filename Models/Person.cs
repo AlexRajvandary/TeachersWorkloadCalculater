@@ -5,14 +5,16 @@
         private string familyName;
         private string firstName;
         private string lastName;
+        private Gender gender;
 
         public Person() { }
 
-        public Person(string familyName, string firstName, string lastName)
+        public Person(string familyName, string firstName, string lastName, Gender gender)
         {
             FamilyName = familyName;
             FirstName = firstName;
             LastName = lastName;
+            Gender = gender;
         }
 
         public string FamilyName
@@ -46,9 +48,22 @@
             get { return lastName; }
             set
             {
-                if(lastName != value)
+                if (lastName != value)
                 {
                     lastName = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Gender Gender
+        {
+            get { return gender; }
+            set
+            {
+                if (gender != value)
+                {
+                    gender = value;
                     OnPropertyChanged();
                 }
             }
