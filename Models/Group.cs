@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace StudingWorkloadCalculator.Models
 {
@@ -11,9 +13,18 @@ namespace StudingWorkloadCalculator.Models
         private bool isBudget;
         private Specialization specialization;
         private DateTime start;
+        private ObservableCollection<Student> students;
         private Teacher teacher;
 
-        public Group(int amountOfStudents, DateTime end, int grade, int id, bool isBudget, Specialization specialization, DateTime start, Teacher teacher)
+        public Group(int amountOfStudents,
+                     DateTime end,
+                     int grade,
+                     int id,
+                     bool isBudget,
+                     Specialization specialization,
+                     DateTime start,
+                     IEnumerable<Student> students,
+                     Teacher teacher)
         {
             AmountOfStudents = amountOfStudents;
             End = end;
@@ -22,6 +33,7 @@ namespace StudingWorkloadCalculator.Models
             IsBudged = isBudget;
             Specialization = specialization;
             Start = start;
+            Students = new ObservableCollection<Student>(students);
             Teacher = teacher;
         }
 
@@ -111,6 +123,19 @@ namespace StudingWorkloadCalculator.Models
                 if (start != value)
                 {
                     start = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public ObservableCollection<Student> Students
+        {
+            get { return students; }
+            set
+            {
+                if(students != value)
+                {
+                    students = value;
                     OnPropertyChanged();
                 }
             }

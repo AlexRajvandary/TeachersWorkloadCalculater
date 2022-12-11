@@ -1,4 +1,7 @@
-﻿namespace StudingWorkloadCalculator.Models
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
+namespace StudingWorkloadCalculator.Models
 {
     public class Specialization : PropertyChangedNotifier
     {
@@ -6,15 +9,22 @@
         private bool intramural;
         private string name;
         private int studyPeriod;
+        private ObservableCollection<Subject> subjects;
         private string qualification;
 
         public Specialization() { }
 
-        public Specialization(string code, bool intramural, string name, int studyPeriod, string qualification)
+        public Specialization(string code,
+                              bool intramural,
+                              string name,
+                              int studyPeriod,
+                              IEnumerable<Subject> subjects,
+                              string qualification)
         {
             Code = code;
             Name = name;
             StudyPeriod = studyPeriod;
+            Subjects = new ObservableCollection<Subject>(subjects);
             Qualification = qualification;
         }
 
@@ -65,6 +75,19 @@
                 if (studyPeriod != value)
                 {
                     studyPeriod = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public ObservableCollection<Subject> Subjects
+        {
+            get => subjects;
+            set
+            {
+                if (subjects != value)
+                {
+                    subjects = value;
                     OnPropertyChanged();
                 }
             }

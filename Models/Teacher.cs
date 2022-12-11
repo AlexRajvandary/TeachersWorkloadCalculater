@@ -2,36 +2,36 @@
 {
     public class Teacher : Person
     {
-        private int experience;
-        private string job;
+        private int jobExperience;
+        private string jobTitle;
 
-        public Teacher(string name, string lastName, string familyName, Gender gender, int expiriance, string job) : base(familyName, name, lastName, gender)
+        public Teacher(string name, string lastName, string familyName, Gender gender, int jobExperiance, string jobTitle) : base(familyName, name, lastName, gender)
         {
-            Experience = expiriance;
-            Job = job;
+            JobExperience = jobExperiance;
+            JobTitle = jobTitle;
         }
 
-        public int Experience
+        public int JobExperience
         {
-            get { return experience; }
+            get { return jobExperience; }
             set
             {
-                if (experience != value)
+                if (jobExperience != value)
                 {
-                    experience = value;
+                    jobExperience = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public string Job
+        public string JobTitle
         {
-            get { return job; }
+            get { return jobTitle; }
             set
             {
-                if (job != value)
+                if (jobTitle != value)
                 {
-                    job = value;
+                    jobTitle = value;
                     OnPropertyChanged();
                 }
             }
