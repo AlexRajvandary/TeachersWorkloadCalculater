@@ -52,10 +52,11 @@
                        VerticalAlignment="Center"
                        Foreground="WhiteSmoke" FontFamily="Calibri"
                        />
-            <TextBox Grid.Column="1"
-                     Grid.ColumnSpan="4"
-                     Grid.Row="2"
-                     Margin="5,20,10,20"/>
+            <PasswordBox Grid.Column="1"
+                         Grid.ColumnSpan="4"
+                         Grid.Row="2"
+                         Margin="5,20,10,20"
+                         FontSize="15"/>
             <Button Grid.Column="4"
                     Grid.Row="3"
                     Margin="2.5,20,10,20"
