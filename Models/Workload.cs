@@ -1,4 +1,6 @@
-﻿namespace StudingWorkloadCalculator.Models
+﻿using System;
+
+namespace StudingWorkloadCalculator.Models
 {
     public class Workload : PropertyChangedNotifier
     {
@@ -9,13 +11,19 @@
         private int theory;
         private int total;
 
-        public Workload(int teory, int ipz, int kr, int firstSemester, int secondSemester)
+        public Workload(int theory, int ipz, int kr, int firstSemester, int secondSemester)
         {
-            Theory = teory;
-            Ipz = ipz;
-            Kr = kr;
-            FirstSemester = firstSemester;
-            SecondSemester = secondSemester;
+            if(theory < 0 || ipz < 0 || kr < 0 || firstSemester < 0 || secondSemester < 0)
+            {
+                throw new ArgumentException("Value cannot be less than zero.");
+            }
+
+            this.theory = theory;
+            this.ipz = ipz;
+            this.kr = kr;
+            this.firstSemester = firstSemester;
+            this.secondSemester = secondSemester;
+            RecalculateTotal();
         }
 
         public int Theory
@@ -104,6 +112,15 @@
         private void RecalculateTotal()
         {
             Total = Theory + Ipz + Kr + FirstSemester + SecondSemester;
+        }
+
+        public static Workload operator +(Workload left, Workload right)
+        {
+            return new Workload(left.Theory + right.Theory,
+                                left.Ipz + right.Ipz,
+                                left.kr + right.Kr,
+                                left.FirstSemester + right.FirstSemester, 
+                                left.SecondSemester + right.SecondSemester);
         }
     }
 }
