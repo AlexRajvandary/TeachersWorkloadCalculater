@@ -24,6 +24,15 @@ namespace StudingWorkloadCalculator.Models
                      bool isBudget,
                      Specialization specialization,
                      DateTime start,
+                     Teacher teacher) : this(amountOfStudents, end, grade, id, isBudget, specialization, start, null, teacher) { }
+
+        public Group(int amountOfStudents,
+                     DateTime end,
+                     int grade,
+                     int id,
+                     bool isBudget,
+                     Specialization specialization,
+                     DateTime start,
                      IEnumerable<Student> students,
                      Teacher teacher)
         {
@@ -52,13 +61,15 @@ namespace StudingWorkloadCalculator.Models
             IsBudged = isBudget;
             Specialization = specialization;
             Start = start;
-            Students = new ObservableCollection<Student>(students);
+            Students = Students == null 
+                ? new ObservableCollection<Student>()
+                : new ObservableCollection<Student>(students);
             Teacher = teacher;
         }
 
         public int AmountOfStudents
         {
-            get { return amountOfStudents; }
+            get => amountOfStudents;
             set
             {
                 if (amountOfStudents != value && value >= 0)
@@ -71,7 +82,7 @@ namespace StudingWorkloadCalculator.Models
 
         public DateTime End
         {
-            get { return end; }
+            get => end;
             set
             {
                 if (end != value)
@@ -84,7 +95,7 @@ namespace StudingWorkloadCalculator.Models
 
         public int Grade
         {
-            get { return grade; }
+            get => grade;
             set
             {
                 if (grade != value)
@@ -97,7 +108,7 @@ namespace StudingWorkloadCalculator.Models
 
         public int Id
         {
-            get { return id; }
+            get => id;
             set
             {
                 if (id != value)
@@ -110,7 +121,7 @@ namespace StudingWorkloadCalculator.Models
 
         public bool IsBudged
         {
-            get { return isBudget; }
+            get => isBudget;
             set
             {
                 if (isBudget != value)
@@ -123,7 +134,7 @@ namespace StudingWorkloadCalculator.Models
 
         public Specialization Specialization
         {
-            get { return specialization; }
+            get => specialization;
             set
             {
                 if (specialization != value)
@@ -136,7 +147,7 @@ namespace StudingWorkloadCalculator.Models
 
         public DateTime Start
         {
-            get { return start; }
+            get => start;
             set
             {
                 if (start != value)
@@ -149,7 +160,7 @@ namespace StudingWorkloadCalculator.Models
 
         public ObservableCollection<Student> Students
         {
-            get { return students; }
+            get => students;
             set
             {
                 if (students != value)
@@ -162,7 +173,7 @@ namespace StudingWorkloadCalculator.Models
 
         public Teacher Teacher
         {
-            get { return teacher; }
+            get => teacher;
             set
             {
                 if (teacher != value)

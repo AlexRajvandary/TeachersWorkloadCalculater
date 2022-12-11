@@ -34,7 +34,7 @@ namespace StudingWorkloadCalculator.Models
 
         public string FamilyName
         {
-            get { return familyName; }
+            get => familyName;
             set
             {
                 if (familyName != value)
@@ -47,7 +47,7 @@ namespace StudingWorkloadCalculator.Models
 
         public string FirstName
         {
-            get { return firstName; }
+            get => firstName;
             set
             {
                 if (firstName != value)
@@ -60,7 +60,7 @@ namespace StudingWorkloadCalculator.Models
 
         public string LastName
         {
-            get { return lastName; }
+            get => lastName;
             set
             {
                 if (lastName != value)
@@ -73,7 +73,7 @@ namespace StudingWorkloadCalculator.Models
 
         public Gender Gender
         {
-            get { return gender; }
+            get => gender;
             set
             {
                 if (gender != value)

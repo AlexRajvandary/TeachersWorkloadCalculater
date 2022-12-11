@@ -9,7 +9,7 @@ namespace StudingWorkloadCalculator.Models
         private bool intramural;
         private string name;
         private int studyPeriod;
-        private ObservableCollection<Subject> subjects;
+        private ObservableCollection<SubjectWithWorkload> subjectsWithWorkloads;
         private string qualification;
 
         public Specialization(string code,
@@ -22,16 +22,16 @@ namespace StudingWorkloadCalculator.Models
                               bool intramural,
                               string name,
                               int studyPeriod,
-                              IEnumerable<Subject> subjects,
+                              IEnumerable<SubjectWithWorkload> subjectsWithWorkloads,
                               string qualification)
         {
             Code = code;
             Intramural = intramural;
             Name = name;
             StudyPeriod = studyPeriod;
-            Subjects = subjects == null
-                ? new ObservableCollection<Subject>()
-                : new ObservableCollection<Subject>(subjects);
+            SubjectsWithWorkloads = subjectsWithWorkloads == null
+                ? new ObservableCollection<SubjectWithWorkload>()
+                : new ObservableCollection<SubjectWithWorkload>(subjectsWithWorkloads);
 
             Qualification = qualification;
         }
@@ -88,14 +88,14 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-        public ObservableCollection<Subject> Subjects
+        public ObservableCollection<SubjectWithWorkload> SubjectsWithWorkloads
         {
-            get => subjects;
+            get => subjectsWithWorkloads;
             set
             {
-                if (subjects != value)
+                if (subjectsWithWorkloads != value)
                 {
-                    subjects = value;
+                    subjectsWithWorkloads = value;
                     OnPropertyChanged();
                 }
             }
