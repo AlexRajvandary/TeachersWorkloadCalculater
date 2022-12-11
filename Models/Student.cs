@@ -1,19 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StudingWorkloadCalculator.Models
+﻿namespace StudingWorkloadCalculator.Models
 {
     public class Student : Person
     {
         private Group group;
         private Specialization specialization;
 
+        public Student(string firstName,
+                       string lastName,
+                       string familyName,
+                       Gender gender,
+                       Specialization specialization,
+                       Group group) : base(firstName, lastName, familyName, gender)
+        {
+            Specialization = specialization;
+            Group = group;
+        }
+
         public Specialization Specialization
         {
-            get { return specialization; }
+            get => specialization; 
             set
             {
                 if (specialization != value)
@@ -26,7 +31,7 @@ namespace StudingWorkloadCalculator.Models
 
         public Group Group
         {
-            get { return group; }
+            get => group;
             set
             {
                 if (group != value)

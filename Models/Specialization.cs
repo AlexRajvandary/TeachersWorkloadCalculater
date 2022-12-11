@@ -12,7 +12,11 @@ namespace StudingWorkloadCalculator.Models
         private ObservableCollection<Subject> subjects;
         private string qualification;
 
-        public Specialization() { }
+        public Specialization(string code,
+                              bool intramural,
+                              string name,
+                              int studyPeriod,
+                              string qualification) : this(code, intramural, name, studyPeriod, null, qualification) { }
 
         public Specialization(string code,
                               bool intramural,
@@ -22,15 +26,19 @@ namespace StudingWorkloadCalculator.Models
                               string qualification)
         {
             Code = code;
+            Intramural = intramural;
             Name = name;
             StudyPeriod = studyPeriod;
-            Subjects = new ObservableCollection<Subject>(subjects);
+            Subjects = subjects == null
+                ? new ObservableCollection<Subject>()
+                : new ObservableCollection<Subject>(subjects);
+
             Qualification = qualification;
         }
 
         public string Code
         {
-            get { return code; }
+            get => code;
             set
             {
                 if (code != value)
@@ -43,7 +51,7 @@ namespace StudingWorkloadCalculator.Models
 
         public bool Intramural
         {
-            get { return intramural; }
+            get => intramural;
             set
             {
                 if (intramural != value)
@@ -56,7 +64,7 @@ namespace StudingWorkloadCalculator.Models
 
         public string Name
         {
-            get { return name; }
+            get => name;
             set
             {
                 if (name != value)
@@ -69,7 +77,7 @@ namespace StudingWorkloadCalculator.Models
 
         public int StudyPeriod
         {
-            get { return studyPeriod; }
+            get => studyPeriod;
             set
             {
                 if (studyPeriod != value)
@@ -95,7 +103,7 @@ namespace StudingWorkloadCalculator.Models
 
         public string Qualification
         {
-            get { return qualification; }
+            get => qualification;
             set
             {
                 if (qualification != value)

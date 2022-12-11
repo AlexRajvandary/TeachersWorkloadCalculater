@@ -1,4 +1,6 @@
-﻿namespace StudingWorkloadCalculator.Models
+﻿using System;
+
+namespace StudingWorkloadCalculator.Models
 {
     public class Person : PropertyChangedNotifier
     {
@@ -7,10 +9,23 @@
         private string lastName;
         private Gender gender;
 
-        public Person() { }
-
-        public Person(string familyName, string firstName, string lastName, Gender gender)
+        public Person(string familyName,
+                      string firstName,
+                      string lastName,
+                      Gender gender)
         {
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                throw new ArgumentException("The firstname cannot be null, an empty string or a whitespace character.", nameof(firstName));
+            }
+
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                throw new ArgumentException("The lastname cannot be null, an empty string or a whitespace character.", nameof(lastName));
+            }
+
+            ArgumentNullException.ThrowIfNull(gender);
+
             FamilyName = familyName;
             FirstName = firstName;
             LastName = lastName;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net.Http.Headers;
 
 namespace StudingWorkloadCalculator.Models
 {
@@ -26,6 +27,24 @@ namespace StudingWorkloadCalculator.Models
                      IEnumerable<Student> students,
                      Teacher teacher)
         {
+            if (amountOfStudents < 0)
+            {
+                throw new ArgumentException("The amount of students cannot be less than zero.", nameof(amountOfStudents));
+            }
+
+            if (start > end)
+            {
+                throw new ArgumentException("The start date cannot be later than the end date.", nameof(start));
+            }
+
+            if (grade < 1)
+            {
+                throw new ArgumentException("The grade cannot be less than 1.", nameof(grade));
+            }
+
+            ArgumentNullException.ThrowIfNull(specialization);
+            ArgumentNullException.ThrowIfNull(teacher);
+
             AmountOfStudents = amountOfStudents;
             End = end;
             Grade = grade;
@@ -133,7 +152,7 @@ namespace StudingWorkloadCalculator.Models
             get { return students; }
             set
             {
-                if(students != value)
+                if (students != value)
                 {
                     students = value;
                     OnPropertyChanged();
