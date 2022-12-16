@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace StudingWorkloadCalculator.Models
 {
-    public class Specialization : PropertyChangedNotifier
+    public class Specialization : PropertyChangedNotifier, IRepository<Specialization>
     {
         private string code;
         private bool intramural;
@@ -12,13 +12,7 @@ namespace StudingWorkloadCalculator.Models
         private ObservableCollection<SubjectWithWorkload> subjectsWithWorkloads;
         private string qualification;
 
-        public Specialization(string code,
-                              bool intramural,
-                              string name,
-                              int studyPeriod,
-                              string qualification) : this(code, intramural, name, studyPeriod, null, qualification) { }
-
-        public Specialization(string code,
+        private Specialization(string code,
                               bool intramural,
                               string name,
                               int studyPeriod,
@@ -111,6 +105,39 @@ namespace StudingWorkloadCalculator.Models
                     qualification = value;
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        public static Specialization GetSpecialization(string code,
+                                                       bool intramural,
+                                                       string name,
+                                                       int studyPeriod,
+                                                       string qualification)
+        {
+            return GetSpecialization(code, intramural, name, studyPeriod, null, qualification);
+        }
+
+        public static Specialization GetSpecialization(string code,
+                                                       bool intramural,
+                                                       string name,
+                                                       int studyPeriod,
+                                                       IEnumerable<SubjectWithWorkload> subjectsWithWorkloads,
+                                                       string qualification)
+        {
+            if (IRepository<Specialization>.Instances.TryGetValue(code, out var specialization))
+            {
+                specialization.Intramural = intramural;
+                specialization.Name = name;
+                specialization.StudyPeriod = studyPeriod;
+                specialization.subjectsWithWorkloads,
+                specialization.Qualification = qualification;
+                return specialization;
+            }
+            else
+            {
+                var newSpecilization = new Specialization(code, intramural, name, studyPeriod, subjectsWithWorkloads, qualification);
+                IRepository<Specialization>.Instances.Add(code, newSpecilization);
+                return newSpecilization;
             }
         }
     }

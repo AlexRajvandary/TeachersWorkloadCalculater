@@ -4,31 +4,22 @@ using System.Collections.ObjectModel;
 
 namespace StudingWorkloadCalculator.Models
 {
-    public class Group : PropertyChangedNotifier
+    public class Group : PropertyChangedNotifier, IRepository<Group>
     {
         private int amountOfStudents;
         private DateTime end;
         private int grade;
-        private int id;
+        private string id;
         private bool isBudget;
         private Specialization specialization;
         private DateTime start;
         private ObservableCollection<Student> students;
         private Teacher teacher;
 
-        public Group(int amountOfStudents,
+        private Group(int amountOfStudents,
                      DateTime end,
                      int grade,
-                     int id,
-                     bool isBudget,
-                     Specialization specialization,
-                     DateTime start,
-                     Teacher teacher) : this(amountOfStudents, end, grade, id, isBudget, specialization, start, null, teacher) { }
-
-        public Group(int amountOfStudents,
-                     DateTime end,
-                     int grade,
-                     int id,
+                     string id,
                      bool isBudget,
                      Specialization specialization,
                      DateTime start,
@@ -60,7 +51,7 @@ namespace StudingWorkloadCalculator.Models
             IsBudged = isBudget;
             Specialization = specialization;
             Start = start;
-            Students = Students == null 
+            Students = Students == null
                 ? new ObservableCollection<Student>()
                 : new ObservableCollection<Student>(students);
             Teacher = teacher;
@@ -105,7 +96,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-        public int Id
+        public string Id
         {
             get => id;
             set
@@ -130,6 +121,10 @@ namespace StudingWorkloadCalculator.Models
                 }
             }
         }
+
+        public string Name { get; set; }
+
+        public string SpecializationName { get; set; }
 
         public Specialization Specialization
         {
@@ -180,6 +175,36 @@ namespace StudingWorkloadCalculator.Models
                     teacher = value;
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        public static Group GetGroup(int amountOfStudents,
+                                     DateTime end,
+                                     int grade,
+                                     string id,
+                                     bool isBudget,
+                                     Specialization specialization,
+                                     DateTime start,
+                                     IEnumerable<Student> students,
+                                     Teacher teacher)
+        {
+            if(IRepository<Group>.Instances.TryGetValue(id, out var group))
+            {
+                group.AmountOfStudents = amountOfStudents;
+                group.End = end;
+                group.Grade = grade;
+                group.IsBudged = isBudget;
+                group.Specialization = specialization;
+                group.Start = start;
+                group.Students = new ObservableCollection<Student>(students);
+                group.Teacher = teacher;
+                return group;
+            }
+            else
+            {
+                var newGroup = new Group(amountOfStudents, end, grade, id, isBudget, specialization, start, students, teacher);
+                IRepository<Group>.Instances.Add(id, newGroup);
+                return newGroup;
             }
         }
     }

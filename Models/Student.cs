@@ -6,6 +6,26 @@
         private Specialization specialization;
 
         public Student(string firstName,
+                      string lastName,
+                      string familyName,
+                      Gender gender,
+                      string specializationCode,
+                      string groupName) : base(firstName, lastName, familyName, gender)
+        {
+            SpecializationCode = specializationCode;
+            GroupName = groupName;
+            if(IRepository<Group>.Instances.TryGetValue(groupName, out var group))
+            {
+                Group = group;
+            }
+
+            if (IRepository<Specialization>.Instances.TryGetValue(specializationCode, out var specialization))
+            {
+                Specialization = specialization;
+            }
+        }
+
+        public Student(string firstName,
                        string lastName,
                        string familyName,
                        Gender gender,
@@ -25,9 +45,16 @@
                 {
                     specialization = value;
                     OnPropertyChanged();
+
+                    if(specialization.Code != SpecializationCode)
+                    {
+                        specialization.Code = SpecializationCode;
+                    }
                 }
             }
         }
+
+        public string SpecializationCode { get; private set; }
 
         public Group Group
         {
@@ -41,5 +68,7 @@
                 }
             }
         }
+
+        public string GroupName { get; set; }
     }
 }

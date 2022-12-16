@@ -18,8 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ExcelWriter\" />
     <Folder Include="AccessDataBase\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="6.1.1" />
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
   </ItemGroup>
 
 </Project>
