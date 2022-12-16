@@ -129,7 +129,7 @@ namespace StudingWorkloadCalculator.Models
                 specialization.Intramural = intramural;
                 specialization.Name = name;
                 specialization.StudyPeriod = studyPeriod;
-                specialization.subjectsWithWorkloads,
+                specialization.SubjectsWithWorkloads = new ObservableCollection<SubjectWithWorkload>(subjectsWithWorkloads);
                 specialization.Qualification = qualification;
                 return specialization;
             }

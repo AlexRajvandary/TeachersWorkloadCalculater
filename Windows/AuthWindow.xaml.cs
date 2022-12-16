@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudingWorkloadCalculator.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,13 @@ namespace StudingWorkloadCalculator
         public AuthWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = new Window1();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }

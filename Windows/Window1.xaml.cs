@@ -23,5 +23,78 @@ namespace StudingWorkloadCalculator.Windows
         {
             InitializeComponent();
         }
+
+        private static bool TryGetTabItemExists(string name, TabControl tabControl, out TabItem? item)
+        {
+            foreach (var tabItem in tabControl.Items)
+            {
+                var i = tabItem as TabItem;
+                if (i?.Header as string == name)
+                {
+                    item = i;
+                    return true;
+                }
+            }
+
+            item = null;
+            return false;
+        }
+
+        private void AddTabItem(string header)
+        {
+            if (!TryGetTabItemExists(header, Tabs, out _))
+            {
+                var newTabItem = new TabItem() { Header = header };
+                Tabs.Items.Add(newTabItem);
+            }
+        }
+
+        private void TeachersCheckBoxChecked(object sender, RoutedEventArgs e)
+        {
+            AddTabItem("Teachers");
+        }
+
+        private void StudentsCheckBoxChecked(object sender, RoutedEventArgs e)
+        {
+            AddTabItem("Students");
+        }
+
+        private void GroupsCheckBoxChecked(object sender, RoutedEventArgs e)
+        {
+            AddTabItem("Groups");
+        }
+
+        private void RemoveTabItem(string header)
+        {
+            if (TryGetTabItemExists(header, Tabs, out var tabItem))
+            {
+                Tabs.Items.Remove(tabItem);
+            }
+        }
+
+        private void SpecializationCheckBoxChecked(object sender, RoutedEventArgs e)
+        {
+            AddTabItem("Specializations");
+        }
+
+        private void TeachersCheckBoxUnchecked(object sender, RoutedEventArgs e)
+        {
+            RemoveTabItem("Teachers");
+        }
+
+        private void StudentsCheckBoxUnchecked(object sender, RoutedEventArgs e)
+        {
+            RemoveTabItem("Students");
+        }
+
+        private void SpecialiationsCheckBoxUnchecked(object sender, RoutedEventArgs e)
+        {
+            RemoveTabItem("Specializations");
+        }
+
+        private void GroupsCheckBoxUnchecked(object sender, RoutedEventArgs e)
+        {
+            RemoveTabItem("Groups");
+        }
     }
 }

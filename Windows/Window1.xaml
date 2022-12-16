@@ -6,13 +6,33 @@
         xmlns:local="clr-namespace:StudingWorkloadCalculator.Windows"
         mc:Ignorable="d"
         Title="Window1" Height="450" Width="800">
+    
     <Grid>
-        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Background="Gray">
+            <MenuItem Header="Load data">
+                <MenuItem Header="Load Access database"/>
+                <MenuItem Header="Load Excel file"/>
+            </MenuItem>
+            <MenuItem Header="View">
+                <CheckBox Content="Teachers" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked"/>
+                <CheckBox Content="Students" Checked="StudentsCheckBoxChecked" Unchecked="StudentsCheckBoxUnchecked"/>
+                <CheckBox Content="Group" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked"/>
+                <CheckBox Content="Specialization" Checked="SpecializationCheckBoxChecked" Unchecked="SpecialiationsCheckBoxUnchecked"/>
+            </MenuItem>
+            <MenuItem Header="Settings"/>
+            <MenuItem Header="Info"/>
+        </Menu>
+        <Grid Grid.Row="1" Background="LightGray">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-            <TabControl Background="WhiteSmoke"/>
+            <TabControl x:Name="Tabs"
+                        Background="WhiteSmoke"/>
             <Grid Grid.Row="1"
                   Background="Gray"
                   >

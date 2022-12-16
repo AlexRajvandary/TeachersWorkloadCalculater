@@ -65,7 +65,8 @@
                     Content="Вход"
                     FontFamily="Calibri"
                     FontSize="16"
-                    FontWeight="Bold"/>
+                    FontWeight="Bold"
+                    Click="Button_Click"/>
         </Grid>
 
     </Grid>
