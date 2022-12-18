@@ -1,15 +1,26 @@
 ﻿using StudingWorkloadCalculator.ExcelWriter;
 using StudingWorkloadCalculator.Models;
 using System.Collections.ObjectModel;
+using System.Printing;
+using System.Security.Policy;
 
 namespace StudingWorkloadCalculator.MainVewModels
 {
     public class MainViewModel : PropertyChangedNotifier
     {
         private PermissionRights permissionRights;
-        private ObservableCollection<Student> students;
-        private ObservableCollection<Teacher> teachers;
-        private string studentsPath;
+        private DataPresenterViewModel<Specialization> specializationViewModel;
+        private DataPresenterViewModel<Subject> subjectViewModel;
+        private DataPresenterViewModel<Student> studentViewModel;
+        private DataPresenterViewModel<Teacher> teacherViewModel;
+
+        public MainViewModel()
+        {
+            specializationViewModel = new DataPresenterViewModel<Specialization>();
+            subjectViewModel = new DataPresenterViewModel<Subject>();
+            studentViewModel = new DataPresenterViewModel<Student>();
+            teacherViewModel = new DataPresenterViewModel<Teacher>();
+        }
 
         public PermissionRights PermissionRights
         {
@@ -21,60 +32,49 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
-        public ObservableCollection<Student> Students
+        public DataPresenterViewModel<Specialization> SpecializationViewModel
         {
-            get => students;
+            get => specializationViewModel;
             set
             {
-                if(students != value)
-                {
-                    students = value;
-                    OnPropertyChanged();
-                }
+                specializationViewModel = value;
+                OnPropertyChanged();
             }
         }
 
-        public string StudentPath
+        public DataPresenterViewModel<Subject> SubjectViewModel
         {
-            get => studentsPath;
+            get => subjectViewModel;
             set
             {
-                studentsPath = value;
-                GetStudentsFromExcel();
+                subjectViewModel = value;
+                OnPropertyChanged();
             }
         }
 
-        public ObservableCollection<Teacher> Teachers
+        public  DataPresenterViewModel<Student> StudentsViewModel
         {
-            get => teachers;
+            get => studentViewModel;
             set
             {
-                if(teachers != value)
-                {
-                    teachers = value;
-                    OnPropertyChanged();
-                }
+                studentViewModel = value;
+                OnPropertyChanged();
             }
         }
 
-        public string TeacherPath { get; set; }
-
-        public User User { get; private set; }
+        public DataPresenterViewModel<Teacher> TeachersViewModel
+        {
+            get => teacherViewModel; 
+            set
+            {
+                teacherViewModel = value;
+                OnPropertyChanged();
+            }
+        }
 
         public async void Auth()
         {
 
-        }
-
-        public void GetTeachersFromExcel()
-        {
-
-        }
-
-        public void GetStudentsFromExcel()
-        {
-            var data = ExcelReader.ReadExcel<Student>(StudentPath);
-            Students = new ObservableCollection<Student>(data);
         }
     }
 }
