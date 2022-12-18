@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,20 @@ namespace StudingWorkloadCalculator.UserControls
         {
             InitializeComponent();
             DataContext = this;
+        }
+
+        private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            var propertyDescriptor = (PropertyDescriptor)e.PropertyDescriptor;
+            var attribute = propertyDescriptor.Attributes.OfType<DataGridColumnGeneratorAttribute>().FirstOrDefault();
+            if (!attribute?.GenerateColumn ?? false)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Column.Header = string.IsNullOrWhiteSpace(attribute?.ColumnName) ? propertyDescriptor.DisplayName : attribute.ColumnName;
+            }
         }
     }
 }

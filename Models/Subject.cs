@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudingWorkloadCalculator.UserControls;
+using System;
 
 namespace StudingWorkloadCalculator.Models
 {
@@ -23,6 +24,7 @@ namespace StudingWorkloadCalculator.Models
             this.name = name;
         }
 
+        [DataGridColumnGenerator("Код предмета")]
         public int Code
         {
             get => code;
@@ -36,6 +38,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        [DataGridColumnGenerator("Предмет")]
         public string Name
         {
             get => name;

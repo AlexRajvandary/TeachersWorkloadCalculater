@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudingWorkloadCalculator.UserControls;
+using System;
 
 namespace StudingWorkloadCalculator.Models
 {
@@ -9,9 +10,9 @@ namespace StudingWorkloadCalculator.Models
         private string lastName;
         private Gender gender;
 
-        public Person(string familyName,
-                      string firstName,
+        public Person(string firstName,
                       string lastName,
+                      string familyName,
                       Gender gender)
         {
             if (string.IsNullOrWhiteSpace(firstName))
@@ -32,32 +33,7 @@ namespace StudingWorkloadCalculator.Models
             Gender = gender;
         }
 
-        public string FamilyName
-        {
-            get => familyName;
-            set
-            {
-                if (familyName != value)
-                {
-                    familyName = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string FirstName
-        {
-            get => firstName;
-            set
-            {
-                if (firstName != value)
-                {
-                    firstName = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
+        [DataGridColumnGenerator("Фамилия")]
         public string LastName
         {
             get => lastName;
@@ -71,6 +47,35 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        [DataGridColumnGenerator("Имя")]
+        public string FirstName
+        {
+            get => firstName;
+            set
+            {
+                if (firstName != value)
+                {
+                    firstName = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        [DataGridColumnGenerator("Отчество")]
+        public string FamilyName
+        {
+            get => familyName;
+            set
+            {
+                if (familyName != value)
+                {
+                    familyName = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        [DataGridColumnGenerator("Пол")]
         public Gender Gender
         {
             get => gender;

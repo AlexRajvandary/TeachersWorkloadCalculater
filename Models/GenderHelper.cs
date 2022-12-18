@@ -11,10 +11,10 @@ namespace StudingWorkloadCalculator.Models
     {
         public static Gender GetGender(this string gender)
         {
-            return gender switch
+            return gender.ToLower() switch
             {
-                "Мужчина" or "мужчина" or "М" or "м" or "male" or "Male" => Gender.Male,
-                "Женщна" or "женщина" or "Ж" or "ж" or "female" or "Female" => Gender.Female,
+                "мужчина" or "м" or "муж"or "male" => Gender.Male,
+                "женщина" or "ж" or "жен"or "female" or "Female" => Gender.Female,
                 _ => Gender.Undefined
             };
         }

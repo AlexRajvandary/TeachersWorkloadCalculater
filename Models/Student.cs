@@ -1,4 +1,6 @@
-﻿namespace StudingWorkloadCalculator.Models
+﻿using StudingWorkloadCalculator.UserControls;
+
+namespace StudingWorkloadCalculator.Models
 {
     public class Student : Person
     {
@@ -36,6 +38,7 @@
             Group = group;
         }
 
+        [DataGridColumnGenerator(false)]
         public Specialization Specialization
         {
             get => specialization; 
@@ -54,8 +57,10 @@
             }
         }
 
+        [DataGridColumnGenerator("Специализация")]
         public string SpecializationCode { get; private set; }
 
+        [DataGridColumnGenerator(false)]
         public Group Group
         {
             get => group;
@@ -69,6 +74,7 @@
             }
         }
 
+        [DataGridColumnGenerator("Группа")]
         public string GroupName { get; set; }
     }
 }

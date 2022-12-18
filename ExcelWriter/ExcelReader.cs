@@ -56,7 +56,7 @@ namespace StudingWorkloadCalculator.ExcelWriter
             return teachers;
         }
 
-        private static IEnumerable<Student>? ReadExcelStudents(string path, int startRow = 1, int startColumn = 2)
+        private static IEnumerable<Student>? ReadExcelStudents(string path, int startRow = 2, int startColumn = 1)
         {
             var students = new List<Student>();
             var existingFile = new FileInfo(path);

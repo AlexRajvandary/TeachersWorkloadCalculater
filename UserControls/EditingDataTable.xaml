@@ -12,7 +12,7 @@
                 <RowDefinition/>
                 <RowDefinition Height="0.1*"/>
             </Grid.RowDefinitions>
-            <DataGrid ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=ItemsSource}"/>
+            <DataGrid ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=ItemsSource}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"/>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
