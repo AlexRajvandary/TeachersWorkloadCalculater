@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Ookii.Dialogs.Wpf;
+using StudingWorkloadCalculator.MainVewModels;
+using StudingWorkloadCalculator.Models;
+using StudingWorkloadCalculator.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +24,35 @@ namespace StudingWorkloadCalculator.Windows
     /// </summary>
     public partial class Window1 : Window
     {
+        public static DependencyProperty StudentsProperty = DependencyProperty.Register("Students", typeof(IList<Student>), typeof(Window1), new PropertyMetadata(null, StudentsCollectionChanged));
+
+        private static void StudentsCollectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Window1 window)
+            {
+                window.AddTabItem("Students", out var tabItem);
+                var editingDatatable = new EditingDataTable();
+                editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = window, Path = new PropertyPath(nameof(window.MainViewModel.Students)) });
+                tabItem.Content = editingDatatable;
+            }
+        }
+
         public Window1()
         {
             InitializeComponent();
+            MainViewModel = new MainViewModel();
+            SetBinding(StudentsProperty, new Binding() { Source = MainViewModel, Path = new PropertyPath(nameof(MainViewModel.Students)) });
+        }
+
+        public MainViewModel MainViewModel { get; set; }
+
+        public IList<Student> Students
+        {
+            get { return (IList<Student>)GetValue(StudentsProperty); }
+            set
+            {
+                SetValue(StudentsProperty, value);
+            }
         }
 
         private static bool TryGetTabItemExists(string name, TabControl tabControl, out TabItem? item)
@@ -40,28 +71,35 @@ namespace StudingWorkloadCalculator.Windows
             return false;
         }
 
-        private void AddTabItem(string header)
+        private bool AddTabItem(string header, out TabItem tabItem)
         {
-            if (!TryGetTabItemExists(header, Tabs, out _))
+            if (!TryGetTabItemExists(header, Tabs, out var existingTabItem))
             {
                 var newTabItem = new TabItem() { Header = header };
                 Tabs.Items.Add(newTabItem);
+                tabItem = newTabItem;
+                return true;
+            }
+            else
+            {
+                tabItem = existingTabItem;
+                return false;
             }
         }
 
         private void TeachersCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            AddTabItem("Teachers");
+            AddTabItem("Teachers", out _);
         }
 
         private void StudentsCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            AddTabItem("Students");
+            AddTabItem("Students", out _);
         }
 
         private void GroupsCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            AddTabItem("Groups");
+            AddTabItem("Groups", out _);
         }
 
         private void RemoveTabItem(string header)
@@ -74,7 +112,7 @@ namespace StudingWorkloadCalculator.Windows
 
         private void SpecializationCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            AddTabItem("Specializations");
+            AddTabItem("Specializations", out _);
         }
 
         private void TeachersCheckBoxUnchecked(object sender, RoutedEventArgs e)
@@ -95,6 +133,16 @@ namespace StudingWorkloadCalculator.Windows
         private void GroupsCheckBoxUnchecked(object sender, RoutedEventArgs e)
         {
             RemoveTabItem("Groups");
+        }
+
+        private void LoadDataFromExcel(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Excel Files(.xls)|*.xls| Excel Files(.xlsx)| *.xlsx | Excel Files(*.xlsm) | *.xlsm|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                MainViewModel.StudentPath = openFileDialog.FileName;
+            }
         }
     }
 }

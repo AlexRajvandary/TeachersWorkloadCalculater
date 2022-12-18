@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace StudingWorkloadCalculator.ExcelWriter
 {
-    internal class ExcelWriter
+    public class ExcelWriter
     {
+        public static void WriteExcelFile(string path)
+        {
+
+        }
     }
 }

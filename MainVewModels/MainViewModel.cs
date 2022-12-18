@@ -1,4 +1,5 @@
-﻿using StudingWorkloadCalculator.Models;
+﻿using StudingWorkloadCalculator.ExcelWriter;
+using StudingWorkloadCalculator.Models;
 using System.Collections.ObjectModel;
 
 namespace StudingWorkloadCalculator.MainVewModels
@@ -8,6 +9,7 @@ namespace StudingWorkloadCalculator.MainVewModels
         private PermissionRights permissionRights;
         private ObservableCollection<Student> students;
         private ObservableCollection<Teacher> teachers;
+        private string studentsPath;
 
         public PermissionRights PermissionRights
         {
@@ -32,6 +34,16 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
+        public string StudentPath
+        {
+            get => studentsPath;
+            set
+            {
+                studentsPath = value;
+                GetStudentsFromExcel();
+            }
+        }
+
         public ObservableCollection<Teacher> Teachers
         {
             get => teachers;
@@ -45,6 +57,8 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
+        public string TeacherPath { get; set; }
+
         public User User { get; private set; }
 
         public async void Auth()
@@ -52,9 +66,15 @@ namespace StudingWorkloadCalculator.MainVewModels
 
         }
 
-        public void GetData()
+        public void GetTeachersFromExcel()
         {
 
+        }
+
+        public void GetStudentsFromExcel()
+        {
+            var data = ExcelReader.ReadExcel<Student>(StudentPath);
+            Students = new ObservableCollection<Student>(data);
         }
     }
 }

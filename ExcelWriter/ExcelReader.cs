@@ -7,7 +7,25 @@ namespace StudingWorkloadCalculator.ExcelWriter
 {
     public class ExcelReader
     {
-        public static IEnumerable<Teacher>? ReadExcelTeachers(string path, int startRow = 1, int startColumn = 2)
+        public static IEnumerable<T>? ReadExcel<T>(string path, int startRow = 1, int startColumn = 1)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            if (typeof(T) == typeof(Teacher))
+            {
+                return (IEnumerable<T>?)ReadExcelTeachers(path, startRow, startColumn);
+            }
+            else if(typeof(T) == typeof(Student))
+            {
+                return (IEnumerable<T>?)ReadExcelStudents(path, startRow, startColumn);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private static IEnumerable<Teacher>? ReadExcelTeachers(string path, int startRow = 1, int startColumn = 2)
         {
             var teachers = new List<Teacher>();
             var existingFile = new FileInfo(path);
@@ -38,12 +56,12 @@ namespace StudingWorkloadCalculator.ExcelWriter
             return teachers;
         }
 
-        public static IEnumerable<Student>? ReadExcelStudents(string path, int startRow = 1, int startColumn = 2)
+        private static IEnumerable<Student>? ReadExcelStudents(string path, int startRow = 1, int startColumn = 2)
         {
             var students = new List<Student>();
             var existingFile = new FileInfo(path);
             using var package = new ExcelPackage(existingFile);
-            var worksheet = package.Workbook.Worksheets[1];
+            var worksheet = package.Workbook.Worksheets[0];
             int colCount = worksheet.Dimension.End.Column;
             int rowCount = worksheet.Dimension.End.Row;
             for (int row = startRow; row <= rowCount; row++)

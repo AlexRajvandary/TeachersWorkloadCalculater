@@ -15,7 +15,7 @@
         <Menu Grid.Row="0" Background="Gray">
             <MenuItem Header="Load data">
                 <MenuItem Header="Load Access database"/>
-                <MenuItem Header="Load Excel file"/>
+                <MenuItem Header="Load Excel file" Click="LoadDataFromExcel"/>
             </MenuItem>
             <MenuItem Header="View">
                 <CheckBox Content="Teachers" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked"/>
