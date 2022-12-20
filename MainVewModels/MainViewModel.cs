@@ -52,7 +52,7 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
-        public  DataPresenterViewModel<Student> StudentsViewModel
+        public  DataPresenterViewModel<Student> SpecializationsViewModel
         {
             get => studentViewModel;
             set

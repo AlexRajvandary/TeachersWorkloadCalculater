@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudingWorkloadCalculator.Windows"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800">
+        Title="Главное окно" Height="450" Width="800">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -15,11 +15,11 @@
         <Menu Grid.Row="0" Background="Gray">
             <MenuItem Header="Load data">
                 <MenuItem Header="Load Access database"/>
-                <MenuItem Header="Load Excel file" Click="LoadDataFromExcel"/>
+                <MenuItem Header="Load Excel file" Click="LoadDataFromExcelButtonClicked"/>
             </MenuItem>
             <MenuItem Header="View">
                 <CheckBox Content="Teachers" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked"/>
-                <CheckBox Content="Students" Checked="StudentsCheckBoxChecked" Unchecked="StudentsCheckBoxUnchecked"/>
+                <CheckBox Content="Students" Checked="StudentsCheckBoxChecked" Unchecked="StudentsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayStudents}"/>
                 <CheckBox Content="Group" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked"/>
                 <CheckBox Content="Specialization" Checked="SpecializationCheckBoxChecked" Unchecked="SpecialiationsCheckBoxUnchecked"/>
             </MenuItem>
@@ -32,9 +32,9 @@
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <TabControl x:Name="Tabs"
-                        Background="WhiteSmoke"/>
+                        Background="#FF9FC1DF"/>
             <Grid Grid.Row="1"
-                  Background="Gray"
+                  Background="#FF2D2D2D"
                   >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>

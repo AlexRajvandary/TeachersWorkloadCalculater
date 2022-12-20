@@ -4,15 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StudingWorkloadCalculator.UserControls"
+             xmlns:af="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Color x:Key="GradientStopColor1">#FF3F4650</Color>
+    </UserControl.Resources>
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-            <DataGrid ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=ItemsSource}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"/>
+            <DataGrid ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=ItemsSource}"
+                      AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" Background="#FF9FC1DF">
+                <DataGrid.ItemContainerStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="#FFD8E0E9"/>
+                    </Style>
+                </DataGrid.ItemContainerStyle>
+            </DataGrid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
@@ -21,9 +32,22 @@
                 <StackPanel Orientation="Horizontal">
                     <Button Width="40" 
                             Margin="5"
-                            />
-                    <Button Width="40"
-                            Margin="5"/>
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            >
+                        <Button.Content>
+                            <af:FontAwesome Icon="Plus" FontSize="26" Foreground="#FF24E624"/>
+                        </Button.Content>
+                    </Button>
+                    <Button Width="40" 
+                            Margin="5"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            >
+                        <Button.Content>
+                            <af:FontAwesome Icon="Close" FontSize="30" Foreground="Red" VerticalAlignment="Bottom"/>
+                        </Button.Content>
+                    </Button>
                 </StackPanel>
             </Grid>
         </Grid>

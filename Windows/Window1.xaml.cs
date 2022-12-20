@@ -1,51 +1,104 @@
 ﻿using Microsoft.Win32;
-using Ookii.Dialogs.Wpf;
 using StudingWorkloadCalculator.MainVewModels;
 using StudingWorkloadCalculator.Models;
 using StudingWorkloadCalculator.UserControls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace StudingWorkloadCalculator.Windows
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class Window1 : Window, INotifyPropertyChanged
     {
+        private bool displayStudents;
+
         public Window1()
         {
             InitializeComponent();
             MainViewModel = new MainViewModel();
-            MainViewModel.StudentsViewModel.PropertyChanged += StudentsViewModel_PropertyChanged;
+            MainViewModel.SpecializationsViewModel.PropertyChanged += StudentsViewModel_PropertyChanged;
+            MainViewModel.SpecializationViewModel.PropertyChanged += SpecializationViewModel_PropertyChanged;
+            MainViewModel.SubjectViewModel.PropertyChanged += SubjectViewModel_PropertyChanged;
+            MainViewModel.TeachersViewModel.PropertyChanged += TeachersViewModel_PropertyChanged;
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public MainViewModel MainViewModel { get; set; }
+
+        public bool DisplayStudents
+        {
+            get => displayStudents;
+            set
+            {
+                displayStudents = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool DisplayTeachers { get; set; }
+
+        public bool DisplayGroups { get; set; }
+
+        public bool DisplaySpecializations { get; set; }
 
         private void StudentsViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(sender is DataPresenterViewModel<Student> dataPresenterViewmodel)
+            if (sender is DataPresenterViewModel<Student> dataPresenterViewmodel)
             {
                 if (e.PropertyName == nameof(dataPresenterViewmodel.Data))
                 {
-                    AddTabItem("Students", out var tabItem);
-                    var editingDatatable = new EditingDataTable();
-                    editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.StudentsViewModel, Path = new PropertyPath(nameof(MainViewModel.StudentsViewModel.Data)) });
-                    tabItem.Content = editingDatatable;
+                    ShowTabItem("Students", dataPresenterViewmodel);
                 }
             }
         }
 
-        public MainViewModel MainViewModel { get; set; }
+        private void TeachersViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (sender is DataPresenterViewModel<Teacher> dataPresenterViewmodel)
+            {
+                if (e.PropertyName == nameof(dataPresenterViewmodel.Data))
+                {
+                    ShowTabItem("Teacher", dataPresenterViewmodel);
+                }
+            }
+        }
+
+        private void SubjectViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (sender is DataPresenterViewModel<Subject> dataPresenterViewmodel)
+            {
+                if (e.PropertyName == nameof(dataPresenterViewmodel.Data))
+                {
+                    ShowTabItem("Subjects", dataPresenterViewmodel);
+                }
+            }
+        }
+
+        private void SpecializationViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (sender is DataPresenterViewModel<Specialization> dataPresenterViewmodel)
+            {
+                if (e.PropertyName == nameof(dataPresenterViewmodel.Data))
+                {
+                    ShowTabItem("Speialization", dataPresenterViewmodel);
+                }
+            }
+        }
+
+        private void ShowTabItem<T>(string title, DataPresenterViewModel<T> dataPresenterViewModel)
+        {
+            AddTabItem(title, out var tabItem);
+            var editingDatatable = new EditingDataTable();
+            editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = dataPresenterViewModel, Path = new PropertyPath(nameof(dataPresenterViewModel.Data)) });
+            tabItem.Content = editingDatatable;
+            DisplayStudents = true;
+        }
 
         private static bool TryGetTabItemExists(string name, TabControl tabControl, out TabItem? item)
         {
@@ -81,17 +134,17 @@ namespace StudingWorkloadCalculator.Windows
 
         private void TeachersCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            AddTabItem("Teachers", out _);
+            ShowTabItem("Teachers", MainViewModel.SpecializationsViewModel);
         }
 
         private void StudentsCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            AddTabItem("Students", out _);
+            ShowTabItem("Students", MainViewModel.SpecializationsViewModel);
         }
 
         private void GroupsCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            AddTabItem("Groups", out _);
+            ShowTabItem("Groups", MainViewModel.SpecializationsViewModel);
         }
 
         private void RemoveTabItem(string header)
@@ -104,7 +157,7 @@ namespace StudingWorkloadCalculator.Windows
 
         private void SpecializationCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            AddTabItem("Specializations", out _);
+            ShowTabItem("Specializations", MainViewModel.SpecializationsViewModel);
         }
 
         private void TeachersCheckBoxUnchecked(object sender, RoutedEventArgs e)
@@ -127,14 +180,16 @@ namespace StudingWorkloadCalculator.Windows
             RemoveTabItem("Groups");
         }
 
-        private void LoadDataFromExcel(object sender, RoutedEventArgs e)
+        private void LoadDataFromExcelButtonClicked(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Excel Files(.xls)|*.xls| Excel Files(.xlsx)| *.xlsx | Excel Files(*.xlsm) | *.xlsm|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                MainViewModel.StudentsViewModel.DataSourcePath = openFileDialog.FileName;
-            }
+            var window = new ExcelFileMapper();
+            window.DataContext = MainViewModel;
+            window.Show();
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -35,7 +35,7 @@ namespace StudingWorkloadCalculator.MainVewModels
 
         private void GetData()
         {
-            var data = ExcelReader.ReadExcel<T>(DataSourcePath);
+            var data = ExcelReader.ReadExcel<T>(DataSourcePath, startRow: 2, startColumn: 1);
             Data = new ObservableCollection<T>(data);
         }
     }
