@@ -183,6 +183,7 @@ namespace StudingWorkloadCalculator.Windows
         private void LoadDataFromExcelButtonClicked(object sender, RoutedEventArgs e)
         {
             var window = new ExcelFileMapper();
+            window.Owner= this;
             window.DataContext = MainViewModel;
             window.Show();
         }
