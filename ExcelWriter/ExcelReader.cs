@@ -7,7 +7,7 @@ namespace StudingWorkloadCalculator.ExcelWriter
 {
     public class ExcelReader
     {
-        public static IEnumerable<T>? ReadExcel<T>(string path, int startRow = 1, int startColumn = 1)
+        public static IEnumerable<T>? ReadExcel<T>(string path, int startRow = 1, int startColumn = 2)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -33,7 +33,7 @@ namespace StudingWorkloadCalculator.ExcelWriter
             }
         }
 
-        private static IEnumerable<Teacher>? ReadExcelTeachers(string path, int startRow = 1, int startColumn = 1)
+        private static IEnumerable<Teacher>? ReadExcelTeachers(string path, int startRow, int startColumn)
         {
             var teachers = new List<Teacher>();
             var existingFile = new FileInfo(path);
@@ -64,7 +64,7 @@ namespace StudingWorkloadCalculator.ExcelWriter
             return teachers;
         }
 
-        private static IEnumerable<Student>? ReadExcelStudents(string path, int startRow = 1, int startColumn = 1)
+        private static IEnumerable<Student>? ReadExcelStudents(string path, int startRow, int startColumn)
         {
             var students = new List<Student>();
             var existingFile = new FileInfo(path);
@@ -95,7 +95,7 @@ namespace StudingWorkloadCalculator.ExcelWriter
             return students;
         }
 
-        private static IEnumerable<Subject>? ReadExcelSubjects(string path, int startRow = 1, int startColumn = 1)
+        private static IEnumerable<Subject>? ReadExcelSubjects(string path, int startRow, int startColumn)
         {
             var subjects = new List<Subject>();
             var existingFile = new FileInfo(path);
@@ -122,7 +122,7 @@ namespace StudingWorkloadCalculator.ExcelWriter
             return subjects;
         }
 
-        private static IEnumerable<Specialization>? ReadExcelSpecialization(string path, int startRow = 1, int startColumn = 1)
+        private static IEnumerable<Specialization>? ReadExcelSpecialization(string path, int startRow, int startColumn)
         {
             var specializations = new List<Specialization>();
             var existingFile = new FileInfo(path);

@@ -2,6 +2,7 @@
 using StudingWorkloadCalculator.MainVewModels;
 using StudingWorkloadCalculator.Models;
 using StudingWorkloadCalculator.UserControls;
+using System.CodeDom;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -21,8 +22,8 @@ namespace StudingWorkloadCalculator.Windows
         {
             InitializeComponent();
             MainViewModel = new MainViewModel();
-            MainViewModel.SpecializationsViewModel.PropertyChanged += StudentsViewModel_PropertyChanged;
-            MainViewModel.SpecializationViewModel.PropertyChanged += SpecializationViewModel_PropertyChanged;
+            MainViewModel.StudentsViewModel.PropertyChanged += StudentsViewModel_PropertyChanged;
+            MainViewModel.SpecializationsViewModel.PropertyChanged += SpecializationViewModel_PropertyChanged;
             MainViewModel.SubjectViewModel.PropertyChanged += SubjectViewModel_PropertyChanged;
             MainViewModel.TeachersViewModel.PropertyChanged += TeachersViewModel_PropertyChanged;
         }
@@ -53,7 +54,7 @@ namespace StudingWorkloadCalculator.Windows
             {
                 if (e.PropertyName == nameof(dataPresenterViewmodel.Data))
                 {
-                    ShowTabItem("Students", dataPresenterViewmodel);
+                    ShowStudents();
                 }
             }
         }
@@ -64,7 +65,7 @@ namespace StudingWorkloadCalculator.Windows
             {
                 if (e.PropertyName == nameof(dataPresenterViewmodel.Data))
                 {
-                    ShowTabItem("Teacher", dataPresenterViewmodel);
+                    ShowTeachers();
                 }
             }
         }
@@ -75,7 +76,7 @@ namespace StudingWorkloadCalculator.Windows
             {
                 if (e.PropertyName == nameof(dataPresenterViewmodel.Data))
                 {
-                    ShowTabItem("Subjects", dataPresenterViewmodel);
+                    ShowSubjects();
                 }
             }
         }
@@ -86,16 +87,43 @@ namespace StudingWorkloadCalculator.Windows
             {
                 if (e.PropertyName == nameof(dataPresenterViewmodel.Data))
                 {
-                    ShowTabItem("Speialization", dataPresenterViewmodel);
+                    ShowSpecializations();
                 }
             }
         }
 
-        private void ShowTabItem<T>(string title, DataPresenterViewModel<T> dataPresenterViewModel)
+        private void ShowStudents()
         {
-            AddTabItem(title, out var tabItem);
+            AddTabItem("Студенты", out var tabItem);
             var editingDatatable = new EditingDataTable();
-            editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = dataPresenterViewModel, Path = new PropertyPath(nameof(dataPresenterViewModel.Data)) });
+            editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.StudentsViewModel, Path = new PropertyPath(nameof(MainViewModel.StudentsViewModel.Data)) });
+            tabItem.Content = editingDatatable;
+            DisplayStudents = true;
+        }
+
+        private void ShowTeachers()
+        {
+            AddTabItem("Преподаватели", out var tabItem);
+            var editingDatatable = new EditingDataTable();
+            editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.Data)) });
+            tabItem.Content = editingDatatable;
+            DisplayStudents = true;
+        }
+
+        private void ShowSpecializations()
+        {
+            AddTabItem("Специализации", out var tabItem);
+            var editingDatatable = new EditingDataTable();
+            editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.Data)) });
+            tabItem.Content = editingDatatable;
+            DisplayStudents = true;
+        }
+
+        private void ShowSubjects()
+        {
+            AddTabItem("Предметы", out var tabItem);
+            var editingDatatable = new EditingDataTable();
+            editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.Data)) });
             tabItem.Content = editingDatatable;
             DisplayStudents = true;
         }
@@ -134,17 +162,17 @@ namespace StudingWorkloadCalculator.Windows
 
         private void TeachersCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            ShowTabItem("Teachers", MainViewModel.SpecializationsViewModel);
+            ShowTeachers();
         }
 
         private void StudentsCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            ShowTabItem("Students", MainViewModel.SpecializationsViewModel);
+            ShowStudents();
         }
 
         private void GroupsCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            ShowTabItem("Groups", MainViewModel.SpecializationsViewModel);
+            ShowSubjects();
         }
 
         private void RemoveTabItem(string header)
@@ -157,33 +185,33 @@ namespace StudingWorkloadCalculator.Windows
 
         private void SpecializationCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            ShowTabItem("Specializations", MainViewModel.SpecializationsViewModel);
+            ShowSpecializations();
         }
 
         private void TeachersCheckBoxUnchecked(object sender, RoutedEventArgs e)
         {
-            RemoveTabItem("Teachers");
+            RemoveTabItem("Учителя");
         }
 
         private void StudentsCheckBoxUnchecked(object sender, RoutedEventArgs e)
         {
-            RemoveTabItem("Students");
+            RemoveTabItem("Студенты");
         }
 
         private void SpecialiationsCheckBoxUnchecked(object sender, RoutedEventArgs e)
         {
-            RemoveTabItem("Specializations");
+            RemoveTabItem("Специализации");
         }
 
         private void GroupsCheckBoxUnchecked(object sender, RoutedEventArgs e)
         {
-            RemoveTabItem("Groups");
+            RemoveTabItem("Предметы");
         }
 
         private void LoadDataFromExcelButtonClicked(object sender, RoutedEventArgs e)
         {
             var window = new ExcelFileMapper();
-            window.Owner= this;
+            window.Owner = this;
             window.DataContext = MainViewModel;
             window.Show();
         }
@@ -195,7 +223,41 @@ namespace StudingWorkloadCalculator.Windows
 
         private void SaveToExcel(object sender, RoutedEventArgs e)
         {
+            if (!string.IsNullOrEmpty(MainViewModel.StudentsViewModel.DataSourcePath))
+            {
+                ExcelWriter.ExcelWriter.WriteExcelFile(MainViewModel.StudentsViewModel.DataSourcePath, MainViewModel.StudentsViewModel.Data);
+            }
+            else
+            {
+                ExcelWriter.ExcelWriter.WriteExcelFile("Students.xlsx", MainViewModel.StudentsViewModel.Data);
+            }
 
+            if (!string.IsNullOrEmpty(MainViewModel.SpecializationsViewModel.DataSourcePath))
+            {
+                ExcelWriter.ExcelWriter.WriteExcelFile(MainViewModel.SpecializationsViewModel.DataSourcePath, MainViewModel.SpecializationsViewModel.Data);
+            }
+            else
+            {
+                ExcelWriter.ExcelWriter.WriteExcelFile("Specializations.xlsx", MainViewModel.SpecializationsViewModel.Data);
+            }
+
+            if (!string.IsNullOrEmpty(MainViewModel.SubjectViewModel.DataSourcePath))
+            {
+                ExcelWriter.ExcelWriter.WriteExcelFile(MainViewModel.SubjectViewModel.DataSourcePath, MainViewModel.SubjectViewModel.Data);
+            }
+            else
+            {
+                ExcelWriter.ExcelWriter.WriteExcelFile("Subjects.xlsx", MainViewModel.SubjectViewModel.Data);
+            }
+
+            if (!string.IsNullOrEmpty(MainViewModel.TeachersViewModel.DataSourcePath))
+            {
+                ExcelWriter.ExcelWriter.WriteExcelFile(MainViewModel.TeachersViewModel.DataSourcePath, MainViewModel.TeachersViewModel.Data);
+            }
+            else
+            {
+                ExcelWriter.ExcelWriter.WriteExcelFile("Teachers.xlsx", MainViewModel.TeachersViewModel.Data);
+            }
         }
     }
 }

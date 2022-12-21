@@ -20,7 +20,7 @@
             <MenuItem Header="View">
                 <CheckBox Content="Teachers" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked"/>
                 <CheckBox Content="Students" Checked="StudentsCheckBoxChecked" Unchecked="StudentsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayStudents}"/>
-                <CheckBox Content="Group" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked"/>
+                <CheckBox Content="Subject" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked"/>
                 <CheckBox Content="Specialization" Checked="SpecializationCheckBoxChecked" Unchecked="SpecialiationsCheckBoxUnchecked"/>
             </MenuItem>
             <MenuItem Header="Settings"/>

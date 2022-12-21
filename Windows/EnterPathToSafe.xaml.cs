@@ -1,5 +1,7 @@
-﻿using System;
+﻿using StudingWorkloadCalculator.MainVewModels;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,14 +21,22 @@ namespace StudingWorkloadCalculator.Windows
     /// </summary>
     public partial class EnterPathToSafe : Window
     {
+        public static DependencyProperty SelectedPathProperty = DependencyProperty.Register("SelectedPath", typeof(string), typeof(EnterPathToSafe));
+
         public EnterPathToSafe()
         {
             InitializeComponent();
         }
 
+        public string SelectedPath 
+        {
+            get { return (string)GetValue(SelectedPathProperty); }
+            set { SetValue(SelectedPathProperty, value); }
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
     }
 }
