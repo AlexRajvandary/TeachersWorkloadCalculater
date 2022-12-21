@@ -35,7 +35,7 @@ namespace StudingWorkloadCalculator.UserControls
         {
             var propertyDescriptor = (PropertyDescriptor)e.PropertyDescriptor;
             var attribute = propertyDescriptor.Attributes.OfType<DataGridColumnGeneratorAttribute>().FirstOrDefault();
-            if (!attribute?.GenerateColumn ?? false)
+            if (!attribute?.GenerateColumn ?? true)
             {
                 e.Cancel = true;
             }

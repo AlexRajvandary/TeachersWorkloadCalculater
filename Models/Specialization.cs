@@ -87,7 +87,6 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-
         public ObservableCollection<SubjectWithWorkload> SubjectsWithWorkloads
         {
             get => subjectsWithWorkloads;

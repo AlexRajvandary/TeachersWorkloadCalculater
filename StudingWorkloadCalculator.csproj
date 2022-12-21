@@ -20,13 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AccessDataBase\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="EPPlus" Version="6.1.1" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
     <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+    <PackageReference Include="System.Data.Odbc" Version="7.0.0" />
   </ItemGroup>
 
 </Project>

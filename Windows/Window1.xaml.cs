@@ -1,8 +1,6 @@
-﻿using Microsoft.Win32;
-using StudingWorkloadCalculator.MainVewModels;
+﻿using StudingWorkloadCalculator.MainVewModels;
 using StudingWorkloadCalculator.Models;
 using StudingWorkloadCalculator.UserControls;
-using System.CodeDom;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
