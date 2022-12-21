@@ -149,7 +149,7 @@ namespace StudingWorkloadCalculator.Windows
             editingDatatable.SetBinding(EditingDataTable.AddItemCommandProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.AddItemCommand)) });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.DeleteItemCommand)) });
             tabItem.Content = editingDatatable;
-            DisplayStudents = true;
+            DisplayTeachers = true;
         }
 
         private void ShowSpecializations()
@@ -161,7 +161,7 @@ namespace StudingWorkloadCalculator.Windows
             editingDatatable.SetBinding(EditingDataTable.AddItemCommandProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.AddItemCommand)) });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() {Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.DeleteItemCommand)) });
             tabItem.Content = editingDatatable;
-            DisplayStudents = true;
+            DisplaySpecializations = true;
         }
 
         private void ShowSubjects()
@@ -173,7 +173,7 @@ namespace StudingWorkloadCalculator.Windows
             editingDatatable.SetBinding(EditingDataTable.AddItemCommandProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.AddItemCommand)) });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.DeleteItemCommand)) });
             tabItem.Content = editingDatatable;
-            DisplayStudents = true;
+            DisplayGroups = true;
         }
 
         private static bool TryGetTabItemExists(string name, TabControl tabControl, out TabItem? item)
@@ -238,7 +238,7 @@ namespace StudingWorkloadCalculator.Windows
 
         private void TeachersCheckBoxUnchecked(object sender, RoutedEventArgs e)
         {
-            RemoveTabItem("Учителя");
+            RemoveTabItem("Преподаватели");
         }
 
         private void StudentsCheckBoxUnchecked(object sender, RoutedEventArgs e)
