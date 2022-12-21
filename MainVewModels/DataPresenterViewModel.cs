@@ -1,6 +1,8 @@
 ﻿using StudingWorkloadCalculator.ExcelWriter;
 using StudingWorkloadCalculator.Models;
+using StudingWorkloadCalculator.SupportClasses;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace StudingWorkloadCalculator.MainVewModels
 {
@@ -8,6 +10,12 @@ namespace StudingWorkloadCalculator.MainVewModels
     {
         private string dataSourcePath;
         private ObservableCollection<T> data;
+        private T selectedItem;
+
+        public DataPresenterViewModel()
+        {
+            DeleteItemCommand= new RelayCommand(DeleteItem);
+        }
 
         public string DataSourcePath
         {
@@ -30,6 +38,28 @@ namespace StudingWorkloadCalculator.MainVewModels
             {
                 data = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public T SelectedItem
+        {
+            get => selectedItem;
+            set
+            {
+                selectedItem= value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand AddItemCommand { get; set; }
+
+        public ICommand DeleteItemCommand { get; set; }
+
+        private void DeleteItem()
+        {
+            if(SelectedItem!= null)
+            {
+                Data.Remove(SelectedItem);
             }
         }
 

@@ -24,11 +24,32 @@ namespace StudingWorkloadCalculator.UserControls
     public partial class EditingDataTable : UserControl
     {
         public static DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(EditingDataTable), new PropertyMetadata(null));
+        public static DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(EditingDataTable), new PropertyMetadata(null));
+        public static DependencyProperty AddItemCommandProperty = DependencyProperty.Register("AddItemCommand", typeof(ICommand), typeof(EditingDataTable), new PropertyMetadata(null));
+        public static DependencyProperty DeleteItemCommandProperty = DependencyProperty.Register("DeleteItemCommand", typeof(ICommand), typeof(EditingDataTable), new PropertyMetadata(null));
 
         public EditingDataTable()
         {
             InitializeComponent();
             DataContext = this;
+        }
+
+        public object SelectedItem
+        {
+            get { return GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
+        public ICommand AddItemCommand
+        {
+            get { return (ICommand)GetValue(AddItemCommandProperty); }
+            set { SetValue(AddItemCommandProperty, value); }
+        }
+
+        public ICommand DeleteItemCommand
+        {
+            get { return (ICommand)(GetValue(DeleteItemCommandProperty)); }
+            set { SetValue(DeleteItemCommandProperty, value); }
         }
 
         private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
