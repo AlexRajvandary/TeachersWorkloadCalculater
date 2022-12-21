@@ -9,14 +9,14 @@ namespace StudingWorkloadCalculator.MainVewModels
     public class MainViewModel : PropertyChangedNotifier
     {
         private PermissionRights permissionRights;
-        private DataPresenterViewModel<Specialization> specializationViewModel;
+        private DataPresenterViewModel<Specialization> specializationsViewModel;
         private DataPresenterViewModel<Subject> subjectViewModel;
         private DataPresenterViewModel<Student> studentViewModel;
         private DataPresenterViewModel<Teacher> teacherViewModel;
 
         public MainViewModel()
         {
-            specializationViewModel = new DataPresenterViewModel<Specialization>();
+            specializationsViewModel = new DataPresenterViewModel<Specialization>();
             subjectViewModel = new DataPresenterViewModel<Subject>();
             studentViewModel = new DataPresenterViewModel<Student>();
             teacherViewModel = new DataPresenterViewModel<Teacher>();
@@ -32,12 +32,12 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
-        public DataPresenterViewModel<Specialization> SpecializationViewModel
+        public DataPresenterViewModel<Specialization> SpecializationsViewModel
         {
-            get => specializationViewModel;
+            get => specializationsViewModel;
             set
             {
-                specializationViewModel = value;
+                specializationsViewModel = value;
                 OnPropertyChanged();
             }
         }
@@ -52,7 +52,7 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
-        public  DataPresenterViewModel<Student> SpecializationsViewModel
+        public  DataPresenterViewModel<Student> StudentsViewModel
         {
             get => studentViewModel;
             set

@@ -6,59 +6,70 @@
         xmlns:local="clr-namespace:StudingWorkloadCalculator.Windows"
         xmlns:af="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="ExcelFileMapper" 
-        Height="220"
-        Width="170"
-        Background="Gray">
+        Title="Выберите файлы" 
+        Height="300"
+        Width="230"
+        Background="Gray"
+        ResizeMode="NoResize" Icon="/Windows/эмблема.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Margin="10,10,10,0"
+                   FontSize="14"
+                   Text="Выберите exel таблицу для загрузки данных через эксель."
+                   TextWrapping="Wrap"/>
+
         <TextBlock Text="Студенты"
                    Margin="10"
                    VerticalAlignment="Center" 
-                   FontSize="15"
+                   FontSize="14"
+                   Grid.Row="1"
                    />
         <TextBlock Text="Учителя"
-                   Grid.Row="1"
-                   Margin="10"
-                   VerticalAlignment="Center"
-                   FontSize="15"
-                   />
-        <TextBlock Text="Предметы"
                    Grid.Row="2"
                    Margin="10"
                    VerticalAlignment="Center"
-                   FontSize="15"/>
-        <TextBlock Text="Специализации"
+                   FontSize="14"
+                   />
+        <TextBlock Text="Предметы"
                    Grid.Row="3"
                    Margin="10"
                    VerticalAlignment="Center"
-                   FontSize="15"
+                   FontSize="14"/>
+        <TextBlock Text="Специализации"
+                   Grid.Row="4"
+                   Margin="10"
+                   VerticalAlignment="Center"
+                   FontSize="14"
                    />
-        <Button Grid.Column="1" Background="Transparent" Click="Button_Click">
+        <Button Grid.Column="1" Grid.Row="1" Background="Transparent" Click="Button_Click">
             <Button.Content>
                 <af:FontAwesome Icon="Book" FontSize="20"/>
             </Button.Content>
         </Button>
-        <Button Grid.Column="1" Grid.Row="1" Background="Transparent" Click="Button_Click_1">
+        <Button Grid.Column="1" Grid.Row="2" Background="Transparent" Click="Button_Click_1">
             <Button.Content>
                 <af:FontAwesome Icon="Book" FontSize="20"/>
             </Button.Content>
         </Button>
-        <Button Grid.Column="1" Grid.Row="2" Background="Transparent" Click="Button_Click_2">
+        <Button Grid.Column="1" Grid.Row="3" Background="Transparent" Click="Button_Click_2">
             <Button.Content>
                 <af:FontAwesome Icon="Book" FontSize="20"/>
             </Button.Content>
         </Button>
-        <Button Grid.Column="1" Grid.Row="3" Background="Transparent" Click="Button_Click_3">
+        <Button Grid.Column="1" Grid.Row="4" Background="Transparent" Click="Button_Click_3">
             <Button.Content>
                 <af:FontAwesome Icon="Book" FontSize="20"/>
             </Button.Content>

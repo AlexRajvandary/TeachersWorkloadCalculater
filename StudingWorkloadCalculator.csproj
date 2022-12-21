@@ -9,12 +9,14 @@
 
   <ItemGroup>
     <None Remove="Windows\Resources\эмблема.png" />
+    <None Remove="Windows\эмблема.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Windows\Resources\эмблема.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Windows\эмблема.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudingWorkloadCalculator.Windows"
         mc:Ignorable="d"
-        Title="Главное окно" Height="450" Width="800">
+        Title="Главное окно" Height="450" Width="800" Icon="/Windows/эмблема.png">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -51,7 +51,8 @@
                         Margin="5"
                         Width="50"
                         Grid.Column="2"
-                        Background="WhiteSmoke"/>
+                        Background="WhiteSmoke"
+                        Click="SaveToExcel"/>
             </Grid>
         </Grid>
     </Grid>

@@ -192,5 +192,10 @@ namespace StudingWorkloadCalculator.Windows
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void SaveToExcel(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

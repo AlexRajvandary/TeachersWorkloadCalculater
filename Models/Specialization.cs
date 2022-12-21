@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using StudingWorkloadCalculator.UserControls;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace StudingWorkloadCalculator.Models
@@ -30,6 +31,7 @@ namespace StudingWorkloadCalculator.Models
             Qualification = qualification;
         }
 
+        [DataGridColumnGenerator("Код предмета")]
         public string Code
         {
             get => code;
@@ -43,6 +45,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        [DataGridColumnGenerator("Очно")]
         public bool Intramural
         {
             get => intramural;
@@ -56,6 +59,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        [DataGridColumnGenerator("Название")]
         public string Name
         {
             get => name;
@@ -69,6 +73,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        [DataGridColumnGenerator("Время обучения")]
         public int StudyPeriod
         {
             get => studyPeriod;
@@ -81,6 +86,7 @@ namespace StudingWorkloadCalculator.Models
                 }
             }
         }
+
 
         public ObservableCollection<SubjectWithWorkload> SubjectsWithWorkloads
         {
@@ -95,6 +101,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        [DataGridColumnGenerator("Квалификация")]
         public string Qualification
         {
             get => qualification;

@@ -59,7 +59,7 @@ namespace StudingWorkloadCalculator.Windows
         {
             if (ExcelChoseFileDialog(out var path))
             {
-                MainViewModel.SpecializationsViewModel.DataSourcePath = path;
+                MainViewModel.SubjectViewModel.DataSourcePath = path;
             }
         }
 

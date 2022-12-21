@@ -10,7 +10,7 @@
         Width="560"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Background="#FF4B4E6D"
+        Background="#FF4B4E6D" Icon="/Windows/эмблема.png"
         >
     <Grid>
         <Grid>
