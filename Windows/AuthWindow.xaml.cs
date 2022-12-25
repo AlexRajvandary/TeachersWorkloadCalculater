@@ -1,4 +1,6 @@
-﻿using StudingWorkloadCalculator.MainVewModels;
+﻿using StudingWorkloadCalculator.AccessDataBase;
+using StudingWorkloadCalculator.MainVewModels;
+using StudingWorkloadCalculator.Models;
 using StudingWorkloadCalculator.Windows;
 using System;
 using System.Collections.Generic;
@@ -22,21 +24,44 @@ namespace StudingWorkloadCalculator
     /// </summary>
     public partial class AuthWindow : Window
     {
+        public static DependencyProperty UsersProperty = DependencyProperty.Register("Users", typeof(IEnumerable<User>), typeof(AuthWindow));
+
         public AuthWindow()
         {
             InitializeComponent();
+            LoginComboBox.Items.Clear();
+            DbConnection.OpenConnection();
+            Users = AccsessDataTableReader.GetUsers();
+        }
+
+        public IEnumerable<User> Users 
+        {
+            get
+            { 
+                return (IEnumerable<User>)GetValue(UsersProperty);
+            } 
+            set
+            {
+                SetValue(UsersProperty, value);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var mv = new MainViewModel();
-            if (mv is not null && !string.IsNullOrWhiteSpace(LoginTextBox.Text) && !string.IsNullOrEmpty(PasswordTextBox.Password))
+            var user = LoginComboBox.SelectedItem as User;
+            if (mv is not null && !string.IsNullOrWhiteSpace(user.Name) && !string.IsNullOrEmpty(PasswordTextBox.Password))
             {
-                if(mv.Auth(LoginTextBox.Text, PasswordTextBox.Password))
+                if(user.Password == PasswordTextBox.Password)
                 {
+                    mv.User = user;
                     var mainWindow = new Window1(mv);
                     mainWindow.Show();
-                    this.Close();
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Неверный пароль.");
                 }
             }
         }

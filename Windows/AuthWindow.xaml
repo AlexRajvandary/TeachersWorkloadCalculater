@@ -41,11 +41,18 @@
                    Grid.Row="0"
                    Source="resources/эмблема.png"
                    Stretch="Fill"/>
-            <TextBox  x:Name="LoginTextBox"
+            <ComboBox x:Name="LoginComboBox"
                       Grid.Column="1"
                       Grid.Row="1"
                       Grid.ColumnSpan="4"
-                      Margin="5,20,10,20"/>
+                      Margin="5,20,10,20"
+                      DisplayMemberPath="Name"
+                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:AuthWindow}, Path=Users}"
+                      >
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox>
             <TextBlock Grid.Row="2"
                        Grid.Column="0"
                        Text="Пароль"

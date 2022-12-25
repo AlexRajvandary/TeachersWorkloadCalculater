@@ -95,6 +95,24 @@ namespace StudingWorkloadCalculator.AccessDataBase
             return groups;
         }
 
+        public static IEnumerable<User> GetUsers()
+        {
+            var data = GetData("SELECT * FROM Пользователь;");
+            var users = new List<User>();
+
+            foreach (var row in data)
+            {
+                var id = (int)row[0];
+                var name = (string)row[1];
+                var password = (string)row[2];
+                var specialRights = (bool)row[3];
+
+                users.Add(new User(id, name, password, specialRights));
+            }
+
+            return users;
+        }
+
         private static EnumerableRowCollection<DataRow> GetData(string sqlQuary)
         {
             DbConnection.myCommand = new System.Data.OleDb.OleDbCommand(sqlQuary, DbConnection.cn);

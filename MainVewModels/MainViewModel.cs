@@ -3,6 +3,7 @@ using StudingWorkloadCalculator.Models;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Data;
+using Microsoft.VisualBasic.Logging;
 
 namespace StudingWorkloadCalculator.MainVewModels
 {
@@ -16,6 +17,7 @@ namespace StudingWorkloadCalculator.MainVewModels
         private DataPresenterViewModel<Group> groupsViewModel;
         private double rate;
         private TeachersWorkload teachersWorkload;
+        private User user;
 
         public MainViewModel()
         {
@@ -26,12 +28,12 @@ namespace StudingWorkloadCalculator.MainVewModels
             groupsViewModel = new DataPresenterViewModel<Group>();
         }
 
-        public PermissionRights PermissionRights
+        public User User
         {
-            get => permissionRights;
+            get => user;
             set
             {
-                permissionRights = value;
+                user = value;
                 OnPropertyChanged();
             }
         }
@@ -110,16 +112,6 @@ namespace StudingWorkloadCalculator.MainVewModels
                     OnPropertyChanged();
                 }
             }
-        }
-
-        public bool Auth(string login, string password)
-        {
-            DbConnection.OpenConnection();
-            string strSQL = "SELECT * FROM Пользователь WHERE Логин = '" + login +"'" +
-                   " AND Пароль = '" + password + "'";
-            DbConnection.myCommand = new OleDbCommand(strSQL, DbConnection.cn);
-            object value = DbConnection.myCommand.ExecuteScalar();
-            return value != null;
         }
 
         public TeachersWorkload? CalculateWorkLoad(IEnumerable<SubjectWithWorkload> subjects)
