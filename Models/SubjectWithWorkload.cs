@@ -84,6 +84,12 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        [DataGridColumnGenerator("Практика I подгр.")]
+        public int FirstPrac { get; set; }
+
+        [DataGridColumnGenerator("Практика II подгр.")]
+        public int SecondPrac { get; set; }
+
         [DataGridColumnGenerator("Первый семестр")]
         public int FirstSemester
         {

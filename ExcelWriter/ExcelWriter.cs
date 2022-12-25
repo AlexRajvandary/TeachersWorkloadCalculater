@@ -73,8 +73,8 @@ namespace StudingWorkloadCalculator.ExcelWriter
             worksheet.Cells["M5"].Value = "____________Хабипов И.И.";
             worksheet.Cells["M5:N5"].Merge = true;
             worksheet.Cells["O6"].Value = "2020 г.";
-            worksheet.Cells["D6"].Value = "ПЕДАГОГИЧЕСКАЯ НАГРУЗКА";
-            worksheet.Cells["D6:F6"].Merge = true;
+            worksheet.Cells["C6"].Value = "ПЕДАГОГИЧЕСКАЯ НАГРУЗКА";
+            worksheet.Cells["C6:F6"].Merge = true;
             worksheet.Cells["C7"].Value = "преподавателя техникума на 2020-2021  учебный год";
             worksheet.Cells["C7:F7"].Merge = true;
             worksheet.Cells["C8"].Value = teachersName;

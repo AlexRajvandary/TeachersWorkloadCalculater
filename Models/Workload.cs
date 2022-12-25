@@ -40,6 +40,10 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        public int FirstPrac { get; set; }
+
+        public int SecondPrace { get; set; }
+
         public int FirstSemester
         {
             get => firstSemester;
