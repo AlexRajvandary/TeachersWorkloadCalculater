@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StudingWorkloadCalculator.Windows"
         xmlns:uc="clr-namespace:StudingWorkloadCalculator.UserControls" xmlns:mainvewmodels="clr-namespace:StudingWorkloadCalculator.MainVewModels" d:DataContext="{d:DesignInstance Type=mainvewmodels:MainViewModel}"
         mc:Ignorable="d"
-        Title="Расчет нагрузки" Height="300" Width="400">
+        Title="Расчет нагрузки" MinHeight="500" MinWidth="700">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
@@ -19,13 +19,15 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="120"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.ColumnSpan="2" Text="{Binding TeachersViewModel.SelectedItem}"/>
-        <DataGrid Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding TeachersWorkload.Subjects}"/>
-        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="Ставка" Margin="5,0,0,0"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding TeachersWorkload.Rate}" Margin="5,0,0,0"/>
-        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Text="Всего" Margin="5,0,0,0"/>
-        <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding TeachersWorkload.Workload.Total}" Margin="5,0,0,0"/>
+        <DataGrid Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding TeachersWorkload.Subjects}"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Text="Ставка" Margin="5,0,0,0"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" Text="{Binding TeachersWorkload.Rate}" Margin="5,0,0,0"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Text="Всего" Margin="5,0,0,0"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" Text="{Binding TeachersWorkload.Workload.Total}" Margin="5,0,0,0"/>
         <Button Grid.Column="2" Grid.Row="4" Content="Рассчёт нагрузки" Click="Button_Click" Margin="5,0,5,5"/>
+        <Button Grid.Column="3" Grid.Row="4" Content="Сохранить в эксель" Click="Button_Click_1" Margin="5,0,5,5"/>
     </Grid>
 </Window>

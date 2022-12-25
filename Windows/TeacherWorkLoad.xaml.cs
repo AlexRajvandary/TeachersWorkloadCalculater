@@ -4,6 +4,8 @@ using StudingWorkloadCalculator.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -34,6 +36,20 @@ namespace StudingWorkloadCalculator.Windows
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             (DataContext as MainViewModel).CalculateWorkLoad();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if(DataContext is MainViewModel mainViewModel)
+            {
+                if(mainViewModel.TeachersWorkload is null)
+                {
+                    Button_Click(null, null);
+                }
+
+                var path = ExcelWriter.ExcelWriter.GenerateReport(mainViewModel.TeachersWorkload);
+                Process.Start(System.IO.Path.GetFullPath(path));
+            }
         }
     }
 }
