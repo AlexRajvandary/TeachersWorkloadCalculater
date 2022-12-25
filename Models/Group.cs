@@ -4,57 +4,35 @@ using System.Collections.ObjectModel;
 
 namespace StudingWorkloadCalculator.Models
 {
-    public class Group : PropertyChangedNotifier, IRepository<Group>
+    public class Group : PropertyChangedNotifier
     {
         private int amountOfStudents;
-        private DateTime end;
+        private string end;
         private int grade;
         private string id;
         private bool isBudget;
-        private Specialization specialization;
-        private DateTime start;
-        private ObservableCollection<Student> students;
-        private Teacher teacher;
+        private string start;
+        private string teacher;
 
-        private Group(int amountOfStudents,
-                     DateTime end,
+        public Group(int id,
+                     int code,
+                     string specialization,
+                     int amountOfStudents,
                      int grade,
-                     string id,
-                     bool isBudget,
-                     Specialization specialization,
-                     DateTime start,
-                     IEnumerable<Student> students,
-                     Teacher teacher)
+                     string teacherFullName,
+                     string start,
+                     string end,
+                     bool isBudget
+                     )
         {
-            if (amountOfStudents < 0)
-            {
-                throw new ArgumentException("The amount of students cannot be less than zero.", nameof(amountOfStudents));
-            }
-
-            if (start > end)
-            {
-                throw new ArgumentException("The start date cannot be later than the end date.", nameof(start));
-            }
-
-            if (grade < 1)
-            {
-                throw new ArgumentException("The grade cannot be less than 1.", nameof(grade));
-            }
-
-            ArgumentNullException.ThrowIfNull(specialization);
-            ArgumentNullException.ThrowIfNull(teacher);
-
             AmountOfStudents = amountOfStudents;
             End = end;
             Grade = grade;
             Id = id;
             IsBudged = isBudget;
-            Specialization = specialization;
+            SpecializationName = specialization;
             Start = start;
-            Students = Students == null
-                ? new ObservableCollection<Student>()
-                : new ObservableCollection<Student>(students);
-            Teacher = teacher;
+            Teacher = teacherFullName;
         }
 
         public int AmountOfStudents
@@ -70,7 +48,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-        public DateTime End
+        public string End
         {
             get => end;
             set
@@ -126,20 +104,7 @@ namespace StudingWorkloadCalculator.Models
 
         public string SpecializationName { get; set; }
 
-        public Specialization Specialization
-        {
-            get => specialization;
-            set
-            {
-                if (specialization != value)
-                {
-                    specialization = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public DateTime Start
+        public string Start
         {
             get => start;
             set
@@ -152,20 +117,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-        public ObservableCollection<Student> Students
-        {
-            get => students;
-            set
-            {
-                if (students != value)
-                {
-                    students = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public Teacher Teacher
+        public string Teacher
         {
             get => teacher;
             set
@@ -175,36 +127,6 @@ namespace StudingWorkloadCalculator.Models
                     teacher = value;
                     OnPropertyChanged();
                 }
-            }
-        }
-
-        public static Group GetGroup(int amountOfStudents,
-                                     DateTime end,
-                                     int grade,
-                                     string id,
-                                     bool isBudget,
-                                     Specialization specialization,
-                                     DateTime start,
-                                     IEnumerable<Student> students,
-                                     Teacher teacher)
-        {
-            if(IRepository<Group>.Instances.TryGetValue(id, out var group))
-            {
-                group.AmountOfStudents = amountOfStudents;
-                group.End = end;
-                group.Grade = grade;
-                group.IsBudged = isBudget;
-                group.Specialization = specialization;
-                group.Start = start;
-                group.Students = new ObservableCollection<Student>(students);
-                group.Teacher = teacher;
-                return group;
-            }
-            else
-            {
-                var newGroup = new Group(amountOfStudents, end, grade, id, isBudget, specialization, start, students, teacher);
-                IRepository<Group>.Instances.Add(id, newGroup);
-                return newGroup;
             }
         }
     }

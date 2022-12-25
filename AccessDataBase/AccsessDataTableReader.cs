@@ -44,7 +44,7 @@ namespace StudingWorkloadCalculator.AccessDataBase
                 var kr = (int)row[5];
                 var firstSem = (int)row[6];
                 var secondSem = (int)row[7];
-                
+
                 subjectsWithWorkload.Add(new SubjectWithWorkload(code, group, name, theory, ipz, kr, firstSem, secondSem));
             }
 
@@ -58,7 +58,7 @@ namespace StudingWorkloadCalculator.AccessDataBase
 
             foreach (var row in data)
             {
-                var id = (int)row[0]; 
+                var id = (int)row[0];
                 var code = row[1] as string ?? string.Empty;
                 var name = row[2] as string ?? string.Empty;
                 var studyPeriod = row[3] as string ?? string.Empty;
@@ -69,13 +69,30 @@ namespace StudingWorkloadCalculator.AccessDataBase
             }
 
             return specializations;
-
         }
 
-        //public static IEnumerable<Group> GetGroups()
-        //{
-        //    var data = GetData("SELECT * FROM Группы;");
-        //}
+        public static IEnumerable<Group> GetGroups()
+        {
+            var data = GetData("SELECT * FROM Группы;");
+            var groups = new List<Group>();
+
+            foreach (var row in data)
+            {
+                var id = (int)row[0];
+                var code = (int)row[1];
+                var specialization = (string)row[2];
+                var amountOfStudents = (int)row[3];
+                var grade = (int)row[4];
+                var teacher = (string)row[5];
+                var start = (string)row[6];
+                var end = (string)row[7];
+                var isBudged = (bool)row[8];
+
+                groups.Add(new Group(id, code, specialization, amountOfStudents, grade, teacher, start, end, isBudged));
+            }
+
+            return groups;
+        }
 
         private static EnumerableRowCollection<DataRow> GetData(string sqlQuary)
         {
