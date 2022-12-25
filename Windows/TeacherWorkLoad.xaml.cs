@@ -48,7 +48,6 @@ namespace StudingWorkloadCalculator.Windows
                 }
 
                 var path = ExcelWriter.ExcelWriter.GenerateReport(mainViewModel.TeachersWorkload);
-                Process.Start(System.IO.Path.GetFullPath(path));
             }
         }
     }
