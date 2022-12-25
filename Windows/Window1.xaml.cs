@@ -3,7 +3,8 @@ using StudingWorkloadCalculator.MainVewModels;
 using StudingWorkloadCalculator.Models;
 using StudingWorkloadCalculator.UserControls;
 using System.ComponentModel;
-using System.IO;
+using System.Data;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,23 +22,16 @@ namespace StudingWorkloadCalculator.Windows
         private bool displayGroups;
         private bool displaySpecializations;
 
-        public Window1()
+        public Window1(MainViewModel mainViewModel)
         {
             InitializeComponent();
-            MainViewModel = new MainViewModel();
+            MainViewModel = mainViewModel;
             MainViewModel.StudentsViewModel.PropertyChanged += StudentsViewModel_PropertyChanged;
             MainViewModel.SpecializationsViewModel.PropertyChanged += SpecializationViewModel_PropertyChanged;
             MainViewModel.SubjectViewModel.PropertyChanged += SubjectViewModel_PropertyChanged;
             MainViewModel.TeachersViewModel.PropertyChanged += TeachersViewModel_PropertyChanged;
-
-            //if (File.Exists("BD.mdb"))
-            //{
-            //    AccsessDataTableReader.ReadDb(MainViewModel, Path.GetFullPath("BD.mbd"));
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Set the db path");
-            //}
+            MainViewModel.GroupsViewModel.PropertyChanged += GroupsViewModel_PropertyChanged;
+            LoadData();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -64,7 +58,7 @@ namespace StudingWorkloadCalculator.Windows
             }
         }
 
-        public bool DisplayGroups
+        public bool DisplaySubjects
         {
             get => displayGroups;
             set
@@ -76,10 +70,20 @@ namespace StudingWorkloadCalculator.Windows
 
         public bool DisplaySpecializations
         {
-            get => displaySpecializations; 
+            get => displaySpecializations;
             set
             {
                 displaySpecializations = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool DisplayGroups
+        {
+            get => displayGroups;
+            set
+            {
+                displayGroups = value;
                 OnPropertyChanged();
             }
         }
@@ -128,6 +132,17 @@ namespace StudingWorkloadCalculator.Windows
             }
         }
 
+        private void GroupsViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (sender is DataPresenterViewModel<Teacher> dataPresenterViewmodel)
+            {
+                if (e.PropertyName == nameof(dataPresenterViewmodel.Data))
+                {
+                    ShowGroups();
+                }
+            }
+        }
+
         private void ShowStudents()
         {
             AddTabItem("Студенты", out var tabItem);
@@ -145,7 +160,7 @@ namespace StudingWorkloadCalculator.Windows
             AddTabItem("Преподаватели", out var tabItem);
             var editingDatatable = new EditingDataTable();
             editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.Data)) });
-            editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.SelectedItem)) });
+            editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
             editingDatatable.SetBinding(EditingDataTable.AddItemCommandProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.AddItemCommand)) });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.DeleteItemCommand)) });
             tabItem.Content = editingDatatable;
@@ -157,9 +172,9 @@ namespace StudingWorkloadCalculator.Windows
             AddTabItem("Специализации", out var tabItem);
             var editingDatatable = new EditingDataTable();
             editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.Data)) });
-            editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.SelectedItem)) });
+            editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
             editingDatatable.SetBinding(EditingDataTable.AddItemCommandProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.AddItemCommand)) });
-            editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() {Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.DeleteItemCommand)) });
+            editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.DeleteItemCommand)) });
             tabItem.Content = editingDatatable;
             DisplaySpecializations = true;
         }
@@ -169,9 +184,21 @@ namespace StudingWorkloadCalculator.Windows
             AddTabItem("Предметы", out var tabItem);
             var editingDatatable = new EditingDataTable();
             editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.Data)) });
-            editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() {Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.SelectedItem)) });
+            editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
             editingDatatable.SetBinding(EditingDataTable.AddItemCommandProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.AddItemCommand)) });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.DeleteItemCommand)) });
+            tabItem.Content = editingDatatable;
+            DisplaySubjects = true;
+        }
+
+        private void ShowGroups()
+        {
+            AddTabItem("Группы", out var tabItem);
+            var editingDatatable = new EditingDataTable();
+            editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.GroupsViewModel, Path = new PropertyPath(nameof(MainViewModel.GroupsViewModel.Data)) });
+            editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.GroupsViewModel, Path = new PropertyPath(nameof(MainViewModel.GroupsViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
+            editingDatatable.SetBinding(EditingDataTable.AddItemCommandProperty, new Binding() { Source = MainViewModel.GroupsViewModel, Path = new PropertyPath(nameof(MainViewModel.GroupsViewModel.AddItemCommand)) });
+            editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.GroupsViewModel, Path = new PropertyPath(nameof(MainViewModel.GroupsViewModel.DeleteItemCommand)) });
             tabItem.Content = editingDatatable;
             DisplayGroups = true;
         }
@@ -306,6 +333,50 @@ namespace StudingWorkloadCalculator.Windows
             {
                 ExcelWriter.ExcelWriter.WriteExcelFile("Teachers.xlsx", MainViewModel.TeachersViewModel.Data);
             }
+
+            if (!string.IsNullOrEmpty(MainViewModel.GroupsViewModel.DataSourcePath))
+            {
+                ExcelWriter.ExcelWriter.WriteExcelFile(MainViewModel.GroupsViewModel.DataSourcePath, MainViewModel.GroupsViewModel.Data);
+            }
+            else
+            {
+                ExcelWriter.ExcelWriter.WriteExcelFile("Groups.xlsx", MainViewModel.GroupsViewModel.Data);
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CalculateWorkLoad(object sender, RoutedEventArgs e)
+        {
+            if (MainViewModel.TeachersViewModel.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите учителя для рассчёта нагрузки");
+            }
+
+            if (MainViewModel.SubjectViewModel.Data == null)
+            {
+                MessageBox.Show("Загрузите предметы для рассчёта нагрузки");
+            }
+
+
+
+            var subjects = new System.Collections.ObjectModel.ObservableCollection<SubjectWithWorkload>(MainViewModel.SubjectViewModel.Data.Where(subject => MainViewModel.TeachersViewModel.SelectedItem.SubjectsToString.Contains(subject.Name)));
+            var workLoad = MainViewModel.CalculateWorkLoad(subjects);
+            if (workLoad == null)
+            {
+                return;
+            }
+            var window = new TeacherWorkLoad(workLoad);
+            window.Show();
+        }
+
+        private void LoadData()
+        {
+            MainViewModel.TeachersViewModel.AddData(AccsessDataTableReader.GetTeachers());
+            MainViewModel.SubjectViewModel.AddData(AccsessDataTableReader.GetSubjectsWithWorkLoads());
         }
     }
 }

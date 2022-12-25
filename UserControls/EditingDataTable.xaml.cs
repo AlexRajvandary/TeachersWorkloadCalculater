@@ -52,6 +52,12 @@ namespace StudingWorkloadCalculator.UserControls
             set { SetValue(DeleteItemCommandProperty, value); }
         }
 
+        public IEnumerable ItemsSource
+        {
+            get { return (IEnumerable)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
+        }
+
         private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             var propertyDescriptor = (PropertyDescriptor)e.PropertyDescriptor;

@@ -1,71 +1,76 @@
-﻿using StudingWorkloadCalculator.MainVewModels;
-using StudingWorkloadCalculator.Models;
-using System;
+﻿using StudingWorkloadCalculator.Models;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Odbc;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
 
 namespace StudingWorkloadCalculator.AccessDataBase
 {
     public class AccsessDataTableReader
     {
-        public static void ReadDb(MainViewModel mainViewModel, string path)
+        public static IEnumerable<Teacher> GetTeachers()
         {
-            var connectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};" +  $"Dbq={path};" + " Uid = Admin; Pwd =; ";
-
+            var data = GetData("SELECT * FROM Преподаватели;");
             var teachers = new List<Teacher>();
-            var students = new List<Student>();
-            var groups = new List<Group>();
-            var specializatons = new List<Specialization>();
-            var subjects = new List<Subject>();
-
-            var people = new List<Person>();
-            OdbcCommand getTeachers = new OdbcCommand("SELECT * FROM Преподаватели");
-            OdbcCommand getStudents = new OdbcCommand("SELECT * FROM Студенты");
-            OdbcCommand getGroups = new OdbcCommand("SELECT * FROM Группы");
-            OdbcCommand getSpecializations = new OdbcCommand("SELECT * FROM Специальность");
-            OdbcCommand getSubjects = new OdbcCommand("SELECT * FROM Преподаватели");
-
-            using (OdbcConnection connection = new OdbcConnection(connectionString))
+            foreach (var row in data)
             {
-                getTeachers.Connection = connection;
-                connection.Open();
-                using (var reader = getTeachers.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var name = reader.GetString(2);
-                        var surname = reader.GetString(3);
-                        var familyName = reader.GetString(4);
-                        var gender = reader.GetString(6).GetGender();
-                        var job = reader.GetString(5);
-                        var experience = reader.GetInt32(7);
+                var id = (int)row[0];
+                var lastName = row[1] as string ?? string.Empty;
+                var name = row[2] as string ?? string.Empty;
+                var familyName = row[3] as string ?? string.Empty;
+                var jobTitle = row[4] as string ?? string.Empty;
+                var gender = row[5] as string ?? string.Empty;
+                var jobExperience = (byte)row[6];
+                var qualification = row[7] as string ?? string.Empty;
+                var subjectsString = row[8] as string ?? string.Empty;
 
-                        teachers.Add(new Teacher(name, surname, familyName, gender, experience ,job));
-                    }
-                };
-
-                getStudents.Connection = connection;
-                using(var reader = getStudents.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var name = reader.GetString(2);
-                        var surename = reader.GetString(3);
-                        var familyName = reader.GetString(4);
-                        var gender = reader.GetString(5);
-                        var specializationCode = reader.GetString(6);
-                        var groupName = reader.GetString(7);
-
-                        students.Add(new Student(name, surename, familyName, gender.GetGender(), specializationCode, groupName));
-                    }
-                }
+                teachers.Add(new Teacher(id, name, lastName, familyName, gender.GetGender(), jobExperience, jobTitle, qualification, subjectsString));
             }
+
+            return teachers;
+        }
+
+        public static IEnumerable<SubjectWithWorkload> GetSubjectsWithWorkLoads()
+        {
+            var data = GetData("SELECT * FROM УчПлан;");
+            var subjectsWithWorkload = new List<SubjectWithWorkload>();
+            foreach (var row in data)
+            {
+                var code = (int)row[0];
+                var group = row[1] as string ?? string.Empty;
+                var name = row[2] as string ?? string.Empty;
+                var theory = (int)row[3];
+                var ipz = (int)row[4];
+                var kr = (int)row[5];
+                var firstSem = (int)row[6];
+                var secondSem = (int)row[7];
+                
+                subjectsWithWorkload.Add(new SubjectWithWorkload(code, group, name, theory, ipz, kr, firstSem, secondSem));
+            }
+
+            return subjectsWithWorkload;
+        }
+
+        //public static IEnumerable<Specialization> GetSpecializations()
+        //{
+        //    var data = GetData("SELECT * FROM Специальность;");
+        //}
+
+        //public static IEnumerable<Group> GetGroups()
+        //{
+        //    var data = GetData("SELECT * FROM Группы;");
+        //}
+
+        private static EnumerableRowCollection<DataRow> GetData(string sqlQuary)
+        {
+            DbConnection.myCommand = new System.Data.OleDb.OleDbCommand(sqlQuary, DbConnection.cn);
+            var reader = DbConnection.myCommand.ExecuteReader();
+            var dt = new DataTable();
+            dt.Load(reader);
+            var data = dt.AsEnumerable();
+            reader.Close();
+
+            return data;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using StudingWorkloadCalculator.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -19,13 +20,17 @@ namespace StudingWorkloadCalculator.ExcelWriter
             {
                 return (IEnumerable<T>?)ReadExcelStudents(path, startRow, startColumn);
             }
-            else if (typeof(T) == typeof(Subject))
+            else if (typeof(T) == typeof(SubjectWithWorkload))
             {
                 return (IEnumerable<T>?)ReadExcelSubjects(path, startRow, startColumn);
             }
             else if (typeof(T) == typeof(Specialization))
             {
                 return (IEnumerable<T>?)ReadExcelSpecialization(path, startRow, startColumn);
+            }
+            else if (typeof(T) == typeof(Group))
+            {
+                return (IEnumerable<T>?)ReadExcelGroups(path, startRow, startColumn);
             }
             else
             {
@@ -45,14 +50,17 @@ namespace StudingWorkloadCalculator.ExcelWriter
             {
                 try
                 {
-                    var name = worksheet.Cells[row, startColumn].GetValue<string>();
+                    var id = worksheet.Cells[row, startColumn].GetValue<int>();
+                    var name = worksheet.Cells[row, startColumn + 2].GetValue<string>();
                     var surename = worksheet.Cells[row, startColumn + 1].GetValue<string>();
-                    var familyName = worksheet.Cells[row, startColumn + 2].GetValue<string>();
-                    var rawGender = worksheet.Cells[row, startColumn + 3].GetValue<string>();
-                    var jobExpiriece = worksheet.Cells[row, startColumn + 4].GetValue<int>();
-                    var jobTytle = worksheet.Cells[row, startColumn + 5].GetValue<string>();
+                    var familyName = worksheet.Cells[row, startColumn + 3].GetValue<string>();
+                    var rawGender = worksheet.Cells[row, startColumn + 5].GetValue<string>();
+                    var jobExpiriece = worksheet.Cells[row, startColumn + 6].GetValue<int>();
+                    var jobTytle = worksheet.Cells[row, startColumn + 4].GetValue<string>();
+                    var qualification = worksheet.Cells[row, startColumn + 6].GetValue<string>();
+                    var subject = worksheet.Cells[row, startColumn + 7].GetValue<string>();
 
-                    var teacher = new Teacher(name, surename, familyName, rawGender.GetGender(), jobExpiriece, jobTytle);
+                    var teacher = new Teacher(id, name, surename, familyName, rawGender.GetGender(), jobExpiriece, jobTytle, qualification, subject);
                     teachers.Add(teacher);
                 }
                 catch
@@ -95,9 +103,9 @@ namespace StudingWorkloadCalculator.ExcelWriter
             return students;
         }
 
-        private static IEnumerable<Subject>? ReadExcelSubjects(string path, int startRow, int startColumn)
+        private static IEnumerable<SubjectWithWorkload>? ReadExcelSubjects(string path, int startRow, int startColumn)
         {
-            var subjects = new List<Subject>();
+            var subjects = new List<SubjectWithWorkload>();
             var existingFile = new FileInfo(path);
             using var package = new ExcelPackage(existingFile);
             var worksheet = package.Workbook.Worksheets[0];
@@ -108,9 +116,15 @@ namespace StudingWorkloadCalculator.ExcelWriter
                 try
                 {
                     var code = worksheet.Cells[row, startColumn].GetValue<int>();
-                    var name = worksheet.Cells[row, startColumn + 1].GetValue<string>();
+                    var group = worksheet.Cells[row, startColumn + 1].GetValue<string>();
+                    var name = worksheet.Cells[row, startColumn + 2].GetValue<string>();
+                    var theory = worksheet.Cells[row, startColumn + 3].GetValue<int>();
+                    var ipz = worksheet.Cells[row, startColumn + 4].GetValue<int>();
+                    var kr = worksheet.Cells[row, startColumn + 5].GetValue<int>();
+                    var firstSemestr = worksheet.Cells[row, startColumn + 6].GetValue<int>();
+                    var secondSemestr = worksheet.Cells[row, startColumn + 7].GetValue<int>();
 
-                    var subject = new Subject(code, name);
+                    var subject = new SubjectWithWorkload(code, group, name, theory, ipz, kr, firstSemestr, secondSemestr);
                     subjects.Add(subject);
                 }
                 catch
@@ -141,7 +155,7 @@ namespace StudingWorkloadCalculator.ExcelWriter
                     var studyPeriod = worksheet.Cells[row, startColumn + 3].GetValue<int>();
                     var qualification = worksheet.Cells[row, startColumn + 4].GetValue<string>();
 
-                    var specialization = Specialization.GetSpecialization(code, intramural,name, studyPeriod, qualification);
+                    var specialization = Specialization.GetSpecialization(code, intramural, name, studyPeriod, qualification);
                     specializations.Add(specialization);
                 }
                 catch
@@ -151,6 +165,40 @@ namespace StudingWorkloadCalculator.ExcelWriter
             }
 
             return specializations;
+        }
+
+        private static IEnumerable<Group>? ReadExcelGroups(string path, int startRow, int startColumn)
+        {
+            var groups = new List<Group>();
+            var existingFile = new FileInfo(path);
+            using var package = new ExcelPackage(existingFile);
+            var worksheet = package.Workbook.Worksheets[0];
+            int colCount = worksheet.Dimension.End.Column;
+            int rowCount = worksheet.Dimension.End.Row;
+            for (int row = startRow; row <= rowCount; row++)
+            {
+                try
+                {
+
+                    var amountOfStudents = worksheet.Cells[row, startColumn + 3].GetValue<int>();
+                    var start = worksheet.Cells[row, startColumn + 6].GetValue<DateTime>();
+                    var grade = worksheet.Cells[row, startColumn + 4].GetCellValue<int>();
+                    var id = worksheet.Cells[row, startColumn + 1].GetValue<string>();
+                    var budget = worksheet.Cells[row, startColumn + 8].GetValue<bool>();
+                    var specialization = worksheet.Cells[row, startColumn + 2].GetValue<string>();
+                    var end = worksheet.Cells[row, startColumn + 7].GetValue<DateTime>();
+                    var teacherKey = worksheet.Cells[row, startColumn + 5].GetValue<string>();
+
+                    var group = Group.GetGroup(amountOfStudents, start, grade, id, budget, null, start, null, null);
+                    groups.Add(group);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+
+            return groups;
         }
     }
 }

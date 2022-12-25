@@ -22,6 +22,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
@@ -54,6 +55,12 @@
                    VerticalAlignment="Center"
                    FontSize="14"
                    />
+        <TextBlock Text="Группы"
+                   Grid.Row="5"
+                   Margin="10"
+                   VerticalAlignment="Center"
+                   FontSize="14"
+                   />
         <Button Grid.Column="1" Grid.Row="1" Background="Transparent" Click="Button_Click">
             <Button.Content>
                 <af:FontAwesome Icon="Book" FontSize="20"/>
@@ -70,6 +77,11 @@
             </Button.Content>
         </Button>
         <Button Grid.Column="1" Grid.Row="4" Background="Transparent" Click="Button_Click_3">
+            <Button.Content>
+                <af:FontAwesome Icon="Book" FontSize="20"/>
+            </Button.Content>
+        </Button>
+        <Button Grid.Column="1" Grid.Row="5" Background="Transparent" Click="Button_Click_4">
             <Button.Content>
                 <af:FontAwesome Icon="Book" FontSize="20"/>
             </Button.Content>

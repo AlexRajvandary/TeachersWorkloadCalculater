@@ -1,14 +1,13 @@
 ﻿namespace StudingWorkloadCalculator.Models
 {
-    public class TheachersWorkload : PropertyChangedNotifier
+    public class TeachersWorkload : PropertyChangedNotifier
     {
-        public TheachersWorkload(Teacher teacher, Workload workload, Subject subject) : this(teacher, workload, subject, 1) { }
+        public TeachersWorkload(Teacher teacher, Workload workload) : this(teacher, workload, 1) { }
 
-        public TheachersWorkload(Teacher teacher, Workload workload, Subject subject, double rate)
+        public TeachersWorkload(Teacher teacher, Workload workload, double rate)
         {
             Teacher = teacher;
             Workload = workload;
-            Subject = subject;
             Workload.PropertyChanged += UpdatePayment;
             Rate = rate;
         }
@@ -17,11 +16,9 @@
 
         public Workload Workload { get; set; }
 
-        public Subject Subject { get; set; }
-
         public double Payment { get; set; }
 
-        public bool isBudged { get; set; }
+        public bool IsBudged { get; set; }
 
         public double Rate { get; set; }
 

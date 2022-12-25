@@ -1,4 +1,7 @@
-﻿using System;
+﻿using StudingWorkloadCalculator.UserControls;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace StudingWorkloadCalculator.Models
 {
@@ -6,31 +9,33 @@ namespace StudingWorkloadCalculator.Models
     {
         private int jobExperience;
         private string jobTitle;
+        private string[] subject;
+        private ObservableCollection<SubjectWithWorkload> subjects;
+        private string subjectsToString;
+        private string qualification;
 
-        public Teacher(string name, 
-                       string lastName, 
+        public Teacher(int id,
+                       string name,
+                       string lastName,
                        string familyName,
                        Gender gender,
                        int jobExperiance,
-                       string jobTitle) : base(familyName, name, lastName, gender)
+                       string jobTitle,
+                       string qualification,
+                       string subjects) : base(name, lastName, familyName, gender)
         {
-            if(jobExperiance < 0)
-            {
-                throw new ArgumentException("The job experience cannot be less than 0.", nameof(jobExperiance));
-            }
-
-            if (string.IsNullOrWhiteSpace(jobTitle))
-            {
-                throw new ArgumentException("The job title cannot be null, an empty string or a whitespace character.", nameof(jobTitle));
-            }
-
+            Id = id;
             JobExperience = jobExperiance;
             JobTitle = jobTitle;
+            Qualification = qualification;
+            Subject = subjects.Split(new char[] { ',', ';' });
+            SubjectsToString = subjects;
         }
 
+        [DataGridColumnGenerator("Стаж")]
         public int JobExperience
         {
-            get => jobExperience; 
+            get => jobExperience;
             set
             {
                 if (jobExperience != value && value >= 0)
@@ -41,14 +46,68 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        public int Id { get; }
+
+        [DataGridColumnGenerator("Специальность")]
         public string JobTitle
         {
             get => jobTitle;
             set
             {
-                if (jobTitle != value && !string.IsNullOrWhiteSpace(jobTitle))
+                if (jobTitle != value)
                 {
                     jobTitle = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        [DataGridColumnGenerator("Квалификация")]
+        public string Qualification
+        {
+            get => qualification;
+            set
+            {
+                qualification = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string[] Subject
+        {
+            get => subject;
+            set
+            {
+                if (subject != null)
+                {
+                    subject = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        [DataGridColumnGenerator("Предметы")]
+        public string SubjectsToString
+        {
+            get => subjectsToString;
+            set
+            {
+                if (subjectsToString != value)
+                {
+                    subjectsToString = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public ObservableCollection<SubjectWithWorkload> Subjects
+        {
+            get => subjects;
+            set
+            {
+                if (subjects != null)
+                {
+                    subjects = value;
                     OnPropertyChanged();
                 }
             }

@@ -18,10 +18,10 @@
                 <MenuItem Header="Load Excel file" Click="LoadDataFromExcelButtonClicked"/>
             </MenuItem>
             <MenuItem Header="View">
-                <CheckBox Content="Teachers" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked"/>
+                <CheckBox Content="Teachers" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayTeachers}"/>
                 <CheckBox Content="Students" Checked="StudentsCheckBoxChecked" Unchecked="StudentsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayStudents}"/>
-                <CheckBox Content="Subject" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked"/>
-                <CheckBox Content="Specialization" Checked="SpecializationCheckBoxChecked" Unchecked="SpecialiationsCheckBoxUnchecked"/>
+                <CheckBox Content="Subject" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySubjects}"/>
+                <CheckBox Content="Specialization" Checked="SpecializationCheckBoxChecked" Unchecked="SpecialiationsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySpecializations}"/>
             </MenuItem>
             <MenuItem Header="Settings"/>
             <MenuItem Header="Info"/>
@@ -38,19 +38,26 @@
                   >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="130"/>
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="60"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="Save" 
+                <Button Content="Рассчитать нагрузку" 
                         Margin="5"
-                        Width="50"
-                        DockPanel.Dock="Right"
+                        Width="120"
                         Grid.Column="1"
-                        Background="WhiteSmoke"/>
+                        Background="WhiteSmoke"
+                        Click="CalculateWorkLoad"/>
                 <Button Content="Export"
                         Margin="5"
                         Width="50"
                         Grid.Column="2"
+                        Background="WhiteSmoke"
+                        Click="Button_Click"/>
+                <Button Content="Save" 
+                        Margin="5"
+                        Width="50"
+                        Grid.Column="3"
                         Background="WhiteSmoke"
                         Click="SaveToExcel"/>
             </Grid>

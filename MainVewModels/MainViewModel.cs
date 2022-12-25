@@ -1,8 +1,8 @@
-﻿using StudingWorkloadCalculator.ExcelWriter;
+﻿using StudingWorkloadCalculator.AccessDataBase;
 using StudingWorkloadCalculator.Models;
-using System.Collections.ObjectModel;
-using System.Printing;
-using System.Security.Policy;
+using System.Collections.Generic;
+using System.Data.OleDb;
+using System.Data;
 
 namespace StudingWorkloadCalculator.MainVewModels
 {
@@ -10,16 +10,20 @@ namespace StudingWorkloadCalculator.MainVewModels
     {
         private PermissionRights permissionRights;
         private DataPresenterViewModel<Specialization> specializationsViewModel;
-        private DataPresenterViewModel<Subject> subjectViewModel;
+        private DataPresenterViewModel<SubjectWithWorkload> subjectViewModel;
         private DataPresenterViewModel<Student> studentViewModel;
         private DataPresenterViewModel<Teacher> teacherViewModel;
+        private DataPresenterViewModel<Group> groupsViewModel;
+        private double rate;
+        private TeachersWorkload teachersWorkload;
 
         public MainViewModel()
         {
             specializationsViewModel = new DataPresenterViewModel<Specialization>();
-            subjectViewModel = new DataPresenterViewModel<Subject>();
+            subjectViewModel = new DataPresenterViewModel<SubjectWithWorkload>();
             studentViewModel = new DataPresenterViewModel<Student>();
             teacherViewModel = new DataPresenterViewModel<Teacher>();
+            groupsViewModel = new DataPresenterViewModel<Group>();
         }
 
         public PermissionRights PermissionRights
@@ -42,7 +46,7 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
-        public DataPresenterViewModel<Subject> SubjectViewModel
+        public DataPresenterViewModel<SubjectWithWorkload> SubjectViewModel
         {
             get => subjectViewModel;
             set
@@ -52,7 +56,7 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
-        public  DataPresenterViewModel<Student> StudentsViewModel
+        public DataPresenterViewModel<Student> StudentsViewModel
         {
             get => studentViewModel;
             set
@@ -64,7 +68,7 @@ namespace StudingWorkloadCalculator.MainVewModels
 
         public DataPresenterViewModel<Teacher> TeachersViewModel
         {
-            get => teacherViewModel; 
+            get => teacherViewModel;
             set
             {
                 teacherViewModel = value;
@@ -72,9 +76,68 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
-        public async void Auth()
+        public DataPresenterViewModel<Group> GroupsViewModel
         {
+            get => groupsViewModel;
+            set
+            {
+                groupsViewModel = value;
+                OnPropertyChanged();
+            }
+        }
 
+        public double Rate
+        {
+            get => rate;
+            set
+            {
+                if (rate != value)
+                {
+                    rate = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public TeachersWorkload TeachersWorkload
+        {
+            get => teachersWorkload;
+            set
+            {
+                if (teachersWorkload != value)
+                {
+                    teachersWorkload = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool Auth(string login, string password)
+        {
+            DbConnection.OpenConnection();
+            string strSQL = "SELECT * FROM Пользователь WHERE Логин = '" + login +"'" +
+                   " AND Пароль = '" + password + "'";
+            DbConnection.myCommand = new OleDbCommand(strSQL, DbConnection.cn);
+            object value = DbConnection.myCommand.ExecuteScalar();
+            return value != null;
+        }
+
+        public TeachersWorkload? CalculateWorkLoad(IEnumerable<SubjectWithWorkload> subjects)
+        {
+            if (TeachersViewModel.SelectedItem != null)
+            {
+                var teachersWorkLoad = new Workload(0, 0, 0, 0, 0);
+                foreach (var subject in subjects)
+                {
+                    teachersWorkLoad += new Workload(subject.Theory, subject.Ipz, subject.Kr, subject.FirstSemester, subject.SecondSemester);
+                }
+
+                return new TeachersWorkload(TeachersViewModel.SelectedItem, teachersWorkLoad, Rate);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -81,5 +81,13 @@ namespace StudingWorkloadCalculator.Windows
             selectedFilePath = openFileDialog.FileName;
             return result ?? false;
         }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            if (ExcelChoseFileDialog(out var path))
+            {
+                MainViewModel.GroupsViewModel.DataSourcePath = path;
+            }
+        }
     }
 }

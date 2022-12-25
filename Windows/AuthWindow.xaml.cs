@@ -1,4 +1,5 @@
-﻿using StudingWorkloadCalculator.Windows;
+﻿using StudingWorkloadCalculator.MainVewModels;
+using StudingWorkloadCalculator.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,16 @@ namespace StudingWorkloadCalculator
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = new Window1();
-            mainWindow.Show();
-            this.Close();
+            var mv = new MainViewModel();
+            if (mv is not null && !string.IsNullOrWhiteSpace(LoginTextBox.Text) && !string.IsNullOrEmpty(PasswordTextBox.Password))
+            {
+                if(mv.Auth(LoginTextBox.Text, PasswordTextBox.Password))
+                {
+                    var mainWindow = new Window1(mv);
+                    mainWindow.Show();
+                    this.Close();
+                }
+            }
         }
     }
 }
