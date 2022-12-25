@@ -1,34 +1,33 @@
 ﻿using StudingWorkloadCalculator.UserControls;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace StudingWorkloadCalculator.Models
 {
-    public class Specialization : PropertyChangedNotifier, IRepository<Specialization>
+    public class Specialization : PropertyChangedNotifier
     {
         private string code;
         private bool intramural;
         private string name;
-        private int studyPeriod;
-        private ObservableCollection<SubjectWithWorkload> subjectsWithWorkloads;
+        private string studyPeriod;
         private string qualification;
 
-        private Specialization(string code,
-                              bool intramural,
+        public Specialization(int id,
+                              string code,
                               string name,
-                              int studyPeriod,
-                              IEnumerable<SubjectWithWorkload> subjectsWithWorkloads,
-                              string qualification)
+                              string studyPeriod,
+                              string qualification,
+                              bool intramural)
         {
+            Id = id;
             Code = code;
             Intramural = intramural;
             Name = name;
             StudyPeriod = studyPeriod;
-            SubjectsWithWorkloads = subjectsWithWorkloads == null
-                ? new ObservableCollection<SubjectWithWorkload>()
-                : new ObservableCollection<SubjectWithWorkload>(subjectsWithWorkloads);
-
             Qualification = qualification;
+        }
+
+        public int Id
+        {
+            get;
         }
 
         [DataGridColumnGenerator("Код предмета")]
@@ -74,7 +73,7 @@ namespace StudingWorkloadCalculator.Models
         }
 
         [DataGridColumnGenerator("Время обучения")]
-        public int StudyPeriod
+        public string StudyPeriod
         {
             get => studyPeriod;
             set
@@ -82,19 +81,6 @@ namespace StudingWorkloadCalculator.Models
                 if (studyPeriod != value)
                 {
                     studyPeriod = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public ObservableCollection<SubjectWithWorkload> SubjectsWithWorkloads
-        {
-            get => subjectsWithWorkloads;
-            set
-            {
-                if (subjectsWithWorkloads != value)
-                {
-                    subjectsWithWorkloads = value;
                     OnPropertyChanged();
                 }
             }
@@ -111,39 +97,6 @@ namespace StudingWorkloadCalculator.Models
                     qualification = value;
                     OnPropertyChanged();
                 }
-            }
-        }
-
-        public static Specialization GetSpecialization(string code,
-                                                       bool intramural,
-                                                       string name,
-                                                       int studyPeriod,
-                                                       string qualification)
-        {
-            return GetSpecialization(code, intramural, name, studyPeriod, null, qualification);
-        }
-
-        public static Specialization GetSpecialization(string code,
-                                                       bool intramural,
-                                                       string name,
-                                                       int studyPeriod,
-                                                       IEnumerable<SubjectWithWorkload> subjectsWithWorkloads,
-                                                       string qualification)
-        {
-            if (IRepository<Specialization>.Instances.TryGetValue(code, out var specialization))
-            {
-                specialization.Intramural = intramural;
-                specialization.Name = name;
-                specialization.StudyPeriod = studyPeriod;
-                specialization.SubjectsWithWorkloads = new ObservableCollection<SubjectWithWorkload>(subjectsWithWorkloads);
-                specialization.Qualification = qualification;
-                return specialization;
-            }
-            else
-            {
-                var newSpecilization = new Specialization(code, intramural, name, studyPeriod, subjectsWithWorkloads, qualification);
-                IRepository<Specialization>.Instances.Add(code, newSpecilization);
-                return newSpecilization;
             }
         }
     }

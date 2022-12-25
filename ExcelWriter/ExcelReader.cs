@@ -148,14 +148,15 @@ namespace StudingWorkloadCalculator.ExcelWriter
             {
                 try
                 {
-                    var code = worksheet.Cells[row, startColumn].GetValue<string>();
-                    var intramuralString = worksheet.Cells[row, startColumn + 1].GetValue<string>();
+                    var id = worksheet.Cells[row, startColumn].GetValue<int>();
+                    var code = worksheet.Cells[row, startColumn + 1].GetValue<string>();
+                    var intramuralString = worksheet.Cells[row, startColumn + 2].GetValue<string>();
                     var intramural = intramuralString.ToLower() == "очно";
-                    var name = worksheet.Cells[row, startColumn + 2].GetValue<string>();
-                    var studyPeriod = worksheet.Cells[row, startColumn + 3].GetValue<int>();
-                    var qualification = worksheet.Cells[row, startColumn + 4].GetValue<string>();
+                    var name = worksheet.Cells[row, startColumn + 3].GetValue<string>();
+                    var studyPeriod = worksheet.Cells[row, startColumn + 4].GetValue<string>();
+                    var qualification = worksheet.Cells[row, startColumn + 5].GetValue<string>();
 
-                    var specialization = Specialization.GetSpecialization(code, intramural, name, studyPeriod, qualification);
+                    var specialization = new Specialization(id, code, name, studyPeriod, qualification, intramural);
                     specializations.Add(specialization);
                 }
                 catch

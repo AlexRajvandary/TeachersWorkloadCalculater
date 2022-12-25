@@ -377,6 +377,7 @@ namespace StudingWorkloadCalculator.Windows
         {
             MainViewModel.TeachersViewModel.AddData(AccsessDataTableReader.GetTeachers());
             MainViewModel.SubjectViewModel.AddData(AccsessDataTableReader.GetSubjectsWithWorkLoads());
+            MainViewModel.SpecializationsViewModel.AddData(AccsessDataTableReader.GetSpecializations());
         }
     }
 }

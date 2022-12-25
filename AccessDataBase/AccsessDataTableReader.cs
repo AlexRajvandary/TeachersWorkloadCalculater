@@ -51,10 +51,26 @@ namespace StudingWorkloadCalculator.AccessDataBase
             return subjectsWithWorkload;
         }
 
-        //public static IEnumerable<Specialization> GetSpecializations()
-        //{
-        //    var data = GetData("SELECT * FROM Специальность;");
-        //}
+        public static IEnumerable<Specialization> GetSpecializations()
+        {
+            var data = GetData("SELECT * FROM Специальность;");
+            var specializations = new List<Specialization>();
+
+            foreach (var row in data)
+            {
+                var id = (int)row[0]; 
+                var code = row[1] as string ?? string.Empty;
+                var name = row[2] as string ?? string.Empty;
+                var studyPeriod = row[3] as string ?? string.Empty;
+                var qualification = (string)row[4];
+                var intramural = (bool)row[5];
+
+                specializations.Add(new Specialization(id, code, name, studyPeriod, qualification, intramural));
+            }
+
+            return specializations;
+
+        }
 
         //public static IEnumerable<Group> GetGroups()
         //{
