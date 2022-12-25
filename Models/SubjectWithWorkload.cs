@@ -32,7 +32,7 @@ namespace StudingWorkloadCalculator.Models
             get => group;
             set
             {
-                if(group != null)
+                if(group != value)
                 {
                     group = value;
                     OnPropertyChanged();
