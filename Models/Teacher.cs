@@ -1,7 +1,5 @@
 ﻿using StudingWorkloadCalculator.UserControls;
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace StudingWorkloadCalculator.Models
 {
@@ -95,19 +93,6 @@ namespace StudingWorkloadCalculator.Models
                 if (subjectsToString != value)
                 {
                     subjectsToString = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public ObservableCollection<SubjectWithWorkload> Subjects
-        {
-            get => subjects;
-            set
-            {
-                if (subjects != null)
-                {
-                    subjects = value;
                     OnPropertyChanged();
                 }
             }

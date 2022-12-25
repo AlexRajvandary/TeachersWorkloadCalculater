@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using StudingWorkloadCalculator.UserControls;
+using System;
 
 namespace StudingWorkloadCalculator.Models
 {
     public class Group : PropertyChangedNotifier
     {
         private int amountOfStudents;
-        private string end;
+        private DateTime end;
         private int grade;
-        private string id;
+        private int id;
         private bool isBudget;
-        private string start;
+        private DateTime start;
         private string teacher;
 
         public Group(int id,
-                     int code,
+                     string code,
                      string specialization,
                      int amountOfStudents,
                      int grade,
                      string teacherFullName,
-                     string start,
-                     string end,
+                     DateTime start,
+                     DateTime end,
                      bool isBudget
                      )
         {
@@ -33,8 +32,10 @@ namespace StudingWorkloadCalculator.Models
             SpecializationName = specialization;
             Start = start;
             Teacher = teacherFullName;
+            Code = code;
         }
 
+        [DataGridColumnGenerator("Количество студентов")]
         public int AmountOfStudents
         {
             get => amountOfStudents;
@@ -48,7 +49,8 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-        public string End
+        [DataGridColumnGenerator("Конец обучения")]
+        public DateTime End
         {
             get => end;
             set
@@ -61,6 +63,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        [DataGridColumnGenerator("Курс")]
         public int Grade
         {
             get => grade;
@@ -74,7 +77,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-        public string Id
+        public int Id
         {
             get => id;
             set
@@ -87,6 +90,10 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        [DataGridColumnGenerator("Код специализации")]
+        public string Code { get; }
+
+        [DataGridColumnGenerator("Бюджет")]
         public bool IsBudged
         {
             get => isBudget;
@@ -100,11 +107,11 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-        public string Name { get; set; }
+        [DataGridColumnGenerator("Специализация")]
+        public string SpecializationName { get;}
 
-        public string SpecializationName { get; set; }
-
-        public string Start
+        [DataGridColumnGenerator("Начало обучения")]
+        public DateTime Start
         {
             get => start;
             set
@@ -117,6 +124,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
+        [DataGridColumnGenerator("Классный руководитель")]
         public string Teacher
         {
             get => teacher;

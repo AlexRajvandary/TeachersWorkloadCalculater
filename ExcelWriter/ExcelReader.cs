@@ -180,17 +180,17 @@ namespace StudingWorkloadCalculator.ExcelWriter
             {
                 try
                 {
-
-                    var amountOfStudents = worksheet.Cells[row, startColumn + 3].GetValue<int>();
-                    var start = worksheet.Cells[row, startColumn + 6].GetValue<DateTime>();
-                    var grade = worksheet.Cells[row, startColumn + 4].GetCellValue<int>();
-                    var id = worksheet.Cells[row, startColumn + 1].GetValue<string>();
-                    var budget = worksheet.Cells[row, startColumn + 8].GetValue<bool>();
+                    var id = worksheet.Cells[row, startColumn].GetValue<int>();
+                    var code = worksheet.Cells[row, startColumn + 1].GetValue<string>();
                     var specialization = worksheet.Cells[row, startColumn + 2].GetValue<string>();
+                    var amountOfStudents = worksheet.Cells[row, startColumn + 3].GetValue<int>();
+                    var grade = worksheet.Cells[row, startColumn + 4].GetCellValue<int>();
+                    var teacherName = worksheet.Cells[row, startColumn + 5].GetValue<string>();
+                    var start = worksheet.Cells[row, startColumn + 6].GetValue<DateTime>();
                     var end = worksheet.Cells[row, startColumn + 7].GetValue<DateTime>();
-                    var teacherKey = worksheet.Cells[row, startColumn + 5].GetValue<string>();
-
-                    var group = Group.GetGroup(amountOfStudents, start, grade, id, budget, null, start, null, null);
+                    var budget = worksheet.Cells[row, startColumn + 8].GetValue<bool>();
+                    
+                    var group = new Group(id, code, specialization, amountOfStudents, grade, teacherName, start, end, budget);
                     groups.Add(group);
                 }
                 catch

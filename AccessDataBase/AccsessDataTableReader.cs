@@ -1,4 +1,5 @@
 ﻿using StudingWorkloadCalculator.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -79,13 +80,13 @@ namespace StudingWorkloadCalculator.AccessDataBase
             foreach (var row in data)
             {
                 var id = (int)row[0];
-                var code = (int)row[1];
+                var code = (string)row[1];
                 var specialization = (string)row[2];
                 var amountOfStudents = (int)row[3];
-                var grade = (int)row[4];
+                var grade = (byte)row[4];
                 var teacher = (string)row[5];
-                var start = (string)row[6];
-                var end = (string)row[7];
+                var start = (DateTime)row[6];
+                var end = (DateTime)row[7];
                 var isBudged = (bool)row[8];
 
                 groups.Add(new Group(id, code, specialization, amountOfStudents, grade, teacher, start, end, isBudged));
