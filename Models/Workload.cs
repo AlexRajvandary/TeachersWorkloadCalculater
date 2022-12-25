@@ -40,50 +40,9 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-        public int Total
-        {
-            get => total;
-            set
-            {
-                if(total != value)
-                {
-                    total = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public int Ipz
-        {
-            get => ipz;
-            set
-            {
-                if(ipz != value && value >= 0)
-                {
-                    ipz = value;
-                    OnPropertyChanged();
-                    RecalculateTotal();
-                }
-            }
-        }
-
-        public int Kr
-        {
-            get => kr;
-            set
-            {
-                if(kr != value && value >= 0)
-                {
-                    kr = value;
-                    OnPropertyChanged();
-                    RecalculateTotal();
-                }
-            }
-        }
-
         public int FirstSemester
         {
-            get => firstSemester; 
+            get => firstSemester;
             set
             {
                 if (firstSemester != value && value >= 0)
@@ -105,6 +64,47 @@ namespace StudingWorkloadCalculator.Models
                     secondSemester = value;
                     OnPropertyChanged();
                     RecalculateTotal();
+                }
+            }
+        }
+
+        public int Kr
+        {
+            get => kr;
+            set
+            {
+                if(kr != value && value >= 0)
+                {
+                    kr = value;
+                    OnPropertyChanged();
+                    RecalculateTotal();
+                }
+            }
+        }
+
+        public int Ipz
+        {
+            get => ipz;
+            set
+            {
+                if (ipz != value && value >= 0)
+                {
+                    ipz = value;
+                    OnPropertyChanged();
+                    RecalculateTotal();
+                }
+            }
+        }
+
+        public int Total
+        {
+            get => total;
+            set
+            {
+                if (total != value)
+                {
+                    total = value;
+                    OnPropertyChanged();
                 }
             }
         }

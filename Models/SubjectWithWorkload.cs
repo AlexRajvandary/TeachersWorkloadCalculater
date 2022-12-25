@@ -26,6 +26,20 @@ namespace StudingWorkloadCalculator.Models
             Theory = theory;
         }
 
+        [DataGridColumnGenerator("Наименование дисциплины")]
+        public string Name
+        {
+            get => name;
+            set
+            {
+                if (name != value && !string.IsNullOrWhiteSpace(value))
+                {
+                    name = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         [DataGridColumnGenerator("Группа")]
         public string Group
         {
@@ -40,7 +54,6 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-        [DataGridColumnGenerator("Код предмета")]
         public int Code
         {
             get => code;
@@ -54,19 +67,7 @@ namespace StudingWorkloadCalculator.Models
             }
         }
 
-        [DataGridColumnGenerator("Дисциплина")]
-        public string Name
-        {
-            get => name;
-            set
-            {
-                if (name != value && !string.IsNullOrWhiteSpace(value))
-                {
-                    name = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+
 
         [DataGridColumnGenerator("Теория")]
         public int Theory
@@ -77,50 +78,6 @@ namespace StudingWorkloadCalculator.Models
                 if (theory != value && value >= 0)
                 {
                     theory = value;
-                    OnPropertyChanged();
-                    RecalculateTotal();
-                }
-            }
-        }
-
-        [DataGridColumnGenerator("Всего")]
-        public int Total
-        {
-            get => total;
-            set
-            {
-                if (total != value)
-                {
-                    total = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        [DataGridColumnGenerator(true)]
-        public int Ipz
-        {
-            get => ipz;
-            set
-            {
-                if (ipz != value && value >= 0)
-                {
-                    ipz = value;
-                    OnPropertyChanged();
-                    RecalculateTotal();
-                }
-            }
-        }
-
-        [DataGridColumnGenerator(true)]
-        public int Kr
-        {
-            get => kr;
-            set
-            {
-                if (kr != value && value >= 0)
-                {
-                    kr = value;
                     OnPropertyChanged();
                     RecalculateTotal();
                 }
@@ -153,6 +110,50 @@ namespace StudingWorkloadCalculator.Models
                     secondSemester = value;
                     OnPropertyChanged();
                     RecalculateTotal();
+                }
+            }
+        }
+
+        [DataGridColumnGenerator("Консультация")]
+        public int Kr
+        {
+            get => kr;
+            set
+            {
+                if (kr != value && value >= 0)
+                {
+                    kr = value;
+                    OnPropertyChanged();
+                    RecalculateTotal();
+                }
+            }
+        }
+
+        [DataGridColumnGenerator("ЛПЗ")]
+        public int Ipz
+        {
+            get => ipz;
+            set
+            {
+                if (ipz != value && value >= 0)
+                {
+                    ipz = value;
+                    OnPropertyChanged();
+                    RecalculateTotal();
+                }
+            }
+        }
+
+        [DataGridColumnGenerator("Всего за год")]
+        public int Total
+        {
+            get => total;
+            set
+            {
+                if (total != value)
+                {
+                    total = value;
+                    OnPropertyChanged();
                 }
             }
         }

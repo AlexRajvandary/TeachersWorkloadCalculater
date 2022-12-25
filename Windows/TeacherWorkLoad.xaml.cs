@@ -13,7 +13,7 @@ namespace StudingWorkloadCalculator.Windows
         {
             InitializeComponent();
             DataContext = mv;
-            
+            (DataContext as MainViewModel).CalculateWorkLoad();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
