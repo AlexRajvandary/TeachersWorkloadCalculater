@@ -18,11 +18,6 @@ namespace StudingWorkloadCalculator.ExcelWriter
         {
             var itemslist = items?.ToList();
             var itemCount = itemslist?.Count ?? 0;
-            var wasCreated = false;
-            if (!File.Exists(path))
-            {
-                File.Create(path);
-            }
 
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             var package = new ExcelPackage(path);
@@ -40,11 +35,19 @@ namespace StudingWorkloadCalculator.ExcelWriter
             {
                 for (var j = 2; j - 2 < itemCount; j++)
                 {
-                    worksheet.Cells[j, i++].Value = properties[i].GetValue(itemslist[j - 2]).ToString();
+                    worksheet.Cells[j, i + 1].Value = properties[i].GetValue(itemslist[j - 2]).ToString();
                 }
             }
 
-            package.Save();
+            if (File.Exists(path))
+                File.Delete(path);
+
+            FileStream objFileStrm = File.Create(path);
+            objFileStrm.Close();
+
+            File.WriteAllBytes(path, package.GetAsByteArray());
+
+            package.Dispose();
         }
 
         public static string GenerateReport(TeachersWorkloadViewModel teacherWorkLoad)
@@ -73,6 +76,7 @@ namespace StudingWorkloadCalculator.ExcelWriter
 
             for (var i = 0; i < columnAmount; i++)
             {
+                worksheet.Column(1).AutoFit();
                 worksheet.Cells[11, 1 + i].Value = columnNames[i].ColumnName;
             }
 
@@ -80,7 +84,8 @@ namespace StudingWorkloadCalculator.ExcelWriter
             {
                 for (var j = 2; j - 2 < itemCount; j++)
                 {
-                    worksheet.Cells[9 + j, i + 12].Value = properties[i].GetValue(subjects[j - 2]).ToString();
+                    worksheet.Cells[10 + j, i + 1].Value = properties[i].GetValue(subjects[j - 2]).ToString();
+                    worksheet.Cells[10 + j, i + 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Double);
                 }
             }
 
