@@ -1,5 +1,6 @@
 ﻿using StudingWorkloadCalculator.UserControls;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace StudingWorkloadCalculator.Models
 {
@@ -26,7 +27,7 @@ namespace StudingWorkloadCalculator.Models
             JobExperience = jobExperiance;
             JobTitle = jobTitle;
             Qualification = qualification;
-            Subject = subjects.Split(new char[] { ',', ';' });
+            Subject = subjects.Contains(',') || subjects.Contains(';') ? subjects.Split(new char[] { ',', ';' }, System.StringSplitOptions.RemoveEmptyEntries) : new string[] { subjects };
             SubjectsToString = subjects;
         }
 
@@ -76,11 +77,8 @@ namespace StudingWorkloadCalculator.Models
             get => subject;
             set
             {
-                if (subject != null)
-                {
-                    subject = value;
-                    OnPropertyChanged();
-                }
+                subject = value;
+                OnPropertyChanged();
             }
         }
 
@@ -96,6 +94,11 @@ namespace StudingWorkloadCalculator.Models
                     OnPropertyChanged();
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{LastName} {FirstName} {FamilyName}";
         }
     }
 }

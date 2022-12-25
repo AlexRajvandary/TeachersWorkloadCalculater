@@ -4,20 +4,37 @@ using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Data;
 using Microsoft.VisualBasic.Logging;
+using System.Linq;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Policy;
+using System;
 
 namespace StudingWorkloadCalculator.MainVewModels
 {
     public class MainViewModel : PropertyChangedNotifier
     {
-        private PermissionRights permissionRights;
         private DataPresenterViewModel<Specialization> specializationsViewModel;
         private DataPresenterViewModel<SubjectWithWorkload> subjectViewModel;
         private DataPresenterViewModel<Student> studentViewModel;
         private DataPresenterViewModel<Teacher> teacherViewModel;
         private DataPresenterViewModel<Group> groupsViewModel;
         private double rate;
-        private TeachersWorkload teachersWorkload;
+        private TeachersWorkloadViewModel teachersWorkload;
         private User user;
+
+        public class Subjectcompaprer : IEqualityComparer<string>
+        {
+            public bool Equals(string? x, string? y)
+            {
+                return x != null && y != null && x.ToLower().Contains(y.ToLower()) || y.ToLower().Contains(x.ToLower());
+            }
+
+            public int GetHashCode([DisallowNull] string obj)
+            {
+                return HashCode.Combine(obj, obj);
+            }
+        }
 
         public MainViewModel()
         {
@@ -101,7 +118,7 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
-        public TeachersWorkload TeachersWorkload
+        public TeachersWorkloadViewModel TeachersWorkload
         {
             get => teachersWorkload;
             set
@@ -114,17 +131,20 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
-        public TeachersWorkload? CalculateWorkLoad(IEnumerable<SubjectWithWorkload> subjects)
+        public TeachersWorkloadViewModel? CalculateWorkLoad()
         {
-            if (TeachersViewModel.SelectedItem != null)
+            var teacher = TeachersViewModel.SelectedItem;
+            if (teacher != null)
             {
                 var teachersWorkLoad = new Workload(0, 0, 0, 0, 0);
+                var subjects = SubjectViewModel.Data.Where(subject => teacher.Subject.Contains(subject.Name, new Subjectcompaprer()));
                 foreach (var subject in subjects)
                 {
                     teachersWorkLoad += new Workload(subject.Theory, subject.Ipz, subject.Kr, subject.FirstSemester, subject.SecondSemester);
                 }
 
-                return new TeachersWorkload(TeachersViewModel.SelectedItem, teachersWorkLoad, Rate);
+                TeachersWorkload = new TeachersWorkloadViewModel(TeachersViewModel.SelectedItem, teachersWorkLoad, subjects, Rate);
+                return TeachersWorkload;
             }
             else
             {

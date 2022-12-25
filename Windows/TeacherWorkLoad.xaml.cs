@@ -1,8 +1,11 @@
-﻿using StudingWorkloadCalculator.Models;
+﻿using StudingWorkloadCalculator.MainVewModels;
+using StudingWorkloadCalculator.Models;
 using StudingWorkloadCalculator.UserControls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,24 +24,16 @@ namespace StudingWorkloadCalculator.Windows
     /// </summary>
     public partial class TeacherWorkLoad : Window
     {
-        public static DependencyProperty TeachersWorkloadProperty = DependencyProperty.Register("TeacherWorkload", typeof(TeachersWorkload), typeof(TeacherWorkLoad));
-
-        public TeacherWorkLoad(TeachersWorkload teacherWorkLoad)
+        public TeacherWorkLoad(MainViewModel mv)
         {
             InitializeComponent();
-            SetValue(TeachersWorkloadProperty, teacherWorkLoad);
+            DataContext = mv;
+            
         }
 
-        public TeachersWorkload TeachersWorkload
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            get
-            {
-                return (TeachersWorkload)GetValue(TeachersWorkloadProperty);
-            }
-            set
-            {
-                SetValue(TeachersWorkloadProperty, value);
-            }
+            (DataContext as MainViewModel).CalculateWorkLoad();
         }
     }
 }

@@ -354,22 +354,15 @@ namespace StudingWorkloadCalculator.Windows
             if (MainViewModel.TeachersViewModel.SelectedItem == null)
             {
                 MessageBox.Show("Выберите учителя для рассчёта нагрузки");
+                return;
             }
 
             if (MainViewModel.SubjectViewModel.Data == null)
             {
                 MessageBox.Show("Загрузите предметы для рассчёта нагрузки");
-            }
-
-
-
-            var subjects = new System.Collections.ObjectModel.ObservableCollection<SubjectWithWorkload>(MainViewModel.SubjectViewModel.Data.Where(subject => MainViewModel.TeachersViewModel.SelectedItem.SubjectsToString.Contains(subject.Name)));
-            var workLoad = MainViewModel.CalculateWorkLoad(subjects);
-            if (workLoad == null)
-            {
                 return;
             }
-            var window = new TeacherWorkLoad(workLoad);
+            var window = new TeacherWorkLoad(MainViewModel);
             window.Show();
         }
 

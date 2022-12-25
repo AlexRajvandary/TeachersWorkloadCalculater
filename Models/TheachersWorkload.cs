@@ -1,28 +1,50 @@
-﻿namespace StudingWorkloadCalculator.Models
-{
-    public class TeachersWorkload : PropertyChangedNotifier
-    {
-        public TeachersWorkload(Teacher teacher, Workload workload) : this(teacher, workload, 1) { }
+﻿using System.Collections.Generic;
 
-        public TeachersWorkload(Teacher teacher, Workload workload, double rate)
+namespace StudingWorkloadCalculator.Models
+{
+    public class TeachersWorkloadViewModel : PropertyChangedNotifier
+    {
+        private double payment;
+        private IEnumerable<SubjectWithWorkload> subjects;
+
+        public TeachersWorkloadViewModel(Teacher teacher, Workload workload, IEnumerable<SubjectWithWorkload> subjects, double rate)
         {
             Teacher = teacher;
             Workload = workload;
             Workload.PropertyChanged += UpdatePayment;
             Rate = rate;
+            Subjects = subjects;
         }
 
         public Teacher Teacher { get; set; }
 
         public Workload Workload { get; set; }
 
-        public double Payment { get; set; }
+        public IEnumerable<SubjectWithWorkload> Subjects 
+        {
+            get => subjects;
+            set
+            {
+                subjects = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double Payment 
+        {
+            get => payment;
+            set
+            {
+                payment = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool IsBudged { get; set; }
 
         public double Rate { get; set; }
 
-        private void UpdatePayment(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public void UpdatePayment(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             Payment = Workload.Total * Rate;
         }

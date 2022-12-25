@@ -4,21 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudingWorkloadCalculator.Windows"
-        xmlns:uc="clr-namespace:StudingWorkloadCalculator.UserControls"
+        xmlns:uc="clr-namespace:StudingWorkloadCalculator.UserControls" xmlns:mainvewmodels="clr-namespace:StudingWorkloadCalculator.MainVewModels" d:DataContext="{d:DesignInstance Type=mainvewmodels:MainViewModel}"
         mc:Ignorable="d"
-        Title="TeacherWorkLoad" Height="300" Width="400">
+        Title="Расчет нагрузки" Height="300" Width="400">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
             <RowDefinition/>
             <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
+            <ColumnDefinition Width="120"/>
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.ColumnSpan="2" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:TeacherWorkLoad}, Path=TeachersWorkload.Teacher.Subjects}"/>
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Всего"/>
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding RelativeSource={RelativeSource AncestorType=local:TeacherWorkLoad}, Path=TeachersWorkload.Workload.Total}"/>
-
+        <TextBlock Grid.ColumnSpan="2" Text="{Binding TeachersViewModel.SelectedItem}"/>
+        <DataGrid Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding TeachersWorkload.Subjects}"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="Ставка" Margin="5,0,0,0"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding TeachersWorkload.Rate}" Margin="5,0,0,0"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Text="Всего" Margin="5,0,0,0"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding TeachersWorkload.Workload.Total}" Margin="5,0,0,0"/>
+        <Button Grid.Column="2" Grid.Row="4" Content="Рассчёт нагрузки" Click="Button_Click" Margin="5,0,5,5"/>
     </Grid>
 </Window>
