@@ -7,6 +7,11 @@ namespace StudingWorkloadCalculator.Models
         private double payment;
         private IEnumerable<SubjectWithWorkload> subjects;
 
+        public TeachersWorkloadViewModel()
+        {
+
+        }
+
         public TeachersWorkloadViewModel(Teacher teacher, Workload workload, IEnumerable<SubjectWithWorkload> subjects, double rate)
         {
             Teacher = teacher;

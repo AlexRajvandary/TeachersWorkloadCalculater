@@ -7,6 +7,11 @@ namespace StudingWorkloadCalculator.Models
         private Group group;
         private Specialization specialization;
 
+        public Student()
+        {
+
+        }
+
         public Student(string firstName,
                       string lastName,
                       string familyName,

@@ -14,6 +14,8 @@ namespace StudingWorkloadCalculator.Models
         private int total;
         private int theory;
 
+        public SubjectWithWorkload() { }
+
         public SubjectWithWorkload(int code, string group, string name, int theory, int ipz, int kr, int firstSemestr, int secondSemestr)
         {
             Group = group;
@@ -66,8 +68,6 @@ namespace StudingWorkloadCalculator.Models
                 }
             }
         }
-
-
 
         [DataGridColumnGenerator("Теория")]
         public int Theory

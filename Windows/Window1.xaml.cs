@@ -149,7 +149,6 @@ namespace StudingWorkloadCalculator.Windows
             var editingDatatable = new EditingDataTable();
             editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.StudentsViewModel, Path = new PropertyPath(nameof(MainViewModel.StudentsViewModel.Data)) });
             editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.StudentsViewModel, Path = new PropertyPath(nameof(MainViewModel.StudentsViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
-            editingDatatable.SetBinding(EditingDataTable.AddItemCommandProperty, new Binding() { Source = MainViewModel.StudentsViewModel, Path = new PropertyPath(nameof(MainViewModel.StudentsViewModel.AddItemCommand)) });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.StudentsViewModel, Path = new PropertyPath(nameof(MainViewModel.StudentsViewModel.DeleteItemCommand)) });
             tabItem.Content = editingDatatable;
             DisplayStudents = true;
@@ -161,7 +160,6 @@ namespace StudingWorkloadCalculator.Windows
             var editingDatatable = new EditingDataTable();
             editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.Data)) });
             editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
-            editingDatatable.SetBinding(EditingDataTable.AddItemCommandProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.AddItemCommand)) });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.DeleteItemCommand)) });
             tabItem.Content = editingDatatable;
             DisplayTeachers = true;
@@ -173,7 +171,6 @@ namespace StudingWorkloadCalculator.Windows
             var editingDatatable = new EditingDataTable();
             editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.Data)) });
             editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
-            editingDatatable.SetBinding(EditingDataTable.AddItemCommandProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.AddItemCommand)) });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.DeleteItemCommand)) });
             tabItem.Content = editingDatatable;
             DisplaySpecializations = true;
@@ -185,7 +182,6 @@ namespace StudingWorkloadCalculator.Windows
             var editingDatatable = new EditingDataTable();
             editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.Data)) });
             editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
-            editingDatatable.SetBinding(EditingDataTable.AddItemCommandProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.AddItemCommand)) });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.DeleteItemCommand)) });
             tabItem.Content = editingDatatable;
             DisplaySubjects = true;

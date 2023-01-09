@@ -10,6 +10,11 @@ namespace StudingWorkloadCalculator.Models
         private string lastName;
         private Gender gender;
 
+        public Person()
+        {
+
+        }
+
         public Person(string firstName,
                       string lastName,
                       string familyName,

@@ -13,6 +13,11 @@ namespace StudingWorkloadCalculator.Models
         private DateTime start;
         private string teacher;
 
+        public Group()
+        {
+
+        }
+
         public Group(int id,
                      string code,
                      string specialization,

@@ -11,6 +11,11 @@ namespace StudingWorkloadCalculator.Models
         private int theory;
         private int total;
 
+        public Workload()
+        {
+
+        }
+
         public Workload(int theory, int ipz, int kr, int firstSemester, int secondSemester)
         {
             if(theory < 0 || ipz < 0 || kr < 0 || firstSemester < 0 || secondSemester < 0)

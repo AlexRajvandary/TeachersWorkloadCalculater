@@ -16,10 +16,12 @@
                 <RowDefinition/>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-            <DataGrid ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=ItemsSource}"
+            <DataGrid CanUserAddRows="True"
+                      CanUserDeleteRows="True"
+                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=ItemsSource}"
                       SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=SelectedItem, Mode=TwoWay}"
-                      
-                      AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" Background="#FF9FC1DF">
+                      AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" 
+                      Background="#FF9FC1DF">
                 <DataGrid.ItemContainerStyle>
                     <Style TargetType="DataGridRow">
                         <Setter Property="Background" Value="#FFD8E0E9"/>
@@ -47,7 +49,7 @@
                             Margin="5"
                             Background="Transparent"
                             BorderBrush="Transparent"
-                             Command="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=DeleteItemCommand}"
+                            Command="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=DeleteItemCommand}"
                             >
                         <Button.Content>
                             <af:FontAwesome Icon="Close" FontSize="30" Foreground="Red" VerticalAlignment="Bottom"/>

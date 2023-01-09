@@ -8,6 +8,11 @@ namespace StudingWorkloadCalculator.Models
         private int code;
         private string name;
 
+        public Subject()
+        {
+
+        }
+
         public Subject(int code, string name)
         {
             if(code < 0)

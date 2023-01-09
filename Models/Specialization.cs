@@ -10,6 +10,11 @@ namespace StudingWorkloadCalculator.Models
         private string studyPeriod;
         private string qualification;
 
+        public Specialization()
+        {
+
+        }
+
         public Specialization(int id,
                               string code,
                               string name,

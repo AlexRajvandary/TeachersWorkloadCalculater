@@ -13,6 +13,11 @@ namespace StudingWorkloadCalculator.Models
         private string subjectsToString;
         private string qualification;
 
+        public Teacher()
+        {
+
+        }
+
         public Teacher(int id,
                        string name,
                        string lastName,
