@@ -39,33 +39,34 @@ namespace StudingWorkloadCalculator
             if (LoginComboBox.SelectedItem == null & string.IsNullOrWhiteSpace(PasswordTextBox.Password))
             {
                 MessageBox.Show("Выберите пользователя и введите пароль.");
+                return;
             }
 
             if (LoginComboBox.SelectedItem == null)
             {
                 MessageBox.Show("Выберите пользователя");
+                return;
             }
 
             if (string.IsNullOrWhiteSpace(PasswordTextBox.Password))
             {
                 MessageBox.Show("Введите пароль.");
+                return;
             }
 
             var mv = new MainViewModel();
             var user = LoginComboBox.SelectedItem as User;
-            if (mv is not null && !string.IsNullOrEmpty(PasswordTextBox.Password))
+
+            if (user?.Password == PasswordTextBox.Password)
             {
-                if (user.Password == PasswordTextBox.Password)
-                {
-                    mv.User = user;
-                    var mainWindow = new Window1(mv);
-                    mainWindow.Show();
-                    Close();
-                }
-                else
-                {
-                    MessageBox.Show("Неверный пароль.");
-                }
+                mv.User = user;
+                var mainWindow = new Window1(mv);
+                mainWindow.Show();
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Неверный пароль.");
             }
         }
     }
