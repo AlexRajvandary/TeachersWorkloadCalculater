@@ -37,6 +37,7 @@
                             Background="Transparent"
                             BorderBrush="Transparent"
                             Command="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=AddItemCommand}"
+                            Click="Button_Click"
                             >
                         <Button.Content>
                             <af:FontAwesome Icon="Plus" FontSize="26" Foreground="#FF24E624"/>
