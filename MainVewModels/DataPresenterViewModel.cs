@@ -1,8 +1,10 @@
 ﻿using StudingWorkloadCalculator.ExcelWriter;
 using StudingWorkloadCalculator.Models;
 using StudingWorkloadCalculator.SupportClasses;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows.Input;
 
 namespace StudingWorkloadCalculator.MainVewModels
@@ -15,6 +17,7 @@ namespace StudingWorkloadCalculator.MainVewModels
 
         public DataPresenterViewModel()
         {
+            AddItemCommand = new RelayCommand(AddItem);
             DeleteItemCommand = new RelayCommand(DeleteItem);
         }
 
@@ -69,6 +72,12 @@ namespace StudingWorkloadCalculator.MainVewModels
                     Data.Add(item);
                 }
             }
+        }
+
+        private void AddItem()
+        {
+            var t = Data.GetType().GetTypeInfo().GenericTypeArguments[0];
+            Data.Add((dynamic)t.GetConstructor(Array.Empty<Type>()).Invoke(Array.Empty<object>()));
         }
 
         private void DeleteItem()
