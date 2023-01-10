@@ -223,10 +223,10 @@ namespace StudingWorkloadCalculator.AccessDataBase
                     DbConnection.myCommand.Connection.Close();
                     Trace.WriteLine("Data updated");
                 }
-                catch
+                catch(Exception ex)
                 {
                     DbConnection.myCommand.Connection.Close();
-                    Trace.WriteLine("Error occured during data table updating.");
+                    Trace.WriteLine($"Error occured during data table updating.\n {ex}");
                 }
             }
             else
