@@ -1,13 +1,9 @@
 ﻿using StudingWorkloadCalculator.AccessDataBase;
 using StudingWorkloadCalculator.Models;
 using System.Collections.Generic;
-using System.Data.OleDb;
 using System.Data;
-using Microsoft.VisualBasic.Logging;
 using System.Linq;
-using System.Collections;
 using System.Diagnostics.CodeAnalysis;
-using System.Security.Policy;
 using System;
 
 namespace StudingWorkloadCalculator.MainVewModels
@@ -38,11 +34,11 @@ namespace StudingWorkloadCalculator.MainVewModels
 
         public MainViewModel()
         {
-            specializationsViewModel = new DataPresenterViewModel<Specialization>();
-            subjectViewModel = new DataPresenterViewModel<SubjectWithWorkload>();
-            studentViewModel = new DataPresenterViewModel<Student>();
-            teacherViewModel = new DataPresenterViewModel<Teacher>();
-            groupsViewModel = new DataPresenterViewModel<Group>();
+            specializationsViewModel = new DataPresenterViewModel<Specialization>(AccsessDataTableReader.SaveSpecialization);
+            subjectViewModel = new DataPresenterViewModel<SubjectWithWorkload>(AccsessDataTableReader.SaveSubjectWithWorkLoad);
+            studentViewModel = new DataPresenterViewModel<Student>(AccsessDataTableReader.SaveStudent);
+            teacherViewModel = new DataPresenterViewModel<Teacher>(AccsessDataTableReader.SaveTeacher);
+            groupsViewModel = new DataPresenterViewModel<Group>(AccsessDataTableReader.SaveGroup);
         }
 
         public User User

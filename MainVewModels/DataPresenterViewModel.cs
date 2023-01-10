@@ -1,4 +1,5 @@
-﻿using StudingWorkloadCalculator.ExcelWriter;
+﻿using StudingWorkloadCalculator.AccessDataBase;
+using StudingWorkloadCalculator.ExcelWriter;
 using StudingWorkloadCalculator.Models;
 using StudingWorkloadCalculator.SupportClasses;
 using System;
@@ -14,11 +15,13 @@ namespace StudingWorkloadCalculator.MainVewModels
         private string dataSourcePath;
         private ObservableCollection<T> data;
         private T selectedItem;
+        private Action<T, bool> acsessDataUpdater;
 
-        public DataPresenterViewModel()
+        public DataPresenterViewModel(Action<T, bool> acsessDataUpdater)
         {
             AddItemCommand = new RelayCommand(AddItem);
             DeleteItemCommand = new RelayCommand(DeleteItem);
+            this.acsessDataUpdater = acsessDataUpdater;
         }
 
         public string DataSourcePath
@@ -77,7 +80,9 @@ namespace StudingWorkloadCalculator.MainVewModels
         private void AddItem()
         {
             var t = Data.GetType().GetTypeInfo().GenericTypeArguments[0];
-            Data.Add((dynamic)t.GetConstructor(Array.Empty<Type>()).Invoke(Array.Empty<object>()));
+            var obj = (dynamic)t.GetConstructor(Array.Empty<Type>()).Invoke(Array.Empty<object>());
+            Data.Add(obj);
+            acsessDataUpdater?.Invoke(obj, true);
         }
 
         private void DeleteItem()

@@ -3,7 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Windows.Forms;
+using System.Windows.Markup;
+using System.Xml.Linq;
 
 namespace StudingWorkloadCalculator.AccessDataBase
 {
@@ -111,6 +116,123 @@ namespace StudingWorkloadCalculator.AccessDataBase
             }
 
             return users;
+        }
+
+        public static void SaveStudent(Student student, bool newItem)
+        {
+            string quary;
+
+            if (newItem)
+            {
+
+            }
+            else
+            {
+
+            }
+
+        }
+
+        public static void SaveTeacher(Teacher teacher, bool newItem)
+        {
+            string quary;
+
+            if (newItem)
+            {
+
+            }
+            else
+            {
+
+            }
+
+        }
+
+        public static void SaveSubjectWithWorkLoad(SubjectWithWorkload subjectWithWorkload, bool newItem)
+        {
+            string quary;
+
+            if (newItem)
+            {
+                quary = "INSERT INTO УчПлан ( [grup], [nazvani], [teoria], [lpz], [kp], " +
+                  $"[kol_1sem], [kol_2sem],[max]) VALUES ({subjectWithWorkload.Group}, {subjectWithWorkload.Name}," +
+                  $" {subjectWithWorkload.Theory}, {subjectWithWorkload.Ipz}, {subjectWithWorkload.Kr}, {subjectWithWorkload.FirstSemester}, {subjectWithWorkload.SecondSemester}, {subjectWithWorkload.Total})";
+            }
+            else
+            {
+                quary = $"UPDATE УчПлан SET [grup]={subjectWithWorkload.Group}, [nazvani]={subjectWithWorkload.Name}, [teoria]={subjectWithWorkload.Theory}, [lpz]=@{subjectWithWorkload.Ipz}, [kp]={subjectWithWorkload.Kr}, " +
+               $"[kol_1sem]={subjectWithWorkload.FirstSemester}, [kol_2sem]={subjectWithWorkload.SecondSemester}, [max]={subjectWithWorkload.Total} WHERE kod_discip = " + subjectWithWorkload.Code;
+            }
+
+            SaveChange(quary);
+        }
+
+        public static void SaveSpecialization(Specialization specialiation, bool newItem)
+        {
+            string quary;
+
+            if (newItem)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+        public static void SaveGroup(Group group, bool newItem)
+        {
+            string quary;
+
+            if (newItem)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+        public static void SaveUser(User user, bool newItem)
+        {
+            string quary;
+
+            if (newItem)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+        private static void SaveChange(string quary)
+        {
+            DbConnection.myCommand = new System.Data.OleDb.OleDbCommand();
+            DbConnection.myCommand.Connection = DbConnection.cn;
+            DbConnection.myCommand.CommandText = quary;
+
+            if (DbConnection.myCommand.Connection.State == ConnectionState.Open)
+            {
+                try
+                {
+                    DbConnection.myCommand.ExecuteNonQuery();
+                    DbConnection.myCommand.Connection.Close();
+                    Trace.WriteLine("Data updated");
+                }
+                catch
+                {
+                    DbConnection.myCommand.Connection.Close();
+                    Trace.WriteLine("Error occured during data table updating.");
+                }
+            }
+            else
+            {
+                Trace.WriteLine("Error occured during data table updating.");
+            }
         }
 
         private static EnumerableRowCollection<DataRow> GetData(string sqlQuary)
