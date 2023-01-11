@@ -136,7 +136,7 @@ namespace StudingWorkloadCalculator.MainVewModels
                     }
                 }
 
-                TeachersWorkload = new TeachersWorkloadViewModel(TeachersViewModel.SelectedItem, teachersWorkLoad, subjectWithWorkLoad, Rate);
+                TeachersWorkload = new TeachersWorkloadViewModel(TeachersViewModel.SelectedItem, teachersWorkLoad, subjectWithWorkLoad, Rate, limmit);
                 return TeachersWorkload;
             }
             else

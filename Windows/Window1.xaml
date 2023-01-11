@@ -37,8 +37,8 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="130"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="130"/>
+                   
                 </Grid.ColumnDefinitions>
                 <Button Content="Рассчитать нагрузку" 
                         Margin="5"
@@ -46,16 +46,10 @@
                         Grid.Column="1"
                         Background="WhiteSmoke"
                         Click="CalculateWorkLoad"/>
-                <Button Content="Export"
+                <Button Content="Save to excel" 
                         Margin="5"
-                        Width="50"
+                        Width="120"
                         Grid.Column="2"
-                        Background="WhiteSmoke"
-                        Click="Button_Click"/>
-                <Button Content="Save" 
-                        Margin="5"
-                        Width="50"
-                        Grid.Column="3"
                         Background="WhiteSmoke"
                         Click="SaveToExcel"/>
             </Grid>

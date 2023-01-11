@@ -4,6 +4,7 @@ namespace StudingWorkloadCalculator.Models
 {
     public class TeachersWorkloadViewModel : PropertyChangedNotifier
     {
+        private int limit;
         private double payment;
         private IEnumerable<SubjectWithWorkload> subjects;
 
@@ -12,13 +13,14 @@ namespace StudingWorkloadCalculator.Models
 
         }
 
-        public TeachersWorkloadViewModel(Teacher teacher, Workload workload, IEnumerable<SubjectWithWorkload> subjects, double rate)
+        public TeachersWorkloadViewModel(Teacher teacher, Workload workload, IEnumerable<SubjectWithWorkload> subjects, double rate, int limit)
         {
             Teacher = teacher;
             Workload = workload;
             Workload.PropertyChanged += UpdatePayment;
             Rate = rate;
             Subjects = subjects;
+            Limit = limit;
         }
 
         public Teacher Teacher { get; set; }
@@ -41,6 +43,16 @@ namespace StudingWorkloadCalculator.Models
             set
             {
                 payment = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Limit
+        {
+            get => limit;
+            set
+            {
+                limit = value;
                 OnPropertyChanged();
             }
         }

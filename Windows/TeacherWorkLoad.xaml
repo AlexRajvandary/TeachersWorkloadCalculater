@@ -18,9 +18,11 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="140"/>
             <ColumnDefinition Width="120"/>
         </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="Ограничение нагрузки:"/>
+        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding TeachersWorkload.Limit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.ColumnSpan="2" Text="{Binding TeachersViewModel.SelectedItem}"/>
         <DataGrid Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding TeachersWorkload.Subjects}"/>
         <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Text="Ставка" Margin="5,0,0,0"/>
