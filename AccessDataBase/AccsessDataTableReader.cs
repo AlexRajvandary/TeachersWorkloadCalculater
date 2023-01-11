@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Data.OleDb;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace StudingWorkloadCalculator.AccessDataBase
 {
@@ -122,15 +123,15 @@ namespace StudingWorkloadCalculator.AccessDataBase
 
             if (newItem)
             {
-                dbCommand = new OleDbCommand("INSERT INTO Преподаватели ([fam],[imya],[otch],[dolgnost],[pol],[ped_stag],[kvalifikacia],[spec_dip]) VALUES (?,?,?,?,?,?,?,?)", DbConnection.cn);
-                dbCommand.Parameters.Add("@fam", OleDbType.VarChar, 255).Value = teacher.LastName;
-                dbCommand.Parameters.Add("@imya", OleDbType.VarChar, 255).Value = teacher.FirstName;
-                dbCommand.Parameters.Add("@otch", OleDbType.VarChar, 255).Value = teacher.FamilyName;
-                dbCommand.Parameters.Add("@dolgnost", OleDbType.VarChar, 255).Value = teacher.JobTitle;
-                dbCommand.Parameters.Add("@pol", OleDbType.VarChar, 255).Value = teacher.Gender;
-                dbCommand.Parameters.Add("@ped_stag", OleDbType.Integer, 255).Value = teacher.JobExperience;
-                dbCommand.Parameters.Add("@kvalifikacia", OleDbType.VarChar, 255).Value = teacher.Qualification;
-                dbCommand.Parameters.Add("@spec_dip", OleDbType.VarChar, 255).Value = teacher.SubjectsToString;
+                dbCommand = new OleDbCommand("INSERT INTO Преподаватели ([fam],[imya],[otch],[dolgnost],[pol],[ped_stag],[kvalifikacia],[spec_dip]) VALUES (@fam, @imya, @otch, @dolgnost, @pol, @ped_stag, @kvalifikacia, @spec_dip)", DbConnection.cn);
+                dbCommand.Parameters.AddWithValue("@fam", teacher.LastName);
+                dbCommand.Parameters.AddWithValue("@imya", teacher.FirstName);
+                dbCommand.Parameters.AddWithValue("@otch", teacher.FamilyName);
+                dbCommand.Parameters.AddWithValue("@dolgnost", teacher.JobTitle);
+                dbCommand.Parameters.AddWithValue("@pol", teacher.Gender.ToString());
+                dbCommand.Parameters.AddWithValue("@ped_stag", teacher.JobExperience);
+                dbCommand.Parameters.AddWithValue("@kvalifikacia", teacher.Qualification);
+                dbCommand.Parameters.AddWithValue("@spec_dip", teacher.SubjectsToString);
             }
             else
             {
@@ -147,14 +148,14 @@ namespace StudingWorkloadCalculator.AccessDataBase
             if (newItem)
             {
                 dbCommand = new OleDbCommand("INSERT INTO УчПлан ([grup],[nazvani],[teoria],[lpz],[kp],[kol_1sem],[kol_2sem],[max]) VALUES (?,?,?,?,?,?,?,?)", DbConnection.cn);
-                dbCommand.Parameters.Add("@grup", OleDbType.VarChar, 255).Value = subjectWithWorkload.Group;
-                dbCommand.Parameters.Add("@nazvani", OleDbType.VarChar, 255).Value = subjectWithWorkload.Name;
-                dbCommand.Parameters.Add("@teoria", OleDbType.Integer, 255).Value = subjectWithWorkload.Theory;
-                dbCommand.Parameters.Add("@lpz", OleDbType.Integer, 255).Value = subjectWithWorkload.Ipz;
-                dbCommand.Parameters.Add("@kp", OleDbType.Integer, 255).Value = subjectWithWorkload.Kr;
-                dbCommand.Parameters.Add("@kol_1sem", OleDbType.Integer, 255).Value = subjectWithWorkload.FirstSemester;
-                dbCommand.Parameters.Add("@kol_2sem", OleDbType.Integer, 255).Value = subjectWithWorkload.SecondSemester;
-                dbCommand.Parameters.Add("@max", OleDbType.Integer, 255).Value = subjectWithWorkload.Total;
+                dbCommand.Parameters.AddWithValue("@grup", subjectWithWorkload.Group);
+                dbCommand.Parameters.AddWithValue("@nazvani", subjectWithWorkload.Name);
+                dbCommand.Parameters.AddWithValue("@teoria", subjectWithWorkload.Theory);
+                dbCommand.Parameters.AddWithValue("@lpz", subjectWithWorkload.Ipz);
+                dbCommand.Parameters.AddWithValue("@kp", subjectWithWorkload.Kr);
+                dbCommand.Parameters.AddWithValue("@kol_1sem", subjectWithWorkload.FirstSemester);
+                dbCommand.Parameters.AddWithValue("@kol_2sem", subjectWithWorkload.SecondSemester);
+                dbCommand.Parameters.AddWithValue("@max", subjectWithWorkload.Total);
             }
             else
             {
@@ -188,12 +189,12 @@ namespace StudingWorkloadCalculator.AccessDataBase
 
             if (newItem)
             {
-                dbCommand = new OleDbCommand("INSERT INTO Специальность ([kod_spec],[naimenov],[srok_obuch],[kvalifik],[ochnaya]) VALUES (?,?,?,?,?)", DbConnection.cn);
-                dbCommand.Parameters.Add("@kod_spec", OleDbType.VarChar, 255).Value = specialiation.Code;
-                dbCommand.Parameters.Add("@naimenov", OleDbType.VarChar, 255).Value = specialiation.Name;
-                dbCommand.Parameters.Add("@srok_obuch", OleDbType.VarChar, 255).Value = specialiation.StudyPeriod;
-                dbCommand.Parameters.Add("@kvalifik", OleDbType.VarChar, 255).Value = specialiation.Qualification;
-                dbCommand.Parameters.Add("@ochnaya", OleDbType.Boolean, 1000).Value = specialiation.Intramural;
+                dbCommand = new OleDbCommand("INSERT INTO Специальность ([kod_spec],[naimenov],[srok_obuch],[kvalifik],[ochnaya]) VALUES (@kod_spec, @naimenov, @srok_obuch, @kvalifik, @ochnaya)", DbConnection.cn);
+                dbCommand.Parameters.AddWithValue("@kod_spec", specialiation.Code);
+                dbCommand.Parameters.AddWithValue("@naimenov", specialiation.Name);
+                dbCommand.Parameters.AddWithValue("@srok_obuch", specialiation.StudyPeriod);
+                dbCommand.Parameters.AddWithValue("@kvalifik", specialiation.Qualification);
+                dbCommand.Parameters.AddWithValue("@ochnaya", specialiation.Intramural ? 1 : 0);
             }
             else
             {
@@ -209,15 +210,15 @@ namespace StudingWorkloadCalculator.AccessDataBase
 
             if (newItem)
             {
-                dbCommand = new OleDbCommand("INSERT INTO Группы ([kod_grup],[spec],[kolvo_stud],[kurs],[kl_r],[god_postup],[god_okonch], [budget]) VALUES (?,?,?,?,?,?,?,?)", DbConnection.cn);
-                dbCommand.Parameters.Add("@kod_grup", OleDbType.VarChar, 255).Value = group.Code;
-                dbCommand.Parameters.Add("@spec", OleDbType.VarChar, 255).Value = group.SpecializationName;
-                dbCommand.Parameters.Add("@kolvo_stud", OleDbType.Integer, 255).Value = group.AmountOfStudents;
-                dbCommand.Parameters.Add("@kurs", OleDbType.Integer, 255).Value = group.Grade;
-                dbCommand.Parameters.Add("@kl_r", OleDbType.VarChar, 255).Value = group.Teacher;
-                dbCommand.Parameters.Add("@god_postup", OleDbType.Date, 1000).Value = group.Start;
-                dbCommand.Parameters.Add("@god_okonch", OleDbType.Date, 1000).Value = group.End;
-                dbCommand.Parameters.Add("@budget", OleDbType.Boolean, 1000).Value = group.IsBudged;
+                dbCommand = new OleDbCommand("INSERT INTO Группы ([kod_grup],[spec],[kolvo_stud],[kurs],[kl_r],[god_postup],[god_okonch], [budget]) VALUES (@kod_grup, @spec, @kolvo_stud, @kurs, @kl_r, @god_postup, @god_okonch, @budget)", DbConnection.cn);
+                dbCommand.Parameters.AddWithValue("@kod_grup", group.Code);
+                dbCommand.Parameters.AddWithValue("@spec", group.SpecializationName);
+                dbCommand.Parameters.AddWithValue("@kolvo_stud", group.AmountOfStudents);
+                dbCommand.Parameters.AddWithValue("@kurs", group.Grade);
+                dbCommand.Parameters.AddWithValue("@kl_r", group.Teacher);
+                dbCommand.Parameters.AddWithValue("@god_postup", group.Start.ToString("dd/MM/yy"));
+                dbCommand.Parameters.AddWithValue("@god_okonch", group.End.ToString("dd/MM/yy"));
+                dbCommand.Parameters.AddWithValue("@budget", group.IsBudged ? 1 : 0);
             }
             else
             {
