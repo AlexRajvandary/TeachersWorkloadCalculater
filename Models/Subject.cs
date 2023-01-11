@@ -10,7 +10,7 @@ namespace StudingWorkloadCalculator.Models
 
         public Subject()
         {
-
+            Name = "Название предмета";
         }
 
         public Subject(int code, string name)

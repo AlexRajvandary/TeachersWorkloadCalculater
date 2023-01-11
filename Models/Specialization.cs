@@ -12,7 +12,10 @@ namespace StudingWorkloadCalculator.Models
 
         public Specialization()
         {
-
+            Code = "Код специальности";
+            Name = "Название";
+            StudyPeriod = "Период обучения";
+            Qualification = "Квалификация";
         }
 
         public Specialization(int id,

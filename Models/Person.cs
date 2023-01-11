@@ -12,7 +12,10 @@ namespace StudingWorkloadCalculator.Models
 
         public Person()
         {
-
+            FirstName = "Имя";
+            LastName = "Фамилия";
+            FamilyName = "Отчество";
+            Gender = Gender.Undefined;
         }
 
         public Person(string firstName,

@@ -146,10 +146,10 @@ namespace StudingWorkloadCalculator.AccessDataBase
 
             if (newItem)
             {
-                dbCommand = new OleDbCommand("INSERT INTO УчПлан ([group],[nazvani],[theoria],[lpz],[kp],[kol_1sem],[kol_2sem],[max]) VALUES (?,?,?,?,?,?,?,?)", DbConnection.cn);
-                dbCommand.Parameters.Add("@group", OleDbType.VarChar, 255).Value = subjectWithWorkload.Group;
+                dbCommand = new OleDbCommand("INSERT INTO УчПлан ([grup],[nazvani],[teoria],[lpz],[kp],[kol_1sem],[kol_2sem],[max]) VALUES (?,?,?,?,?,?,?,?)", DbConnection.cn);
+                dbCommand.Parameters.Add("@grup", OleDbType.VarChar, 255).Value = subjectWithWorkload.Group;
                 dbCommand.Parameters.Add("@nazvani", OleDbType.VarChar, 255).Value = subjectWithWorkload.Name;
-                dbCommand.Parameters.Add("@theoria", OleDbType.Integer, 255).Value = subjectWithWorkload.Theory;
+                dbCommand.Parameters.Add("@teoria", OleDbType.Integer, 255).Value = subjectWithWorkload.Theory;
                 dbCommand.Parameters.Add("@lpz", OleDbType.Integer, 255).Value = subjectWithWorkload.Ipz;
                 dbCommand.Parameters.Add("@kp", OleDbType.Integer, 255).Value = subjectWithWorkload.Kr;
                 dbCommand.Parameters.Add("@kol_1sem", OleDbType.Integer, 255).Value = subjectWithWorkload.FirstSemester;
@@ -158,7 +158,25 @@ namespace StudingWorkloadCalculator.AccessDataBase
             }
             else
             {
-              
+                 dbCommand = new OleDbCommand(@"UPDATE УчПлан
+                                                    SET [grup] = @grup,
+                                                        [nazvani] = @nazvani,
+                                                        [teoria] = @teoria,
+                                                        [lpz] = @lpz,
+                                                        [kp] = @kp,
+                                                        [kol_1sem] = @kol_1sem,
+                                                        [kol_2sem] = @kol_2sem,
+                                                        [max] = @max
+                                                    WHERE kod_discip = " + subjectWithWorkload.Code, DbConnection.cn);
+
+                dbCommand.Parameters.AddWithValue("@grup", subjectWithWorkload.Group);
+                dbCommand.Parameters.AddWithValue("@nazvani", subjectWithWorkload.Name);
+                dbCommand.Parameters.AddWithValue("@teoria", subjectWithWorkload.Theory );
+                dbCommand.Parameters.AddWithValue("@lpz", subjectWithWorkload.Ipz);
+                dbCommand.Parameters.AddWithValue("@kp", subjectWithWorkload.Kr);
+                dbCommand.Parameters.AddWithValue("@kol_1sem", subjectWithWorkload.FirstSemester);
+                dbCommand.Parameters.AddWithValue("@kol_2sem", subjectWithWorkload.SecondSemester);
+                dbCommand.Parameters.AddWithValue("@max", subjectWithWorkload.Total);
             }
 
             SaveChange(dbCommand);
@@ -173,9 +191,9 @@ namespace StudingWorkloadCalculator.AccessDataBase
                 dbCommand = new OleDbCommand("INSERT INTO Специальность ([kod_spec],[naimenov],[srok_obuch],[kvalifik],[ochnaya]) VALUES (?,?,?,?,?)", DbConnection.cn);
                 dbCommand.Parameters.Add("@kod_spec", OleDbType.VarChar, 255).Value = specialiation.Code;
                 dbCommand.Parameters.Add("@naimenov", OleDbType.VarChar, 255).Value = specialiation.Name;
-                dbCommand.Parameters.Add("@srok_obuch", OleDbType.Integer, 255).Value = specialiation.StudyPeriod;
+                dbCommand.Parameters.Add("@srok_obuch", OleDbType.VarChar, 255).Value = specialiation.StudyPeriod;
                 dbCommand.Parameters.Add("@kvalifik", OleDbType.VarChar, 255).Value = specialiation.Qualification;
-                dbCommand.Parameters.Add("@ochnaya", OleDbType.VarBinary, 255).Value = specialiation.Intramural;
+                dbCommand.Parameters.Add("@ochnaya", OleDbType.Boolean, 1000).Value = specialiation.Intramural;
             }
             else
             {
@@ -197,9 +215,9 @@ namespace StudingWorkloadCalculator.AccessDataBase
                 dbCommand.Parameters.Add("@kolvo_stud", OleDbType.Integer, 255).Value = group.AmountOfStudents;
                 dbCommand.Parameters.Add("@kurs", OleDbType.Integer, 255).Value = group.Grade;
                 dbCommand.Parameters.Add("@kl_r", OleDbType.VarChar, 255).Value = group.Teacher;
-                dbCommand.Parameters.Add("@god_postup", OleDbType.Date, 255).Value = group.Start;
-                dbCommand.Parameters.Add("@god_okonch", OleDbType.Date, 255).Value = group.End;
-                dbCommand.Parameters.Add("@budget", OleDbType.VarBinary, 255).Value = group.IsBudged;
+                dbCommand.Parameters.Add("@god_postup", OleDbType.Date, 1000).Value = group.Start;
+                dbCommand.Parameters.Add("@god_okonch", OleDbType.Date, 1000).Value = group.End;
+                dbCommand.Parameters.Add("@budget", OleDbType.Boolean, 1000).Value = group.IsBudged;
             }
             else
             {

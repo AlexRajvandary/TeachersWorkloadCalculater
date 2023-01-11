@@ -15,7 +15,9 @@ namespace StudingWorkloadCalculator.Models
 
         public Group()
         {
-
+            Code = "Код группы";
+            SpecializationName = "Специальность";
+            Teacher = "ФИО Учителя";
         }
 
         public Group(int id,
