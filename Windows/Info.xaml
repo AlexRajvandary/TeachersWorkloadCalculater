@@ -1,0 +1,25 @@
+﻿<Window x:Class="StudingWorkloadCalculator.Windows.Info"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StudingWorkloadCalculator.Windows"
+        mc:Ignorable="d"
+        Title="Info" Height="350" Width="450" Background="AliceBlue" Icon="/Windows/эмблема.png" ShowInTaskbar="False">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="1. Путь к источнику данных: bin\Debug\net6.0-windows\BD.mdb" FontSize="12" Margin="5, 0, 5, 0"/>
+        <TextBlock Grid.Row="1" Text="2. C помощью кнопки меню 'File' можно загрузить дополнительные источники для каждой категории данных." TextWrapping="Wrap" FontSize="12" Margin="5, 0, 5, 0"/>
+        <TextBlock Grid.Row="2" Text="3. Формат excel файла для импорта каждой категории данных определяется базой данных из пункта 1." TextWrapping="Wrap" FontSize="12" Margin="5, 0, 5, 0"/>
+        <TextBlock Grid.Row="3" Text="4. C помощью кнопки меню 'View' можно включать и отключать видимость каждой категории данных." TextWrapping="Wrap" FontSize="12" Margin="5, 0, 5, 0"/>
+        <TextBlock Grid.Row="4" Text="5. Для расчёта преподавательской нагрузки необходимо выбрать преподавателя. Для этого необходимо открыть вкладку со списком преподавателей. Обратите внимание, что предметы преподавателя должны быть в общем списке предметов. Иначе, расчёт по ним произвести невозможно." TextWrapping="Wrap" FontSize="12" Margin="5, 0, 5, 0"/>
+        <TextBlock Grid.Row="5" Text="6. После расчёта преподавательской нагрузки отчёт сохраняется в той же директории, что и база данных." TextWrapping="Wrap" FontSize="12" Margin="5, 0, 5, 0"/>
+    </Grid>
+</Window>

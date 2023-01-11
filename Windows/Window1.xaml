@@ -22,7 +22,7 @@
             <MenuItem Header="Settings">
                 <MenuItem Header="Change pasword" Click="MenuItemClick"/>
             </MenuItem>
-            <MenuItem Header="Info"/>
+            <MenuItem Header="Info" Click="MenuItem_Click"/>
         </Menu>
         <Grid Grid.Row="1" Background="LightGray">
             <Grid.RowDefinitions>

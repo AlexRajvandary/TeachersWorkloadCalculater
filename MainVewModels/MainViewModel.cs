@@ -118,16 +118,25 @@ namespace StudingWorkloadCalculator.MainVewModels
         public TeachersWorkloadViewModel? CalculateWorkLoad()
         {
             var teacher = TeachersViewModel.SelectedItem;
+
+            var limmit = teacher.JobTitle == "диспетчер" ? 540 : teacher.JobTitle == "адвокат" ? 720 : teacher.JobTitle == "преподаватель" ? 1440 : 10000;
+
             if (teacher != null)
             {
                 var teachersWorkLoad = new Workload(0, 0, 0, 0, 0);
                 var subjects = SubjectViewModel.Data.Where(subject => teacher.Subject.Contains(subject.Name, new Subjectcompaprer()));
+                List<SubjectWithWorkload> subjectWithWorkLoad = new List<SubjectWithWorkload>();
+
                 foreach (var subject in subjects)
                 {
-                    teachersWorkLoad += new Workload(subject.Theory, subject.Ipz, subject.Kr, subject.FirstSemester, subject.SecondSemester);
+                    if(teachersWorkLoad.Total < limmit)
+                    {
+                        teachersWorkLoad += new Workload(subject.Theory, subject.Ipz, subject.Kr, subject.FirstSemester, subject.SecondSemester);
+                        subjectWithWorkLoad.Add(subject);
+                    }
                 }
 
-                TeachersWorkload = new TeachersWorkloadViewModel(TeachersViewModel.SelectedItem, teachersWorkLoad, subjects, Rate);
+                TeachersWorkload = new TeachersWorkloadViewModel(TeachersViewModel.SelectedItem, teachersWorkLoad, subjectWithWorkLoad, Rate);
                 return TeachersWorkload;
             }
             else

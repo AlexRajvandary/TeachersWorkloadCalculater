@@ -171,7 +171,7 @@ namespace StudingWorkloadCalculator.AccessDataBase
 
             if (newItem)
             {
-                dbCommand = new OleDbCommand("INSERT INTO УчПлан ([grup],[nazvani],[teoria],[lpz],[kp],[kol_1sem],[kol_2sem],[max]) VALUES (?,?,?,?,?,?,?,?)", DbConnection.cn);
+                dbCommand = new OleDbCommand("INSERT INTO УчПлан ([grup],[nazvani],[teoria],[lpz],[kp],[kol_1sem],[kol_2sem],[max]) VALUES (@grup,@nazvani,@teoria,@lpz,@kp,@kol_1sem,@kol_2sem,@max)", DbConnection.cn);
             }
             else
             {

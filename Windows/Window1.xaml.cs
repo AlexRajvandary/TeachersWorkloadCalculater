@@ -348,5 +348,11 @@ namespace StudingWorkloadCalculator.Windows
         {
             ShowSubjects();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var infoWindow = new Info();
+            infoWindow.Show();
+        }
     }
 }
