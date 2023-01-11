@@ -12,7 +12,6 @@ namespace StudingWorkloadCalculator.MainVewModels
     {
         private DataPresenterViewModel<Specialization> specializationsViewModel;
         private DataPresenterViewModel<SubjectWithWorkload> subjectViewModel;
-        private DataPresenterViewModel<Student> studentViewModel;
         private DataPresenterViewModel<Teacher> teacherViewModel;
         private DataPresenterViewModel<Group> groupsViewModel;
         private double rate;
@@ -36,7 +35,6 @@ namespace StudingWorkloadCalculator.MainVewModels
         {
             specializationsViewModel = new DataPresenterViewModel<Specialization>(AccsessDataTableReader.SaveSpecialization);
             subjectViewModel = new DataPresenterViewModel<SubjectWithWorkload>(AccsessDataTableReader.SaveSubjectWithWorkLoad);
-            studentViewModel = new DataPresenterViewModel<Student>(AccsessDataTableReader.SaveStudent);
             teacherViewModel = new DataPresenterViewModel<Teacher>(AccsessDataTableReader.SaveTeacher);
             groupsViewModel = new DataPresenterViewModel<Group>(AccsessDataTableReader.SaveGroup);
         }
@@ -67,16 +65,6 @@ namespace StudingWorkloadCalculator.MainVewModels
             set
             {
                 subjectViewModel = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public DataPresenterViewModel<Student> StudentsViewModel
-        {
-            get => studentViewModel;
-            set
-            {
-                studentViewModel = value;
                 OnPropertyChanged();
             }
         }

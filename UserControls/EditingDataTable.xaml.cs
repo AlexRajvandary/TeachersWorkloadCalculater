@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography.Xml;
@@ -17,11 +18,20 @@ namespace StudingWorkloadCalculator.UserControls
         public static DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(EditingDataTable), new PropertyMetadata(null));
         public static DependencyProperty DeleteItemCommandProperty = DependencyProperty.Register("DeleteItemCommand", typeof(ICommand), typeof(EditingDataTable), new PropertyMetadata(null));
         public static DependencyProperty AddItemCommandProperty = DependencyProperty.Register("AddItemCommand", typeof(ICommand), typeof(EditingDataTable), new PropertyMetadata(null));
+        public static DependencyProperty EditedItemProperty = DependencyProperty.Register("EditedItem", typeof(object), typeof(EditingDataTable), new PropertyMetadata(null));
+
+        public event Action<object> ItemEditEnded;
 
         public EditingDataTable()
         {
             InitializeComponent();
             DataContext = this;
+        }
+
+        public object EditedItem
+        {
+            get { return GetValue(EditedItemProperty); }
+            set { SetValue(EditedItemProperty, value); }
         }
 
         public object SelectedItem
@@ -60,6 +70,11 @@ namespace StudingWorkloadCalculator.UserControls
             {
                 e.Column.Header = string.IsNullOrWhiteSpace(attribute?.ColumnName) ? propertyDescriptor.DisplayName : attribute.ColumnName;
             }
+        }
+
+        private void ItemsTable_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            ItemEditEnded?.Invoke(e.Row.Item);
         }
     }
 }

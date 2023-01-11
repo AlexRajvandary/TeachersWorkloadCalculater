@@ -93,6 +93,12 @@ namespace StudingWorkloadCalculator.MainVewModels
             }
         }
 
+        public void UpdateItem(object editedObject)
+        {
+            var editedItem = (T)editedObject;
+            acsessDataUpdater?.Invoke(editedItem, false);
+        }
+
         private void GetDataFromExcel()
         {
             var data = ExcelReader.ReadExcel<T>(DataSourcePath, startRow: 2, startColumn: 1);

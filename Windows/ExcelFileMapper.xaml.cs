@@ -39,14 +39,6 @@ namespace StudingWorkloadCalculator.Windows
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (ExcelChoseFileDialog(out var path))
-            {
-                MainViewModel.StudentsViewModel.DataSourcePath = path;
-            }
-        }
-
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (ExcelChoseFileDialog(out var path))

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using StudingWorkloadCalculator.AccessDataBase;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace StudingWorkloadCalculator.Models

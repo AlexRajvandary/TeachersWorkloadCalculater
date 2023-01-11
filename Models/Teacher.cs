@@ -13,9 +13,11 @@ namespace StudingWorkloadCalculator.Models
         private string subjectsToString;
         private string qualification;
 
-        public Teacher()
+        public Teacher(): base("Имя", "Фамилия", "Отчесвто", Gender.Undefined)
         {
-
+            JobTitle = "Должность";
+            Qualification = "Квалификация";
+            SubjectsToString = "Предметы";
         }
 
         public Teacher(int id,

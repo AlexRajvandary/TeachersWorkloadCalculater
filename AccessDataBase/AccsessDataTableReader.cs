@@ -1,14 +1,11 @@
 ﻿using StudingWorkloadCalculator.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
+using System.Data.OleDb;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Windows.Forms;
-using System.Windows.Markup;
-using System.Xml.Linq;
 
 namespace StudingWorkloadCalculator.AccessDataBase
 {
@@ -30,7 +27,8 @@ namespace StudingWorkloadCalculator.AccessDataBase
                 var qualification = row[7] as string ?? string.Empty;
                 var subjectsString = row[8] as string ?? string.Empty;
 
-                teachers.Add(new Teacher(id, name, lastName, familyName, gender.GetGender(), jobExperience, jobTitle, qualification, subjectsString));
+                var teacher = new Teacher(id, name, lastName, familyName, gender.GetGender(), jobExperience, jobTitle, qualification, subjectsString);
+                teachers.Add(teacher);
             }
 
             return teachers;
@@ -118,81 +116,97 @@ namespace StudingWorkloadCalculator.AccessDataBase
             return users;
         }
 
-        public static void SaveStudent(Student student, bool newItem)
-        {
-            string quary;
-
-            if (newItem)
-            {
-
-            }
-            else
-            {
-
-            }
-
-        }
-
         public static void SaveTeacher(Teacher teacher, bool newItem)
         {
-            string quary;
+            OleDbCommand dbCommand = null;
 
             if (newItem)
             {
-
+                dbCommand = new OleDbCommand("INSERT INTO Преподаватели ([fam],[imya],[otch],[dolgnost],[pol],[ped_stag],[kvalifikacia],[spec_dip]) VALUES (?,?,?,?,?,?,?,?)", DbConnection.cn);
+                dbCommand.Parameters.Add("@fam", OleDbType.VarChar, 255).Value = teacher.LastName;
+                dbCommand.Parameters.Add("@imya", OleDbType.VarChar, 255).Value = teacher.FirstName;
+                dbCommand.Parameters.Add("@otch", OleDbType.VarChar, 255).Value = teacher.FamilyName;
+                dbCommand.Parameters.Add("@dolgnost", OleDbType.VarChar, 255).Value = teacher.JobTitle;
+                dbCommand.Parameters.Add("@pol", OleDbType.VarChar, 255).Value = teacher.Gender;
+                dbCommand.Parameters.Add("@ped_stag", OleDbType.Integer, 255).Value = teacher.JobExperience;
+                dbCommand.Parameters.Add("@kvalifikacia", OleDbType.VarChar, 255).Value = teacher.Qualification;
+                dbCommand.Parameters.Add("@spec_dip", OleDbType.VarChar, 255).Value = teacher.SubjectsToString;
             }
             else
             {
-
+                
             }
 
+            SaveChange(dbCommand);
         }
 
         public static void SaveSubjectWithWorkLoad(SubjectWithWorkload subjectWithWorkload, bool newItem)
         {
-            string quary;
+            OleDbCommand dbCommand = null;
 
             if (newItem)
             {
-                quary = "INSERT INTO УчПлан ( [grup], [nazvani], [teoria], [lpz], [kp], " +
-                  $"[kol_1sem], [kol_2sem],[max]) VALUES ({subjectWithWorkload.Group}, {subjectWithWorkload.Name}," +
-                  $" {subjectWithWorkload.Theory}, {subjectWithWorkload.Ipz}, {subjectWithWorkload.Kr}, {subjectWithWorkload.FirstSemester}, {subjectWithWorkload.SecondSemester}, {subjectWithWorkload.Total})";
+                dbCommand = new OleDbCommand("INSERT INTO УчПлан ([group],[nazvani],[theoria],[lpz],[kp],[kol_1sem],[kol_2sem],[max]) VALUES (?,?,?,?,?,?,?,?)", DbConnection.cn);
+                dbCommand.Parameters.Add("@group", OleDbType.VarChar, 255).Value = subjectWithWorkload.Group;
+                dbCommand.Parameters.Add("@nazvani", OleDbType.VarChar, 255).Value = subjectWithWorkload.Name;
+                dbCommand.Parameters.Add("@theoria", OleDbType.Integer, 255).Value = subjectWithWorkload.Theory;
+                dbCommand.Parameters.Add("@lpz", OleDbType.Integer, 255).Value = subjectWithWorkload.Ipz;
+                dbCommand.Parameters.Add("@kp", OleDbType.Integer, 255).Value = subjectWithWorkload.Kr;
+                dbCommand.Parameters.Add("@kol_1sem", OleDbType.Integer, 255).Value = subjectWithWorkload.FirstSemester;
+                dbCommand.Parameters.Add("@kol_2sem", OleDbType.Integer, 255).Value = subjectWithWorkload.SecondSemester;
+                dbCommand.Parameters.Add("@max", OleDbType.Integer, 255).Value = subjectWithWorkload.Total;
             }
             else
             {
-                quary = $"UPDATE УчПлан SET [grup]={subjectWithWorkload.Group}, [nazvani]={subjectWithWorkload.Name}, [teoria]={subjectWithWorkload.Theory}, [lpz]=@{subjectWithWorkload.Ipz}, [kp]={subjectWithWorkload.Kr}, " +
-               $"[kol_1sem]={subjectWithWorkload.FirstSemester}, [kol_2sem]={subjectWithWorkload.SecondSemester}, [max]={subjectWithWorkload.Total} WHERE kod_discip = " + subjectWithWorkload.Code;
+              
             }
 
-            SaveChange(quary);
+            SaveChange(dbCommand);
         }
 
         public static void SaveSpecialization(Specialization specialiation, bool newItem)
         {
-            string quary;
+            OleDbCommand dbCommand = null;
 
             if (newItem)
             {
-
+                dbCommand = new OleDbCommand("INSERT INTO Специальность ([kod_spec],[naimenov],[srok_obuch],[kvalifik],[ochnaya]) VALUES (?,?,?,?,?)", DbConnection.cn);
+                dbCommand.Parameters.Add("@kod_spec", OleDbType.VarChar, 255).Value = specialiation.Code;
+                dbCommand.Parameters.Add("@naimenov", OleDbType.VarChar, 255).Value = specialiation.Name;
+                dbCommand.Parameters.Add("@srok_obuch", OleDbType.Integer, 255).Value = specialiation.StudyPeriod;
+                dbCommand.Parameters.Add("@kvalifik", OleDbType.VarChar, 255).Value = specialiation.Qualification;
+                dbCommand.Parameters.Add("@ochnaya", OleDbType.VarBinary, 255).Value = specialiation.Intramural;
             }
             else
             {
 
             }
+
+            SaveChange(dbCommand);
         }
 
         public static void SaveGroup(Group group, bool newItem)
         {
-            string quary;
+            OleDbCommand dbCommand = null;
 
             if (newItem)
             {
-
+                dbCommand = new OleDbCommand("INSERT INTO Группы ([kod_grup],[spec],[kolvo_stud],[kurs],[kl_r],[god_postup],[god_okonch], [budget]) VALUES (?,?,?,?,?,?,?,?)", DbConnection.cn);
+                dbCommand.Parameters.Add("@kod_grup", OleDbType.VarChar, 255).Value = group.Code;
+                dbCommand.Parameters.Add("@spec", OleDbType.VarChar, 255).Value = group.SpecializationName;
+                dbCommand.Parameters.Add("@kolvo_stud", OleDbType.Integer, 255).Value = group.AmountOfStudents;
+                dbCommand.Parameters.Add("@kurs", OleDbType.Integer, 255).Value = group.Grade;
+                dbCommand.Parameters.Add("@kl_r", OleDbType.VarChar, 255).Value = group.Teacher;
+                dbCommand.Parameters.Add("@god_postup", OleDbType.Date, 255).Value = group.Start;
+                dbCommand.Parameters.Add("@god_okonch", OleDbType.Date, 255).Value = group.End;
+                dbCommand.Parameters.Add("@budget", OleDbType.VarBinary, 255).Value = group.IsBudged;
             }
             else
             {
 
             }
+
+            SaveChange(dbCommand);
         }
 
         public static void SaveUser(User user, bool newItem)
@@ -209,29 +223,25 @@ namespace StudingWorkloadCalculator.AccessDataBase
             }
         }
 
-        private static void SaveChange(string quary)
+        private static void SaveChange(OleDbCommand dbCommand)
         {
-            DbConnection.myCommand = new System.Data.OleDb.OleDbCommand();
-            DbConnection.myCommand.Connection = DbConnection.cn;
-            DbConnection.myCommand.CommandText = quary;
+            DbConnection.myCommand = dbCommand;
 
-            if (DbConnection.myCommand.Connection.State == ConnectionState.Open)
+            if (DbConnection.myCommand.Connection.State != ConnectionState.Open)
             {
-                try
-                {
-                    DbConnection.myCommand.ExecuteNonQuery();
-                    DbConnection.myCommand.Connection.Close();
-                    Trace.WriteLine("Data updated");
-                }
-                catch(Exception ex)
-                {
-                    DbConnection.myCommand.Connection.Close();
-                    Trace.WriteLine($"Error occured during data table updating.\n {ex}");
-                }
+                DbConnection.myCommand.Connection.Open();
             }
-            else
+
+            try
             {
-                Trace.WriteLine("Error occured during data table updating.");
+                var r = DbConnection.myCommand.ExecuteNonQuery();
+                DbConnection.myCommand.Connection.Close();
+                Trace.WriteLine("Data updated");
+            }
+            catch (Exception ex)
+            {
+                DbConnection.myCommand.Connection.Close();
+                Trace.WriteLine($"Error occured during data table updating.\n {ex}");
             }
         }
 

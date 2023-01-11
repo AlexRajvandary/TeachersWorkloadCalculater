@@ -19,8 +19,8 @@
             </MenuItem>
             <MenuItem Header="View">
                 <CheckBox Content="Teachers" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayTeachers}"/>
-                <CheckBox Content="Students" Checked="StudentsCheckBoxChecked" Unchecked="StudentsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayStudents}"/>
-                <CheckBox Content="Subject" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySubjects}"/>
+                <CheckBox Content="Groups" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayGroups}"/>
+                <CheckBox Content="Subject" Checked="CheckBox_Checked"  Unchecked="CheckBox_Unchecked"  IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySubjects}"/>
                 <CheckBox Content="Specialization" Checked="SpecializationCheckBoxChecked" Unchecked="SpecialiationsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySpecializations}"/>
             </MenuItem>
             <MenuItem Header="Settings"/>

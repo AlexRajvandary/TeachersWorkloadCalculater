@@ -17,10 +17,12 @@
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <DataGrid x:Name="ItemsTable"
+                      CanUserAddRows="False"
                       ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=ItemsSource}"
                       SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:EditingDataTable}, Path=SelectedItem, Mode=TwoWay}"
                       AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
                       Background="#FF9FC1DF"
+                      RowEditEnding="ItemsTable_RowEditEnding"
                       >
                 <DataGrid.ItemContainerStyle>
                     <Style TargetType="DataGridRow">

@@ -14,7 +14,11 @@ namespace StudingWorkloadCalculator.Models
         private int total;
         private int theory;
 
-        public SubjectWithWorkload() { }
+        public SubjectWithWorkload()
+        {
+            Group = "0";
+            Name = "0";
+        }
 
         public SubjectWithWorkload(int code, string group, string name, int theory, int ipz, int kr, int firstSemestr, int secondSemestr)
         {
