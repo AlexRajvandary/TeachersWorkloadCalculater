@@ -13,17 +13,15 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Background="Gray">
-            <MenuItem Header="Load data">
-                <MenuItem Header="Load Access database"/>
-                <MenuItem Header="Load Excel file" Click="LoadDataFromExcelButtonClicked"/>
-            </MenuItem>
             <MenuItem Header="View">
                 <CheckBox Content="Teachers" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayTeachers}"/>
                 <CheckBox Content="Groups" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayGroups}"/>
                 <CheckBox Content="Subject" Checked="CheckBox_Checked"  Unchecked="CheckBox_Unchecked"  IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySubjects}"/>
                 <CheckBox Content="Specialization" Checked="SpecializationCheckBoxChecked" Unchecked="SpecialiationsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySpecializations}"/>
             </MenuItem>
-            <MenuItem Header="Settings"/>
+            <MenuItem Header="Settings">
+                <MenuItem Header="Change pasword" Click="MenuItemClick"/>
+            </MenuItem>
             <MenuItem Header="Info"/>
         </Menu>
         <Grid Grid.Row="1" Background="LightGray">

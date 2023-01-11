@@ -16,12 +16,14 @@ namespace StudingWorkloadCalculator.MainVewModels
         private ObservableCollection<T> data;
         private T selectedItem;
         private Action<T, bool> acsessDataUpdater;
+        private Action<T> acsessDataDelete;
 
-        public DataPresenterViewModel(Action<T, bool> acsessDataUpdater)
+        public DataPresenterViewModel(Action<T, bool> acsessDataUpdater, Action<T> acsessDataDelete)
         {
             AddItemCommand = new RelayCommand(AddItem);
             DeleteItemCommand = new RelayCommand(DeleteItem);
             this.acsessDataUpdater = acsessDataUpdater;
+            this.acsessDataDelete = acsessDataDelete;
         }
 
         public string DataSourcePath
@@ -89,6 +91,7 @@ namespace StudingWorkloadCalculator.MainVewModels
         {
             if (SelectedItem != null)
             {
+                acsessDataDelete?.Invoke(SelectedItem);
                 Data.Remove(SelectedItem);
             }
         }

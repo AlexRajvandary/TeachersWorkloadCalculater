@@ -21,6 +21,7 @@ namespace StudingWorkloadCalculator.UserControls
         public static DependencyProperty EditedItemProperty = DependencyProperty.Register("EditedItem", typeof(object), typeof(EditingDataTable), new PropertyMetadata(null));
 
         public event Action<object> ItemEditEnded;
+        private bool _handle = true;
 
         public EditingDataTable()
         {
@@ -74,7 +75,13 @@ namespace StudingWorkloadCalculator.UserControls
 
         private void ItemsTable_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            ItemEditEnded?.Invoke(e.Row.Item);
+            if (_handle)
+            {
+                _handle = false;
+                ItemsTable.CommitEdit();
+                ItemEditEnded?.Invoke(e.Row.Item);
+                _handle = true;
+            }
         }
     }
 }

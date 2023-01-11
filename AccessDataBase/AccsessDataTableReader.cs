@@ -6,12 +6,35 @@ using System.Data.Common;
 using System.Data.OleDb;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace StudingWorkloadCalculator.AccessDataBase
 {
     public class AccsessDataTableReader
     {
+        public static void DeleteTeacher(Teacher teacher)
+        {
+            OleDbCommand cmd = new OleDbCommand("DELETE FROM Преподаватели WHERE tab = " + teacher.Id, DbConnection.cn);
+            SaveChange(cmd);
+        }
+
+        public static void DeleteSubjectWithWorkLoad(SubjectWithWorkload subject)
+        {
+            OleDbCommand cmd = new OleDbCommand("DELETE FROM УчПлан WHERE kod_discip = " + subject.Code, DbConnection.cn);
+            SaveChange(cmd);
+        }
+
+        public static void DeleteSpecialization(Specialization specialization) 
+        {
+            OleDbCommand cmd = new OleDbCommand("DELETE FROM Специальность WHERE id = " + specialization.Id, DbConnection.cn);
+            SaveChange(cmd);
+        }
+
+        public static void DeleteGroup(Group group) 
+        {
+            OleDbCommand cmd = new OleDbCommand("DELETE FROM Группы WHERE k = " + group.Id, DbConnection.cn);
+            SaveChange(cmd);
+        }
+
         public static IEnumerable<Teacher> GetTeachers()
         {
             var data = GetData("SELECT * FROM Преподаватели;");
@@ -124,19 +147,20 @@ namespace StudingWorkloadCalculator.AccessDataBase
             if (newItem)
             {
                 dbCommand = new OleDbCommand("INSERT INTO Преподаватели ([fam],[imya],[otch],[dolgnost],[pol],[ped_stag],[kvalifikacia],[spec_dip]) VALUES (@fam, @imya, @otch, @dolgnost, @pol, @ped_stag, @kvalifikacia, @spec_dip)", DbConnection.cn);
-                dbCommand.Parameters.AddWithValue("@fam", teacher.LastName);
-                dbCommand.Parameters.AddWithValue("@imya", teacher.FirstName);
-                dbCommand.Parameters.AddWithValue("@otch", teacher.FamilyName);
-                dbCommand.Parameters.AddWithValue("@dolgnost", teacher.JobTitle);
-                dbCommand.Parameters.AddWithValue("@pol", teacher.Gender.ToString());
-                dbCommand.Parameters.AddWithValue("@ped_stag", teacher.JobExperience);
-                dbCommand.Parameters.AddWithValue("@kvalifikacia", teacher.Qualification);
-                dbCommand.Parameters.AddWithValue("@spec_dip", teacher.SubjectsToString);
             }
             else
             {
-                
+                dbCommand = new OleDbCommand("UPDATE Преподаватели SET fam=@fam, imya=@imya, otch=@otch, dolgnost=@dolgnost, pol=@pol, ped_stag=@ped_stag, kvalifikacia=@kvalifikacia, spec_dip=@spec_dip WHERE tab = " + teacher.Id, DbConnection.cn);
             }
+
+            dbCommand.Parameters.AddWithValue("@fam", teacher.LastName);
+            dbCommand.Parameters.AddWithValue("@imya", teacher.FirstName);
+            dbCommand.Parameters.AddWithValue("@otch", teacher.FamilyName);
+            dbCommand.Parameters.AddWithValue("@dolgnost", teacher.JobTitle);
+            dbCommand.Parameters.AddWithValue("@pol", teacher.Gender.ToString());
+            dbCommand.Parameters.AddWithValue("@ped_stag", teacher.JobExperience);
+            dbCommand.Parameters.AddWithValue("@kvalifikacia", teacher.Qualification);
+            dbCommand.Parameters.AddWithValue("@spec_dip", teacher.SubjectsToString);
 
             SaveChange(dbCommand);
         }
@@ -148,37 +172,20 @@ namespace StudingWorkloadCalculator.AccessDataBase
             if (newItem)
             {
                 dbCommand = new OleDbCommand("INSERT INTO УчПлан ([grup],[nazvani],[teoria],[lpz],[kp],[kol_1sem],[kol_2sem],[max]) VALUES (?,?,?,?,?,?,?,?)", DbConnection.cn);
-                dbCommand.Parameters.AddWithValue("@grup", subjectWithWorkload.Group);
-                dbCommand.Parameters.AddWithValue("@nazvani", subjectWithWorkload.Name);
-                dbCommand.Parameters.AddWithValue("@teoria", subjectWithWorkload.Theory);
-                dbCommand.Parameters.AddWithValue("@lpz", subjectWithWorkload.Ipz);
-                dbCommand.Parameters.AddWithValue("@kp", subjectWithWorkload.Kr);
-                dbCommand.Parameters.AddWithValue("@kol_1sem", subjectWithWorkload.FirstSemester);
-                dbCommand.Parameters.AddWithValue("@kol_2sem", subjectWithWorkload.SecondSemester);
-                dbCommand.Parameters.AddWithValue("@max", subjectWithWorkload.Total);
             }
             else
             {
-                 dbCommand = new OleDbCommand(@"UPDATE УчПлан
-                                                    SET [grup] = @grup,
-                                                        [nazvani] = @nazvani,
-                                                        [teoria] = @teoria,
-                                                        [lpz] = @lpz,
-                                                        [kp] = @kp,
-                                                        [kol_1sem] = @kol_1sem,
-                                                        [kol_2sem] = @kol_2sem,
-                                                        [max] = @max
-                                                    WHERE kod_discip = " + subjectWithWorkload.Code, DbConnection.cn);
-
-                dbCommand.Parameters.AddWithValue("@grup", subjectWithWorkload.Group);
-                dbCommand.Parameters.AddWithValue("@nazvani", subjectWithWorkload.Name);
-                dbCommand.Parameters.AddWithValue("@teoria", subjectWithWorkload.Theory );
-                dbCommand.Parameters.AddWithValue("@lpz", subjectWithWorkload.Ipz);
-                dbCommand.Parameters.AddWithValue("@kp", subjectWithWorkload.Kr);
-                dbCommand.Parameters.AddWithValue("@kol_1sem", subjectWithWorkload.FirstSemester);
-                dbCommand.Parameters.AddWithValue("@kol_2sem", subjectWithWorkload.SecondSemester);
-                dbCommand.Parameters.AddWithValue("@max", subjectWithWorkload.Total);
+                dbCommand = new OleDbCommand("UPDATE УчПлан SET [grup] = @grup,[nazvani] = @nazvani,[teoria] = @teoria,[lpz] = @lpz,[kp] = @kp,[kol_1sem] = @kol_1sem,[kol_2sem] = @kol_2sem,[max] = @max WHERE kod_discip = " + subjectWithWorkload.Code, DbConnection.cn);
             }
+
+            dbCommand.Parameters.AddWithValue("@grup", subjectWithWorkload.Group);
+            dbCommand.Parameters.AddWithValue("@nazvani", subjectWithWorkload.Name);
+            dbCommand.Parameters.AddWithValue("@teoria", subjectWithWorkload.Theory);
+            dbCommand.Parameters.AddWithValue("@lpz", subjectWithWorkload.Ipz);
+            dbCommand.Parameters.AddWithValue("@kp", subjectWithWorkload.Kr);
+            dbCommand.Parameters.AddWithValue("@kol_1sem", subjectWithWorkload.FirstSemester);
+            dbCommand.Parameters.AddWithValue("@kol_2sem", subjectWithWorkload.SecondSemester);
+            dbCommand.Parameters.AddWithValue("@max", subjectWithWorkload.Total);
 
             SaveChange(dbCommand);
         }
@@ -190,16 +197,17 @@ namespace StudingWorkloadCalculator.AccessDataBase
             if (newItem)
             {
                 dbCommand = new OleDbCommand("INSERT INTO Специальность ([kod_spec],[naimenov],[srok_obuch],[kvalifik],[ochnaya]) VALUES (@kod_spec, @naimenov, @srok_obuch, @kvalifik, @ochnaya)", DbConnection.cn);
-                dbCommand.Parameters.AddWithValue("@kod_spec", specialiation.Code);
-                dbCommand.Parameters.AddWithValue("@naimenov", specialiation.Name);
-                dbCommand.Parameters.AddWithValue("@srok_obuch", specialiation.StudyPeriod);
-                dbCommand.Parameters.AddWithValue("@kvalifik", specialiation.Qualification);
-                dbCommand.Parameters.AddWithValue("@ochnaya", specialiation.Intramural ? 1 : 0);
             }
             else
             {
-
+                dbCommand = new OleDbCommand("UPDATE Специальность SET kod_spec=@kod_spec, naimenov=@naimenov, srok_obuch=@srok_obuch, kvalifik=@kvalifik, ochnaya=@ochnaya  WHERE id = " + specialiation.Id, DbConnection.cn);
             }
+
+            dbCommand.Parameters.AddWithValue("@kod_spec", specialiation.Code);
+            dbCommand.Parameters.AddWithValue("@naimenov", specialiation.Name);
+            dbCommand.Parameters.AddWithValue("@srok_obuch", specialiation.StudyPeriod);
+            dbCommand.Parameters.AddWithValue("@kvalifik", specialiation.Qualification);
+            dbCommand.Parameters.AddWithValue("@ochnaya", specialiation.Intramural ? 1 : 0);
 
             SaveChange(dbCommand);
         }
@@ -211,35 +219,36 @@ namespace StudingWorkloadCalculator.AccessDataBase
             if (newItem)
             {
                 dbCommand = new OleDbCommand("INSERT INTO Группы ([kod_grup],[spec],[kolvo_stud],[kurs],[kl_r],[god_postup],[god_okonch], [budget]) VALUES (@kod_grup, @spec, @kolvo_stud, @kurs, @kl_r, @god_postup, @god_okonch, @budget)", DbConnection.cn);
-                dbCommand.Parameters.AddWithValue("@kod_grup", group.Code);
-                dbCommand.Parameters.AddWithValue("@spec", group.SpecializationName);
-                dbCommand.Parameters.AddWithValue("@kolvo_stud", group.AmountOfStudents);
-                dbCommand.Parameters.AddWithValue("@kurs", group.Grade);
-                dbCommand.Parameters.AddWithValue("@kl_r", group.Teacher);
-                dbCommand.Parameters.AddWithValue("@god_postup", group.Start.ToString("dd/MM/yy"));
-                dbCommand.Parameters.AddWithValue("@god_okonch", group.End.ToString("dd/MM/yy"));
-                dbCommand.Parameters.AddWithValue("@budget", group.IsBudged ? 1 : 0);
             }
             else
             {
-
+                dbCommand = new OleDbCommand("UPDATE Группы SET [kod_grup]=@kod_grup, [spec]=@spec," +
+                        "[kolvo_stud]=@kolvo_stud, [kurs]=@kurs, [kl_r]=@kl_r," +
+                        "[god_postup]=@god_postup, [god_okonch]=@god_okonch,  [budget]=@budget WHERE [k] = @k", DbConnection.cn);
             }
+
+            dbCommand.Parameters.AddWithValue("@kod_grup", group.Code);
+            dbCommand.Parameters.AddWithValue("@spec", group.SpecializationName);
+            dbCommand.Parameters.AddWithValue("@kolvo_stud", group.AmountOfStudents);
+            dbCommand.Parameters.AddWithValue("@kurs", group.Grade);
+            dbCommand.Parameters.AddWithValue("@kl_r", group.Teacher);
+            dbCommand.Parameters.AddWithValue("@god_postup", group.Start.ToString("dd/MM/yy"));
+            dbCommand.Parameters.AddWithValue("@god_okonch", group.End.ToString("dd/MM/yy"));
+            dbCommand.Parameters.AddWithValue("@budget", group.IsBudged ? 1 : 0);
+            dbCommand.Parameters.AddWithValue("@k", group.Id);
 
             SaveChange(dbCommand);
         }
 
-        public static void SaveUser(User user, bool newItem)
+        public static void SaveUser(User user)
         {
-            string quary;
+            OleDbCommand dbCommand = null;
+            dbCommand = new OleDbCommand("UPDATE Пользователь SET [Логин]=@login, [Пароль]=@password, [Привелегия]=@p WHERE Код = " + user.Id, DbConnection.cn);
+            dbCommand.Parameters.AddWithValue("@login", user.Name);
+            dbCommand.Parameters.AddWithValue("@password", user.Password);
+            dbCommand.Parameters.AddWithValue("@p", user.SpecialRights ? 1 : 0);
 
-            if (newItem)
-            {
-
-            }
-            else
-            {
-
-            }
+            SaveChange(dbCommand);
         }
 
         private static void SaveChange(OleDbCommand dbCommand)

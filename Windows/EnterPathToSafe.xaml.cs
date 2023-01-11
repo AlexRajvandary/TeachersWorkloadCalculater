@@ -21,22 +21,24 @@ namespace StudingWorkloadCalculator.Windows
     /// </summary>
     public partial class EnterPathToSafe : Window
     {
-        public static DependencyProperty SelectedPathProperty = DependencyProperty.Register("SelectedPath", typeof(string), typeof(EnterPathToSafe));
+        public event EventHandler<string> PasswordUpdated;
 
         public EnterPathToSafe()
         {
             InitializeComponent();
         }
 
-        public string SelectedPath 
-        {
-            get { return (string)GetValue(SelectedPathProperty); }
-            set { SetValue(SelectedPathProperty, value); }
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            if (!string.IsNullOrWhiteSpace(PasswordBox.Text))
+            {
+                PasswordUpdated?.Invoke(this, PasswordBox.Text);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Пароль не может быть пустой строкой или пробелом.");
+            }
         }
     }
 }

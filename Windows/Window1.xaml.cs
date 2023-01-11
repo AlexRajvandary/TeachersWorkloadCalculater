@@ -300,6 +300,20 @@ namespace StudingWorkloadCalculator.Windows
 
         }
 
+        private void MenuItemClick(object sender, RoutedEventArgs e)
+        {
+            var newPasswordWindow = new EnterPathToSafe();
+            newPasswordWindow.PasswordUpdated += NewPasswordWindow_PasswordUpdated;
+            newPasswordWindow.ShowDialog();
+        }
+
+        private void NewPasswordWindow_PasswordUpdated(object? sender, string newPassword)
+        {
+            MainViewModel.User.Password = newPassword;
+            AccsessDataTableReader.SaveUser(MainViewModel.User);
+            MessageBox.Show("Пароль успешно сохранён!");
+        }
+
         private void CalculateWorkLoad(object sender, RoutedEventArgs e)
         {
             if (MainViewModel.TeachersViewModel.SelectedItem == null)

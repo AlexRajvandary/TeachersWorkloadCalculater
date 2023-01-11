@@ -33,10 +33,10 @@ namespace StudingWorkloadCalculator.MainVewModels
 
         public MainViewModel()
         {
-            specializationsViewModel = new DataPresenterViewModel<Specialization>(AccsessDataTableReader.SaveSpecialization);
-            subjectViewModel = new DataPresenterViewModel<SubjectWithWorkload>(AccsessDataTableReader.SaveSubjectWithWorkLoad);
-            teacherViewModel = new DataPresenterViewModel<Teacher>(AccsessDataTableReader.SaveTeacher);
-            groupsViewModel = new DataPresenterViewModel<Group>(AccsessDataTableReader.SaveGroup);
+            specializationsViewModel = new DataPresenterViewModel<Specialization>(AccsessDataTableReader.SaveSpecialization, AccsessDataTableReader.DeleteSpecialization);
+            subjectViewModel = new DataPresenterViewModel<SubjectWithWorkload>(AccsessDataTableReader.SaveSubjectWithWorkLoad, AccsessDataTableReader.DeleteSubjectWithWorkLoad);
+            teacherViewModel = new DataPresenterViewModel<Teacher>(AccsessDataTableReader.SaveTeacher, AccsessDataTableReader.DeleteTeacher);
+            groupsViewModel = new DataPresenterViewModel<Group>(AccsessDataTableReader.SaveGroup, AccsessDataTableReader.DeleteGroup);
         }
 
         public User User
