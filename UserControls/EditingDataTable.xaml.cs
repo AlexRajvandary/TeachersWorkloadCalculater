@@ -7,6 +7,7 @@ using System.Security.Cryptography.Xml;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace StudingWorkloadCalculator.UserControls
