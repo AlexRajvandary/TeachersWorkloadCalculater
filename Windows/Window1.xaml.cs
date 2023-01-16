@@ -2,8 +2,10 @@
 using StudingWorkloadCalculator.MainVewModels;
 using StudingWorkloadCalculator.Models;
 using StudingWorkloadCalculator.UserControls;
+using System;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -262,13 +264,17 @@ namespace StudingWorkloadCalculator.Windows
 
         private void SaveToExcel(object sender, RoutedEventArgs e)
         {
+            var date = DateTime.Now.ToString("dd MMMM yyyy");
+            var time = DateTime.Now.ToString("HH mm ss");
+            var info = Directory.CreateDirectory($"SavedFiles/{date}/время {time}");
+            
             if (!string.IsNullOrEmpty(MainViewModel.SpecializationsViewModel.DataSourcePath))
             {
                 ExcelWriter.ExcelWriter.WriteExcelFile(MainViewModel.SpecializationsViewModel.DataSourcePath, MainViewModel.SpecializationsViewModel.Data);
             }
             else
             {
-                ExcelWriter.ExcelWriter.WriteExcelFile("Specializations.xlsx", MainViewModel.SpecializationsViewModel.Data);
+                ExcelWriter.ExcelWriter.WriteExcelFile($"SavedFiles/{date}/время {time}/Specializations.xlsx", MainViewModel.SpecializationsViewModel.Data);
             }
 
             if (!string.IsNullOrEmpty(MainViewModel.SubjectViewModel.DataSourcePath))
@@ -277,7 +283,7 @@ namespace StudingWorkloadCalculator.Windows
             }
             else
             {
-                ExcelWriter.ExcelWriter.WriteExcelFile("Subjects.xlsx", MainViewModel.SubjectViewModel.Data);
+                ExcelWriter.ExcelWriter.WriteExcelFile($"SavedFiles/{date}/время {time}/Subjects.xlsx", MainViewModel.SubjectViewModel.Data);
             }
 
             if (!string.IsNullOrEmpty(MainViewModel.TeachersViewModel.DataSourcePath))
@@ -286,7 +292,7 @@ namespace StudingWorkloadCalculator.Windows
             }
             else
             {
-                ExcelWriter.ExcelWriter.WriteExcelFile("Teachers.xlsx", MainViewModel.TeachersViewModel.Data);
+                ExcelWriter.ExcelWriter.WriteExcelFile($"SavedFiles/{date}/время {time}/Teachers.xlsx", MainViewModel.TeachersViewModel.Data);
             }
 
             if (!string.IsNullOrEmpty(MainViewModel.GroupsViewModel.DataSourcePath))
@@ -295,8 +301,10 @@ namespace StudingWorkloadCalculator.Windows
             }
             else
             {
-                ExcelWriter.ExcelWriter.WriteExcelFile("Groups.xlsx", MainViewModel.GroupsViewModel.Data);
+                ExcelWriter.ExcelWriter.WriteExcelFile($"SavedFiles/{date}/время {time}/Groups.xlsx", MainViewModel.GroupsViewModel.Data);
             }
+
+            MessageBox.Show($"Данные сохранены в эксель. \nПуть:{Path.GetFullPath($"SavedFiles/{date}/время {time}")}");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

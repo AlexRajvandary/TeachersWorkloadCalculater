@@ -42,7 +42,7 @@ namespace StudingWorkloadCalculator.ExcelWriter
 
             if (File.Exists(path))
                 File.Delete(path);
-
+            
             FileStream objFileStrm = File.Create(path);
             objFileStrm.Close();
 
