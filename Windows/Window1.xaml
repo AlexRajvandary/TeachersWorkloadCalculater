@@ -13,16 +13,16 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Background="Gray">
-            <MenuItem Header="View">
-                <CheckBox Content="Teachers" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayTeachers}"/>
-                <CheckBox Content="Groups" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayGroups}"/>
-                <CheckBox Content="Subject" Checked="CheckBox_Checked"  Unchecked="CheckBox_Unchecked"  IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySubjects}"/>
-                <CheckBox Content="Specialization" Checked="SpecializationCheckBoxChecked" Unchecked="SpecialiationsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySpecializations}"/>
+            <MenuItem Header="Справочники">
+                <CheckBox Content="Учителя" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayTeachers}"/>
+                <CheckBox Content="Группы" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayGroups}"/>
+                <CheckBox Content="Предметы" Checked="CheckBox_Checked"  Unchecked="CheckBox_Unchecked"  IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySubjects}"/>
+                <CheckBox Content="Специализации" Checked="SpecializationCheckBoxChecked" Unchecked="SpecialiationsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySpecializations}"/>
             </MenuItem>
-            <MenuItem Header="Settings">
-                <MenuItem Header="Change pasword" Click="MenuItemClick"/>
+            <MenuItem Header="Сервис">
+                <MenuItem Header="Сменить пароль" Click="MenuItemClick"/>
             </MenuItem>
-            <MenuItem Header="Info" Click="MenuItem_Click"/>
+            <MenuItem Header="Справка" Click="MenuItem_Click"/>
         </Menu>
         <Grid Grid.Row="1" Background="LightGray">
             <Grid.RowDefinitions>
@@ -46,7 +46,7 @@
                         Grid.Column="1"
                         Background="WhiteSmoke"
                         Click="CalculateWorkLoad"/>
-                <Button Content="Save to excel" 
+                <Button Content="Сохранить в эксель" 
                         Margin="5"
                         Width="120"
                         Grid.Column="2"
