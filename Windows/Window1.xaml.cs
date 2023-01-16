@@ -304,7 +304,7 @@ namespace StudingWorkloadCalculator.Windows
                 ExcelWriter.ExcelWriter.WriteExcelFile($"SavedFiles/{date}/время {time}/Groups.xlsx", MainViewModel.GroupsViewModel.Data);
             }
 
-            MessageBox.Show($"Данные сохранены в эксель. \nПуть:{Path.GetFullPath($"SavedFiles/{date}/время {time}")}");
+            MessageBox.Show($"Данные сохранены в эксель. \nПуть:\n{Path.GetFullPath($"SavedFiles/{date}/время {time}")}");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
