@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Background="Gray">
             <MenuItem Header="Справочники">
-                <CheckBox Content="Учителя" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayTeachers}"/>
+                <CheckBox Content="Преподаватели" Checked="TeachersCheckBoxChecked" Unchecked="TeachersCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayTeachers}"/>
                 <CheckBox Content="Группы" Checked="GroupsCheckBoxChecked" Unchecked="GroupsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplayGroups}"/>
                 <CheckBox Content="Предметы" Checked="CheckBox_Checked"  Unchecked="CheckBox_Unchecked"  IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySubjects}"/>
                 <CheckBox Content="Специализации" Checked="SpecializationCheckBoxChecked" Unchecked="SpecialiationsCheckBoxUnchecked" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:Window1}, Path=DisplaySpecializations}"/>
