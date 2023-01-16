@@ -232,8 +232,8 @@ namespace StudingWorkloadCalculator.AccessDataBase
             dbCommand.Parameters.AddWithValue("@kolvo_stud", group.AmountOfStudents);
             dbCommand.Parameters.AddWithValue("@kurs", group.Grade);
             dbCommand.Parameters.AddWithValue("@kl_r", group.Teacher);
-            dbCommand.Parameters.AddWithValue("@god_postup", group.Start.ToString("dd/MM/yy"));
-            dbCommand.Parameters.AddWithValue("@god_okonch", group.End.ToString("dd/MM/yy"));
+            dbCommand.Parameters.AddWithValue("@god_postup", group.StartDate.ToString("dd/MM/yy"));
+            dbCommand.Parameters.AddWithValue("@god_okonch", group.EndDate.ToString("dd/MM/yy"));
             dbCommand.Parameters.AddWithValue("@budget", group.IsBudged ? 1 : 0);
             dbCommand.Parameters.AddWithValue("@k", group.Id);
 

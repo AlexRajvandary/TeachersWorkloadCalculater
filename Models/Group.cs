@@ -1,4 +1,5 @@
-﻿using StudingWorkloadCalculator.UserControls;
+﻿using OfficeOpenXml.ExternalReferences;
+using StudingWorkloadCalculator.UserControls;
 using System;
 
 namespace StudingWorkloadCalculator.Models
@@ -6,11 +7,11 @@ namespace StudingWorkloadCalculator.Models
     public class Group : PropertyChangedNotifier
     {
         private int amountOfStudents;
-        private DateTime end;
+        private string end;
         private int grade;
         private int id;
         private bool isBudget;
-        private DateTime start;
+        private string start;
         private string teacher;
 
         public Group()
@@ -32,15 +33,19 @@ namespace StudingWorkloadCalculator.Models
                      )
         {
             AmountOfStudents = amountOfStudents;
-            End = end;
+            End = end.ToString("d");
             Grade = grade;
             Id = id;
             IsBudged = isBudget;
             SpecializationName = specialization;
-            Start = start;
+            Start = start.ToString("d");
             Teacher = teacherFullName;
             Code = code;
         }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
 
         [DataGridColumnGenerator("Количество студентов")]
         public int AmountOfStudents
@@ -57,14 +62,15 @@ namespace StudingWorkloadCalculator.Models
         }
 
         [DataGridColumnGenerator("Конец обучения")]
-        public DateTime End
+        public string End
         {
             get => end;
             set
             {
-                if (end != value)
+                if (DateTime.TryParse(value, out var date))
                 {
                     end = value;
+                    EndDate = date;
                     OnPropertyChanged();
                 }
             }
@@ -115,17 +121,18 @@ namespace StudingWorkloadCalculator.Models
         }
 
         [DataGridColumnGenerator("Специализация")]
-        public string SpecializationName { get;}
+        public string SpecializationName { get; }
 
         [DataGridColumnGenerator("Начало обучения")]
-        public DateTime Start
+        public string Start
         {
             get => start;
             set
             {
-                if (start != value)
+                if(DateTime.TryParse(value, out var date))
                 {
                     start = value;
+                    StartDate = date;
                     OnPropertyChanged();
                 }
             }
