@@ -126,6 +126,7 @@ namespace StudingWorkloadCalculator.Windows
             AddTabItem("Преподаватели", out var tabItem);
             var editingDatatable = new EditingDataTable();
             editingDatatable.ItemEditEnded += MainViewModel.TeachersViewModel.UpdateItem;
+            editingDatatable.Filter += MainViewModel.TeachersViewModel.FilterData;
             editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.Data)) });
             editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.TeachersViewModel, Path = new PropertyPath(nameof(MainViewModel.TeachersViewModel.DeleteItemCommand)) });
@@ -139,6 +140,7 @@ namespace StudingWorkloadCalculator.Windows
             AddTabItem("Специализации", out var tabItem);
             var editingDatatable = new EditingDataTable();
             editingDatatable.ItemEditEnded += MainViewModel.SpecializationsViewModel.UpdateItem;
+            editingDatatable.Filter += MainViewModel.SpecializationsViewModel.FilterData;
             editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.Data)) });
             editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.SpecializationsViewModel, Path = new PropertyPath(nameof(MainViewModel.SpecializationsViewModel.DeleteItemCommand)) });
@@ -152,6 +154,7 @@ namespace StudingWorkloadCalculator.Windows
             AddTabItem("Предметы", out var tabItem);
             var editingDatatable = new EditingDataTable();
             editingDatatable.ItemEditEnded += MainViewModel.SubjectViewModel.UpdateItem;
+            editingDatatable.Filter += MainViewModel.SubjectViewModel.FilterData;
             editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.Data)) });
             editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.SubjectViewModel, Path = new PropertyPath(nameof(MainViewModel.SubjectViewModel.DeleteItemCommand)) });
@@ -165,6 +168,7 @@ namespace StudingWorkloadCalculator.Windows
             AddTabItem("Группы", out var tabItem);
             var editingDatatable = new EditingDataTable();
             editingDatatable.ItemEditEnded += MainViewModel.GroupsViewModel.UpdateItem;
+            editingDatatable.Filter += MainViewModel.GroupsViewModel.FilterData;
             editingDatatable.SetBinding(EditingDataTable.ItemsSourceProperty, new Binding() { Source = MainViewModel.GroupsViewModel, Path = new PropertyPath(nameof(MainViewModel.GroupsViewModel.Data))});
             editingDatatable.SetBinding(EditingDataTable.SelectedItemProperty, new Binding() { Source = MainViewModel.GroupsViewModel, Path = new PropertyPath(nameof(MainViewModel.GroupsViewModel.SelectedItem)), Mode = BindingMode.OneWayToSource });
             editingDatatable.SetBinding(EditingDataTable.DeleteItemCommandProperty, new Binding() { Source = MainViewModel.GroupsViewModel, Path = new PropertyPath(nameof(MainViewModel.GroupsViewModel.DeleteItemCommand)) });

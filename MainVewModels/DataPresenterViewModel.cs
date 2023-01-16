@@ -1,12 +1,19 @@
-﻿using StudingWorkloadCalculator.AccessDataBase;
+﻿using Microsoft.VisualBasic.Logging;
+using StudingWorkloadCalculator.AccessDataBase;
 using StudingWorkloadCalculator.ExcelWriter;
 using StudingWorkloadCalculator.Models;
 using StudingWorkloadCalculator.SupportClasses;
+using StudingWorkloadCalculator.UserControls;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 using System.Windows.Input;
+using System.Windows.Shapes;
+using static System.Windows.Forms.LinkLabel;
 
 namespace StudingWorkloadCalculator.MainVewModels
 {
@@ -17,6 +24,9 @@ namespace StudingWorkloadCalculator.MainVewModels
         private T selectedItem;
         private Action<T, bool> acsessDataUpdater;
         private Action<T> acsessDataDelete;
+        private Action<string, string> filterData;
+        private IEnumerable<(string, string)> propertyDictionary;
+
 
         public DataPresenterViewModel(Action<T, bool> acsessDataUpdater, Action<T> acsessDataDelete)
         {
@@ -24,6 +34,11 @@ namespace StudingWorkloadCalculator.MainVewModels
             DeleteItemCommand = new RelayCommand(DeleteItem);
             this.acsessDataUpdater = acsessDataUpdater;
             this.acsessDataDelete = acsessDataDelete;
+
+            propertyDictionary = typeof(T).
+                                      GetTypeInfo().
+                                      GetProperties().Where(property => property.GetCustomAttribute(typeof(DataGridColumnGeneratorAttribute)) is DataGridColumnGeneratorAttribute attribute && attribute.GenerateColumn).
+                                      Select(property => (property.GetCustomAttribute<DataGridColumnGeneratorAttribute>().ColumnName, property.Name));
         }
 
         public string DataSourcePath
@@ -100,6 +115,52 @@ namespace StudingWorkloadCalculator.MainVewModels
         {
             var editedItem = (T)editedObject;
             acsessDataUpdater?.Invoke(editedItem, false);
+        }
+
+        public Func<object, bool> FilterData((string, string)[] filteredNameAndValue)
+        {
+            var result = (object obj) =>
+            {
+                if (obj is T entry)
+                {
+                    foreach (var ColumnNameAndValueOfFilter in filteredNameAndValue)
+                    {
+                        var propertyInfo = typeof(T).GetProperties().FirstOrDefault(property => property.Name == propertyDictionary.FirstOrDefault(item => item.Item1.Replace(" ","").Replace(".", "") == ColumnNameAndValueOfFilter.Item1).Item2);
+                        var propertyType = propertyInfo?.PropertyType ?? typeof(string);
+
+                        if (propertyType == typeof(string))
+                        {
+                            var propertyValue = (string?)propertyInfo?.GetValue(entry) ?? string.Empty;
+                            var res = !string.IsNullOrEmpty(propertyValue) ? propertyValue.Contains(ColumnNameAndValueOfFilter.Item2 ?? "", StringComparison.OrdinalIgnoreCase) : string.IsNullOrEmpty(ColumnNameAndValueOfFilter.Item2);
+                            return res;
+                        }
+                        else if (propertyType == typeof(int))
+                        {
+                            var propertyValue = (int?)propertyInfo?.GetValue(entry) ?? 0;
+
+                            return !int.TryParse(ColumnNameAndValueOfFilter.Item2, out var filter) || (filter == 0 || filter == propertyValue);
+                        }
+                        else if (propertyType == typeof(DateTime))
+                        {
+                            var propertyValue = (DateTime?)propertyInfo?.GetValue(entry) ?? DateTime.MinValue;
+                            var dateTimeString = propertyValue.ToString();
+                            return !string.IsNullOrEmpty(dateTimeString) ? dateTimeString.Contains(ColumnNameAndValueOfFilter.Item2 ?? "", StringComparison.OrdinalIgnoreCase) : string.IsNullOrEmpty(ColumnNameAndValueOfFilter.Item2);
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            };
+
+            return result;
         }
 
         private void GetDataFromExcel()
